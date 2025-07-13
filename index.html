@@ -115,9 +115,9 @@
     /* Analytics Counter */
     .analytics-counter {
       position: fixed;
-      right: 1rem !important;   /* pin to right edge */
-      left: auto !important;    /* override any previous left offset */
-      bottom: 4rem !important;  /* same vertical position as theme-toggle */
+      right: 1rem !important;   /* flush to the right edge */
+      bottom: 4rem !important;  /* same bottom offset */
+      left: auto !important;    /* ensure no left positioning */
       padding: 0.5rem 1rem;
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
@@ -161,9 +161,9 @@
     /* Theme Toggle */
     .theme-toggle {
       position: fixed !important;
-      left: 1rem !important;    /* pin to left edge */
-      right: auto !important;   /* override any previous right offset */
-      bottom: 4rem !important;  /* match vertical position */
+      right: 5rem !important;   /* sits to the left of the counter */
+      bottom: 4rem !important;  /* same bottom offset as counter */
+      left: auto !important;    /* ensure no left positioning */
       gap: 0.3rem;
       padding: 0.5rem 1rem;
       background: var(--glass-bg);
