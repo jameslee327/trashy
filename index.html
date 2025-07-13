@@ -894,6 +894,7 @@
             initMagneticButtons();
             initOceanWaves();
             updateVisitorStats();
+            updateThemeText();
         }
 
             // Create particle system
@@ -1129,6 +1130,15 @@ function initOceanWaves() {
         .replace('{total}', visitorStats.total);
         document.getElementById('visitorStatsText').innerHTML = statsText;
         }
+
+        function updateThemeText() {
+    const themeText = document.getElementById('themeText');
+    if (currentTheme === 'dark') {
+        themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
+    } else {
+        themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
+    }
+}
 
         // Scroll to content
         function scrollToContent() {
