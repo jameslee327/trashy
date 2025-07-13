@@ -84,3 +84,22 @@ window.addEventListener('resize', () => {
 // ===== Entry Wave Animation =====
 const monogram = document.querySelector('.monogram');
 monogram.classList.add('wave-animate');
+
+// ===== Magnetic Cursor =====
+const ctaButton = document.querySelector('.cta-button');
+document.addEventListener('mousemove', e => {
+  const { left, top, width, height } = ctaButton.getBoundingClientRect();
+  const x = e.clientX - (left + width / 2);
+  const y = e.clientY - (top + height / 2);
+  const distance = Math.sqrt(x*x + y*y);
+  if (distance < 100) {
+    ctaButton.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  } else {
+    ctaButton.style.transform = '';
+  }
+});
+
+// ===== Apple-style Page Transition =====
+window.addEventListener('beforeunload', () => {
+  document.body.classList.add('fade-out');
+});
