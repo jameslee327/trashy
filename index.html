@@ -795,21 +795,12 @@ class PerformanceMonitor {
     }
 
     // Visitor Analytics
-    class Analytics {
-      constructor() {
-        this.visitorCount = document.getElementById('visitorCount');
-        this.updateVisitorCount();
-      }
-
-      updateVisitorCount() {
-        // Simulate real-time visitor updates
-        let count = 1247;
-        setInterval(() => {
-          count += Math.floor(Math.random() * 3);
-          this.visitorCount.textContent = count.toLocaleString();
-        }, 30000);
-      }
-    }
+   class Analytics {
+  constructor() {
+    this.visitorCount = document.getElementById('visitorCount');
+    this.visitorCount.textContent = '10';
+  }
+}
 
     // Lottie Animations
     class LottieManager {
