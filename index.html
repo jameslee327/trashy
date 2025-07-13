@@ -778,81 +778,66 @@
       }
     }
 
-    // Weather Integration
-    class WeatherService {
-      constructor() {
-        this.weatherIndicator = document.getElementById('weatherIndicator');
-        this.weatherIcon = document.getElementById('weatherIcon');
-        this.weatherText = document.getElementById('weatherText');
-        this.weatherLocation = document.getElementById('weatherLocation');
-        
-        this.getWeather();
-      }
+/* Time Greeting */
+.time-greeting {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--glass-border);
+  border-radius: 16px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  z-index: 2000;
+  opacity: 0;
+  animation: greetingReveal 1s ease-out 1.5s forwards;
+  transition: var(--transition-smooth);
+  overflow: hidden;
+  cursor: pointer;
+}
 
-      async getWeather() {
-        try {
-          // Simulated weather data for Busan (in production, use real API)
-          const weatherData = {
-            temperature: Math.round(Math.random() * 15 + 15),
-            condition: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'][Math.floor(Math.random() * 4)],
-            icon: ['☀️', '☁️', '🌧️', '❄️'][Math.floor(Math.random() * 4)]
-          };
+.time-greeting::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: var(--transition-smooth);
+  z-index: -1;
+}
 
-          this.weatherIcon.textContent = weatherData.icon;
-          this.weatherText.textContent = `${weatherData.condition}, ${weatherData.temperature}°C`;
-          this.weatherIndicator.classList.add('visible');
+.time-greeting:hover {
+  transform: translateY(-2px);
+  color: white;
+  border-color: transparent;
+  box-shadow: var(--shadow-premium);
+}
 
-          // Update background based on weather
-          this.updateBackgroundForWeather(weatherData.condition);
-        } catch (error) {
-          console.log('Weather service unavailable');
-        }
-      }
+.time-greeting:hover::before {
+  opacity: 1;
+}
 
-      updateBackgroundForWeather(condition) {
-        const body = document.body;
-        body.style.setProperty('--weather-filter', 
-          condition === 'Rainy' ? 'hue-rotate(200deg)' :
-          condition === 'Snowy' ? 'brightness(1.2)' :
-          condition === 'Cloudy' ? 'contrast(0.8)' : 'none'
-        );
-      }
-    }
+.greeting-text {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
 
-    // Time-based Greeting
-    class TimeGreeting {
-      constructor() {
-        this.greetingText = document.getElementById('greetingText');
-        this.greetingTime = document.getElementById('greetingTime');
-        this.greetingDate = document.getElementById('greetingDate');
-        
-        this.updateGreeting();
-        setInterval(() => this.updateGreeting(), 60000); // Update every minute
-      }
+.greeting-time {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
 
-      updateGreeting() {
-        const now = new Date();
-        const kstTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
-        const hour = kstTime.getHours();
-
-        let greeting = 'Good evening, visitor';
-        if (hour < 12) greeting = 'Good morning, visitor';
-        else if (hour < 17) greeting = 'Good afternoon, visitor';
-
-        this.greetingText.textContent = greeting;
-        this.greetingTime.textContent = kstTime.toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: '2-digit',
-          timeZone: 'Asia/Seoul',
-          timeZoneName: 'short'
-        });
-        this.greetingDate.textContent = kstTime.toLocaleDateString('en-US', {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric'
-        });
-      }
-    }
+.greeting-date {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
 
     // Theme Toggle
     class ThemeManager {
