@@ -1120,21 +1120,14 @@ function initOceanWaves() {
 }
         // Visitor stats simulation
         function updateVisitorStats() {
-            const today = new Date().toDateString();
-            const lastVisit = localStorage.getItem('lastVisit');
-            
-            if (lastVisit !== today) {
-                visitorStats.today = Math.floor(Math.random() * 10) + 1;
-                localStorage.setItem('lastVisit', today);
-            }
-            
-            visitorStats.total = Math.floor(Math.random() * 1000) + 200;
-            
-            const lang = languages[currentLanguage];
-            const statsText = lang.visitorStats
-                .replace('{today}', visitorStats.today)
-                .replace('{total}', visitorStats.total);
-            document.getElementById('visitorStatsText').innerHTML = statsText;
+        visitorStats.today = Math.floor(Math.random() * 10) + 1;
+        visitorStats.total = Math.floor(Math.random() * 1000) + 200;
+    
+        const lang = languages[currentLanguage];
+        const statsText = lang.visitorStats
+        .replace('{today}', visitorStats.today)
+        .replace('{total}', visitorStats.total);
+        document.getElementById('visitorStatsText').innerHTML = statsText;
         }
 
         // Scroll to content
