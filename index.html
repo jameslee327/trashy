@@ -115,9 +115,10 @@
     /* Analytics Counter */
     .analytics-counter {
       position: fixed;
-      right: 1rem !important;   /* flush to the right edge */
-      bottom: 4rem !important;  /* same bottom offset */
-      left: auto !important;    /* ensure no left positioning */
+      right: 1rem !important;
+      bottom: 4rem !important;
+      left: auto !important;
+      transform: none !important;
       padding: 0.5rem 1rem;
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
@@ -161,9 +162,10 @@
     /* Theme Toggle */
     .theme-toggle {
       position: fixed !important;
-      right: 5rem !important;   /* sits to the left of the counter */
-      bottom: 4rem !important;  /* same bottom offset as counter */
-      left: auto !important;    /* ensure no left positioning */
+      right: 1rem !important;
+      bottom: 4rem !important;
+      left: auto !important;
+      transform: translateX(calc(-100% - 0.5rem)) !important;
       gap: 0.3rem;
       padding: 0.5rem 1rem;
       background: var(--glass-bg);
