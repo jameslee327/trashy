@@ -951,7 +951,7 @@
         // Event listeners
         function initEventListeners() {
             // Language toggle
-            document.getElementById('languageFlag').addEventListener('click', toggleLanguage);
+            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
             document.getElementById('languageFlag').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -960,7 +960,7 @@
             });
 
             // Theme toggle
-            document.getElementById('themeFlag').addEventListener('click', toggleTheme);
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
             document.getElementById('themeFlag').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
