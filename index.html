@@ -7,18 +7,18 @@
   <title>Seongjun Lee</title>
 
   <!-- Charter-style serif font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 
-  <!-- External stylesheet -->
+  <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Animated background -->
   <div class="bg" aria-hidden="true"></div>
 
-  <!-- Parallax cursor glow -->
+  <!-- Cursor parallax glow -->
   <div class="cursor-parallax" id="parallax" aria-hidden="true"></div>
 
   <!-- Main content -->
@@ -30,15 +30,7 @@
     </footer>
   </main>
 
-  <!-- Parallax script -->
-  <script>
-    const parallax = document.getElementById('parallax');
-    document.addEventListener('mousemove', e => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      parallax.style.setProperty('--x', `${x}%`);
-      parallax.style.setProperty('--y', `${y}%`);
-    });
-  </script>
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
