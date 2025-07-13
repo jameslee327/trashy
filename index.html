@@ -1019,20 +1019,20 @@
         }
 
         // Theme toggle
-        function toggleTheme() {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', currentTheme);
-            
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-            
-            if (currentTheme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
-            }
+       function toggleTheme() {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.body.setAttribute('data-theme', currentTheme);
+    
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+    
+    if (currentTheme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
+    } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
+    }
         }
 
         // Scroll animations
