@@ -1102,6 +1102,35 @@
             });
         }
 
+        // Enhanced ocean wave parallax effect
+function initOceanWaves() {
+    const waves = document.querySelectorAll('.wave');
+    
+    // Add mouse movement parallax
+    document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        waves.forEach((wave, index) => {
+            const speed = (index + 1) * 0.5;
+            const x = (mouseX - 0.5) * speed;
+            const y = (mouseY - 0.5) * speed;
+            
+            wave.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    });
+    
+    // Add scroll-based depth effect
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        waves.forEach((wave, index) => {
+            const speed = (index + 1) * 0.2;
+            wave.style.transform = `translateY(${rate * speed}px)`;
+        });
+    });
+}
         // Visitor stats simulation
         function updateVisitorStats() {
             const today = new Date().toDateString();
