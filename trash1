@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>seongjunl.ee</title>
+  <meta name="description" content="Seongjun Lee's personal website." />
+  <title>Seongjun Lee | Portfolio</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <style>
     :root {
       --bg: #0c101a;
@@ -58,12 +60,12 @@
   </style>
 </head>
 <body>
-  <div class="wave">
-    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+  <header class="wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-label="Animated decorative wave">
       <path id="wavePath" fill="#ffffff08"
         d="M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z"/>
     </svg>
-  </div>
+  </header>
   <main class="container" id="main">
     <h1>Hello, I’m Seongjun Lee.</h1>
     <p>This is my website.</p>
@@ -84,22 +86,30 @@
       i = (i + 1) % values.length;
     }, 2000);
 
-    // Mouse and touch move effect
+    // Mouse and touch move effect (debounced)
     const container = document.getElementById('main');
+    let lastMove = 0;
     function moveContainer(x, y) {
       container.style.transform = `translate(${x}px, ${y}px)`;
+    }
+    function handleMove(x, y) {
+      const now = Date.now();
+      if (now - lastMove > 16) { // ~60fps
+        moveContainer(x, y);
+        lastMove = now;
+      }
     }
     document.addEventListener('mousemove', e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 10;
       const y = (e.clientY / window.innerHeight - 0.5) * 10;
-      moveContainer(x, y);
+      handleMove(x, y);
     });
     document.addEventListener('touchmove', e => {
       if (e.touches.length) {
         const touch = e.touches[0];
         const x = (touch.clientX / window.innerWidth - 0.5) * 10;
         const y = (touch.clientY / window.innerHeight - 0.5) * 10;
-        moveContainer(x, y);
+        handleMove(x, y);
       }
     });
   </script>
