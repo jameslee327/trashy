@@ -350,16 +350,16 @@
             grid-template-columns: 1fr 1fr;
             gap: var(--spacing-xl);
             align-items: stretch;
+            grid-auto-rows: 1fr;
         }
 
         .content-text {
-    padding: var(--spacing-xl);
-    height: 100%;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
+        padding: var(--spacing-xl);
+        height: 100%;
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        }
 
         .content-title {
             font-size: 2.5rem;
@@ -376,11 +376,11 @@
         }
 
         .content-description {
-    font-size: 1.125rem;
-    color: var(--text-tertiary);
-    line-height: 1.7;
-    margin-bottom: var(--spacing-lg);
-    flex: 1;
+        font-size: 1.125rem;
+        color: var(--text-tertiary);
+        line-height: 1.7;
+        margin-bottom: var(--spacing-lg);
+        flex-grow: 1; 
         }
 
         /* Wave Background - Ocean Waves */
