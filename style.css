@@ -35,12 +35,12 @@ canvas#bgCanvas {
 .intro {
   position: relative;
   z-index: 1;
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 5vh;
+  padding: 10vh 2rem 5vh;
   text-align: center;
   animation: fadeIn 1.5s ease-out forwards;
 }
@@ -48,6 +48,8 @@ canvas#bgCanvas {
 .monogram {
   margin-bottom: 1rem;
   animation: floatWave 6s ease-in-out infinite;
+  max-width: 120px;
+  width: 20vw;
 }
 
 h1 {
@@ -86,10 +88,11 @@ p {
 }
 
 footer {
-  margin-top: 8vh;
+  margin-top: 6vh;
   text-align: center;
   font-size: 0.9rem;
   color: var(--muted);
+  padding-bottom: 4vh;
 }
 
 .scroll-indicator {
@@ -124,7 +127,7 @@ footer {
 .fade-delay-5 { opacity: 0; animation: fadeIn 1.2s ease forwards; animation-delay: 2.3s; }
 
 @keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(12px); }
+  0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
@@ -141,7 +144,5 @@ footer {
 @media (max-width: 600px) {
   h1 { font-size: 2rem; }
   p { font-size: 1.05rem; }
-}
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
+  .monogram { width: 25vw; }
 }
