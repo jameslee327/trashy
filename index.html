@@ -356,20 +356,20 @@
 
         /* Content Sections */
         .content-section {
-            padding: var(--spacing-l) 0;
+                padding: var(--spacing-sm);
         }
 
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-xl);
+            gap: var(--spacing-lg);
             align-items: stretch;
             grid-auto-rows: 1fr;
         }
 
         .content-text {
-        padding: var(--spacing-xl);
-        height: 95%;
+        padding: var(--spacing-lg);
+        height: 100%;
         min-height: 300px;
         display: flex;
         flex-direction: column;
@@ -610,7 +610,8 @@
 
         /* Footer */
         .footer {
-            padding: var(--spacing-xl) var(--spacing-md);
+            padding-top: var(--spacing-sm);
+            padding-bottom: var(--spacing-md);
             text-align: center;
             background: var(--glass-bg);
             backdrop-filter: var(--backdrop-blur);
@@ -627,15 +628,15 @@
 
         .footer-text {
             color: var(--text-tertiary);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
         }
 
         .visitor-stats {
             color: var(--text-tertiary);
-            font-size: 12px;
+            font-size: 11px;
             font-family: 'SF Pro Display', 'Inter', system-ui, sans-serif;
-            font-weight: 400;
+            font-weight: 300;
         }
 
 
