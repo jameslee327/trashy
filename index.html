@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Seongjun Lee" />
+  <meta name="description" content="Seongjun Lee - Digital Craftsman" />
   <title>Seongjun Lee</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -161,7 +161,7 @@
     .theme-toggle {
       position: fixed !important;
       bottom: 1rem !important;
-      right: 152px !important;
+      right: 155px !important;
       padding: 0.5rem 1rem;
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
@@ -330,7 +330,7 @@
     .hero-title {
       font-family: 'IBM Plex Sans', sans-serif;
       font-size: clamp(3.5rem, 10vw, 7rem);
-      font-weight: 600;
+      font-weight: 200;
       margin-bottom: 1.5rem;
       background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
       -webkit-background-clip: text;
@@ -343,7 +343,7 @@
       font-size: 1.5rem;
       color: var(--text-secondary);
       margin-bottom: 3rem;
-      font-weight: 400;
+      font-weight: 300;
     }
 
     .cta-container {
@@ -553,7 +553,7 @@
 
   <!-- Analytics Counter -->
   <div class="analytics-counter" id="analyticsCounter">
-    <div>👁️ <span id="visitorCount">2</span> visitors</div>
+    <div>👁️ <span id="visitorCount">1,247</span> visitors</div>
   </div>
 
   <!-- Theme Toggle -->
@@ -778,6 +778,82 @@
       }
     }
 
+    // Weather Integration
+    class WeatherService {
+      constructor() {
+        this.weatherIndicator = document.getElementById('weatherIndicator');
+        this.weatherIcon = document.getElementById('weatherIcon');
+        this.weatherText = document.getElementById('weatherText');
+        this.weatherLocation = document.getElementById('weatherLocation');
+        
+        this.getWeather();
+      }
+
+      async getWeather() {
+        try {
+          // Simulated weather data for Busan (in production, use real API)
+          const weatherData = {
+            temperature: Math.round(Math.random() * 15 + 15),
+            condition: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'][Math.floor(Math.random() * 4)],
+            icon: ['☀️', '☁️', '🌧️', '❄️'][Math.floor(Math.random() * 4)]
+          };
+
+          this.weatherIcon.textContent = weatherData.icon;
+          this.weatherText.textContent = `${weatherData.condition}, ${weatherData.temperature}°C`;
+          this.weatherIndicator.classList.add('visible');
+
+          // Update background based on weather
+          this.updateBackgroundForWeather(weatherData.condition);
+        } catch (error) {
+          console.log('Weather service unavailable');
+        }
+      }
+
+      updateBackgroundForWeather(condition) {
+        const body = document.body;
+        body.style.setProperty('--weather-filter', 
+          condition === 'Rainy' ? 'hue-rotate(200deg)' :
+          condition === 'Snowy' ? 'brightness(1.2)' :
+          condition === 'Cloudy' ? 'contrast(0.8)' : 'none'
+        );
+      }
+    }
+
+    // Time-based Greeting
+    class TimeGreeting {
+      constructor() {
+        this.greetingText = document.getElementById('greetingText');
+        this.greetingTime = document.getElementById('greetingTime');
+        this.greetingDate = document.getElementById('greetingDate');
+        
+        this.updateGreeting();
+        setInterval(() => this.updateGreeting(), 60000); // Update every minute
+      }
+
+      updateGreeting() {
+        const now = new Date();
+        const kstTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+        const hour = kstTime.getHours();
+
+        let greeting = 'Good evening, visitor';
+        if (hour < 12) greeting = 'Good morning, visitor';
+        else if (hour < 17) greeting = 'Good afternoon, visitor';
+
+        this.greetingText.textContent = greeting;
+        this.greetingTime.textContent = kstTime.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          timeZone: 'Asia/Seoul',
+          timeZoneName: 'short'
+        });
+        this.greetingDate.textContent = kstTime.toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+    }
+
     // Theme Toggle
     class ThemeManager {
       constructor() {
@@ -836,7 +912,7 @@
 
       updateVisitorCount() {
         // Simulate real-time visitor updates
-        let count = 1;
+        let count = 1247;
         setInterval(() => {
           count += Math.floor(Math.random() * 3);
           this.visitorCount.textContent = count.toLocaleString();
@@ -975,6 +1051,52 @@
       }
     }
 
+    // Loading Screen Manager
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loadingScreen');
+        this.setupLoading();
+      }
+
+      setupLoading() {
+        // Simulate loading process
+        const loadingSteps = [
+          'Initializing WebGL...',
+          'Loading animations...',
+          'Fetching weather data...',
+          'Optimizing performance...',
+          'Ready!'
+        ];
+
+        let currentStep = 0;
+        const loadingText = document.querySelector('.loading-text');
+
+        const updateStep = () => {
+          if (currentStep < loadingSteps.length - 1) {
+            loadingText.textContent = loadingSteps[currentStep];
+            currentStep++;
+            setTimeout(updateStep, 800);
+          } else {
+            loadingText.textContent = loadingSteps[currentStep];
+            setTimeout(() => this.hideLoading(), 500);
+          }
+        };
+
+        setTimeout(updateStep, 500);
+      }
+
+      hideLoading() {
+        gsap.to(this.loadingScreen, {
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.inOut",
+          onComplete: () => {
+            this.loadingScreen.classList.add('hidden');
+            // Initialize all other components after loading
+            this.initializeApp();
+          }
+        });
+      }
 
       initializeApp() {
         new PerformanceMonitor();
@@ -1020,6 +1142,21 @@
         document.addEventListener('mousedown', () => {
           document.body.classList.remove('keyboard-nav');
         });
+
+        // Screen reader announcements
+        const announcements = document.createElement('div');
+        announcements.setAttribute('aria-live', 'polite');
+        announcements.setAttribute('aria-atomic', 'true');
+        announcements.className = 'sr-only';
+        announcements.id = 'announcements';
+        document.body.appendChild(announcements);
+
+        // Announce when page is ready
+        setTimeout(() => {
+          announcements.textContent = 'Page loaded successfully. Interactive portfolio of Seongjun Lee.';
+        }, 1000);
+      }
+    }
 
     // Simple, smooth button interactions
     function setupInteractions() {
