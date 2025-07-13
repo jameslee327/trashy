@@ -11,9 +11,1309 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    :root {
+      --primary-bg: #000000;
+      --light-bg: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.02);
+      --glass-bg-light: rgba(0, 0, 0, 0.02);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border-light: rgba(0, 0, 0, 0.1);
+      --text-primary: #ffffff;
+      --text-primary-light: #000000;
+      --text-secondary: #a1a1a6;
+      --text-secondary-light: #6e6e73;
+      --text-tertiary: #86868b;
+      --accent-blue: #007aff;
+      --accent-purple: #5856d6;
+      --accent-gradient: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+      --shadow-premium: 0 20px 60px rgba(0, 122, 255, 0.1);
+      --border-radius: 16px;
+      --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
 
-</body>
-</html>
+    [data-theme="light"] {
+      --primary-bg: #ffffff;
+      --glass-bg: rgba(0, 0, 0, 0.02);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text-primary: #000000;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #86868b;
+      --shadow-premium: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--primary-bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.6s ease, color 0.6s ease;
+    }
+
+
+
+    /* Performance Monitor */
+    .performance-monitor {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--glass-border);
+      border-radius: 50px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      font-family: 'IBM Plex Mono', monospace;
+      z-index: 2000;
+      opacity: 0.7;
+      transition: var(--transition-smooth);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .performance-monitor::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      z-index: -1;
+    }
+
+    .performance-monitor:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      color: white;
+      border-color: transparent;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .performance-monitor:hover::before {
+      opacity: 1;
+    }
+
+    /* Analytics Counter */
+    .analytics-counter {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--glass-border);
+      border-radius: 50px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      z-index: 2000;
+      opacity: 0;
+      animation: counterReveal 1s ease-out 3s forwards;
+      transition: var(--transition-smooth);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .analytics-counter::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      z-index: -1;
+    }
+
+    .analytics-counter:hover {
+      transform: translateY(-2px);
+      color: white;
+      border-color: transparent;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .analytics-counter:hover::before {
+      opacity: 1;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed !important;
+      bottom: 1rem !important;
+      right: 150px !important;
+      padding: 0.5rem 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--glass-border);
+      border-radius: 50px;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      z-index: 2000;
+      opacity: 0;
+      animation: themeToggleReveal 1s ease-out 2.5s forwards;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      overflow: hidden;
+      visibility: visible !important;
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      z-index: -1;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      color: white;
+      border-color: transparent;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .theme-toggle:hover::before {
+      opacity: 1;
+    }
+
+    .theme-icon {
+      font-size: 0.8rem;
+      transition: var(--transition-smooth);
+    }
+
+    /* Three.js Background */
+    #threejs-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      box-shadow: var(--shadow-premium);
+      opacity: 0;
+    }
+
+    .logo {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .monogram-container {
+      position: relative;
+      margin: 0 auto 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .monogram {
+      width: 120px;
+      height: 120px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      box-shadow: var(--shadow-premium);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      margin: 0 auto;
+    }
+
+    .monogram:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .lottie-icon {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 40px;
+      height: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .monogram:hover .lottie-icon {
+      opacity: 1;
+    }
+
+    .hero-title {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 200;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    .cta-container {
+      margin-bottom: 2rem;
+    }
+
+    .cta-primary {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--glass-bg);
+      color: var(--text-primary);
+      text-decoration: none;
+      border: 2px solid var(--glass-border);
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: var(--transition-smooth);
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      z-index: -1;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      color: white;
+      border-color: transparent;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .cta-primary:hover::before {
+      opacity: 1;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 1px;
+      background: var(--accent-gradient);
+      opacity: 0.3;
+    }
+
+    .footer-text {
+      color: var(--text-tertiary);
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent-blue), transparent);
+      opacity: 0.6;
+    }
+
+    .scroll-indicator::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--accent-blue);
+      border-radius: 50%;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* Animations */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes counterReveal {
+      to { opacity: 0.8; }
+    }
+
+    @keyframes themeToggleReveal {
+      to { opacity: 1; }
+    }
+
+    @keyframes greetingReveal {
+      to { opacity: 0.9; }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .monogram {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+      }
+
+      .nav {
+        top: 1rem;
+        padding: 0.8rem 1.5rem;
+      }
+
+      .cta-primary {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+      }
+
+      .theme-toggle,
+      .time-greeting,
+      .weather-indicator {
+        display: none;
+      }
+
+      .performance-monitor,
+      .analytics-counter,
+      .theme-toggle {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+      }
+
+      .theme-toggle {
+        right: 130px;
+        gap: 0.3rem;
+      }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Screen Reader Only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Focus Styles */
+    .cta-primary:focus,
+    .theme-toggle:focus {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+
+  <!-- Performance Monitor -->
+  <div class="performance-monitor" id="performanceMonitor">
+    <div>FPS: <span id="fpsCounter">60</span></div>
+    <div>GPU: <span id="gpuInfo">WebGL</span></div>
+  </div>
+
+  <!-- Analytics Counter -->
+  <div class="analytics-counter" id="analyticsCounter">
+    <div>👁️ <span id="visitorCount">1,247</span> visitors</div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="Toggle dark/light mode">
+    <div class="theme-icon" id="themeIcon">🌙</div>
+    <span id="themeText">Dark</span>
+  </div>
+
+
+
+
+
+  <!-- Three.js Background -->
+  <canvas id="threejs-canvas"></canvas>
+
+
+
+  <!-- Hero Section -->
+  <main class="hero" id="hero">
+    <div class="hero-content">
+      <div class="monogram-container">
+        <div class="monogram" id="monogram" role="button" tabindex="0" aria-label="Animated logo">
+          SL
+          <div class="lottie-icon" id="lottieIcon"></div>
+        </div>
+      </div>
+      <h1 class="hero-title" id="heroTitle">Seongjun Lee</h1>
+      <p class="hero-subtitle" id="heroSubtitle">Building things that matter</p>
+      <div class="cta-container">
+        <a href="mailto:james@seongjunl.ee" class="cta-primary" id="ctaButton">Contact</a>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">&copy; 2025 Seongjun Lee</p>
+  </footer>
+
+  <script>
+    // Initialize GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Performance Monitoring
+    class PerformanceMonitor {
+      constructor() {
+        this.fps = 0;
+        this.lastTime = performance.now();
+        this.frameCount = 0;
+        this.fpsCounter = document.getElementById('fpsCounter');
+        this.gpuInfo = document.getElementById('gpuInfo');
+        
+        this.detectGPU();
+        this.startMonitoring();
+      }
+
+      detectGPU() {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+          const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if (debugInfo) {
+            const gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            this.gpuInfo.textContent = gpu.substring(0, 20) + '...';
+          }
+        }
+      }
+
+      startMonitoring() {
+        const monitor = () => {
+          this.frameCount++;
+          const currentTime = performance.now();
+          
+          if (currentTime >= this.lastTime + 1000) {
+            this.fps = Math.round((this.frameCount * 1000) / (currentTime - this.lastTime));
+            this.fpsCounter.textContent = this.fps;
+            this.frameCount = 0;
+            this.lastTime = currentTime;
+          }
+          
+          requestAnimationFrame(monitor);
+        };
+        monitor();
+      }
+    }
+
+    // Three.js Scene
+    class ThreeJSBackground {
+      constructor() {
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.renderer = new THREE.WebGLRenderer({ 
+          canvas: document.getElementById('threejs-canvas'),
+          alpha: true,
+          antialias: true 
+        });
+        
+        this.setupRenderer();
+        this.createParticles();
+        this.setupLights();
+        this.animate();
+        
+        window.addEventListener('resize', () => this.onWindowResize());
+        document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+      }
+
+      setupRenderer() {
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.camera.position.z = 5;
+      }
+
+      createParticles() {
+        // Create Apple-style wave layers
+        this.waveLayers = [];
+        const layerCount = 5;
+        
+        for (let layer = 0; layer < layerCount; layer++) {
+          const geometry = new THREE.PlaneGeometry(20, 20, 200, 200);
+          const positions = geometry.attributes.position.array;
+          
+          // Create wave pattern for each layer
+          for (let i = 0; i < positions.length; i += 3) {
+            const x = positions[i];
+            const z = positions[i + 2];
+            positions[i + 1] = Math.sin(x * 0.3 + layer) * Math.cos(z * 0.2 + layer) * 0.5;
+          }
+          
+          const material = new THREE.ShaderMaterial({
+            uniforms: {
+              time: { value: 0 },
+              layer: { value: layer },
+              opacity: { value: 0.1 - layer * 0.015 }
+            },
+            vertexShader: `
+              uniform float time;
+              uniform float layer;
+              varying vec3 vPosition;
+              
+              void main() {
+                vPosition = position;
+                vec3 pos = position;
+                
+                // Multiple wave frequencies like Apple's design
+                pos.y += sin(pos.x * 0.3 + time + layer) * 0.3;
+                pos.y += cos(pos.z * 0.4 + time * 0.7 + layer) * 0.2;
+                pos.y += sin(pos.x * 0.1 + pos.z * 0.1 + time * 0.5) * 0.4;
+                
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+              }
+            `,
+            fragmentShader: `
+              uniform float opacity;
+              varying vec3 vPosition;
+              
+              void main() {
+                vec3 color = vec3(0.2, 0.6, 1.0); // Blue gradient
+                float alpha = opacity * (1.0 - length(vPosition.xz) * 0.05);
+                gl_FragColor = vec4(color, alpha);
+              }
+            `,
+            transparent: true,
+            side: THREE.DoubleSide,
+            wireframe: true
+          });
+          
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.rotation.x = -Math.PI / 2;
+          mesh.position.y = -2 - layer * 0.1;
+          
+          this.waveLayers.push(mesh);
+          this.scene.add(mesh);
+        }
+      }
+
+      setupLights() {
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+        this.scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(1, 1, 1);
+        this.scene.add(directionalLight);
+      }
+
+      onMouseMove(event) {
+        const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        
+        // Interactive wave response to mouse
+        this.waveLayers.forEach((layer, index) => {
+          gsap.to(layer.rotation, {
+            duration: 2,
+            z: mouseX * 0.1 * (index + 1) * 0.1,
+          });
+          gsap.to(layer.position, {
+            duration: 2,
+            x: mouseX * 0.5,
+            z: mouseY * 0.5
+          });
+        });
+      }
+
+      onWindowResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      animate() {
+        requestAnimationFrame(() => this.animate());
+        
+        const time = performance.now() * 0.001;
+        
+        // Animate each wave layer
+        this.waveLayers.forEach((layer, index) => {
+          layer.material.uniforms.time.value = time + index * 0.1;
+          layer.rotation.z += 0.001 * (index + 1);
+        });
+        
+        this.renderer.render(this.scene, this.camera);
+      }
+    }
+
+    // Weather Integration
+    class WeatherService {
+      constructor() {
+        this.weatherIndicator = document.getElementById('weatherIndicator');
+        this.weatherIcon = document.getElementById('weatherIcon');
+        this.weatherText = document.getElementById('weatherText');
+        this.weatherLocation = document.getElementById('weatherLocation');
+        
+        this.getWeather();
+      }
+
+      async getWeather() {
+        try {
+          // Simulated weather data for Busan (in production, use real API)
+          const weatherData = {
+            temperature: Math.round(Math.random() * 15 + 15),
+            condition: ['Sunny', 'Cloudy', 'Rainy', 'Snowy'][Math.floor(Math.random() * 4)],
+            icon: ['☀️', '☁️', '🌧️', '❄️'][Math.floor(Math.random() * 4)]
+          };
+
+          this.weatherIcon.textContent = weatherData.icon;
+          this.weatherText.textContent = `${weatherData.condition}, ${weatherData.temperature}°C`;
+          this.weatherIndicator.classList.add('visible');
+
+          // Update background based on weather
+          this.updateBackgroundForWeather(weatherData.condition);
+        } catch (error) {
+          console.log('Weather service unavailable');
+        }
+      }
+
+      updateBackgroundForWeather(condition) {
+        const body = document.body;
+        body.style.setProperty('--weather-filter', 
+          condition === 'Rainy' ? 'hue-rotate(200deg)' :
+          condition === 'Snowy' ? 'brightness(1.2)' :
+          condition === 'Cloudy' ? 'contrast(0.8)' : 'none'
+        );
+      }
+    }
+
+    // Time-based Greeting
+    class TimeGreeting {
+      constructor() {
+        this.greetingText = document.getElementById('greetingText');
+        this.greetingTime = document.getElementById('greetingTime');
+        this.greetingDate = document.getElementById('greetingDate');
+        
+        this.updateGreeting();
+        setInterval(() => this.updateGreeting(), 60000); // Update every minute
+      }
+
+      updateGreeting() {
+        const now = new Date();
+        const kstTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+        const hour = kstTime.getHours();
+
+        let greeting = 'Good evening, visitor';
+        if (hour < 12) greeting = 'Good morning, visitor';
+        else if (hour < 17) greeting = 'Good afternoon, visitor';
+
+        this.greetingText.textContent = greeting;
+        this.greetingTime.textContent = kstTime.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          timeZone: 'Asia/Seoul',
+          timeZoneName: 'short'
+        });
+        this.greetingDate.textContent = kstTime.toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+    }
+
+    // Theme Toggle
+    class ThemeManager {
+      constructor() {
+        this.themeToggle = document.getElementById('themeToggle');
+        this.themeIcon = document.getElementById('themeIcon');
+        this.themeText = document.getElementById('themeText');
+        this.currentTheme = 'dark';
+        
+        this.detectSystemTheme();
+        this.setupEventListeners();
+      }
+
+      detectSystemTheme() {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (!prefersDark) {
+          this.toggleTheme();
+        }
+      }
+
+      setupEventListeners() {
+        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        this.themeToggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.toggleTheme();
+          }
+        });
+      }
+
+      toggleTheme() {
+        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', this.currentTheme);
+        
+        if (this.currentTheme === 'dark') {
+          this.themeIcon.textContent = '🌙';
+          this.themeText.textContent = 'Dark';
+        } else {
+          this.themeIcon.textContent = '☀️';
+          this.themeText.textContent = 'Light';
+        }
+        
+        // Smooth transition
+        gsap.to(document.body, {
+          duration: 0.6,
+          ease: "power2.inOut"
+        });
+      }
+    }
+
+    // Visitor Analytics
+    class Analytics {
+      constructor() {
+        this.visitorCount = document.getElementById('visitorCount');
+        this.updateVisitorCount();
+      }
+
+      updateVisitorCount() {
+        // Simulate real-time visitor updates
+        let count = 1247;
+        setInterval(() => {
+          count += Math.floor(Math.random() * 3);
+          this.visitorCount.textContent = count.toLocaleString();
+        }, 30000);
+      }
+    }
+
+    // Lottie Animations
+    class LottieManager {
+      constructor() {
+        this.setupLottieIcons();
+      }
+
+      setupLottieIcons() {
+        // Logo icon animation data (simplified)
+        const logoIconData = {
+          v: "5.7.4",
+          fr: 30,
+          ip: 0,
+          op: 60,
+          w: 24,
+          h: 24,
+          nm: "Logo Icon",
+          ddd: 0,
+          assets: [],
+          layers: [{
+            ddd: 0,
+            ind: 1,
+            ty: 4,
+            nm: "Shape Layer 1",
+            sr: 1,
+            ks: {
+              o: {a: 0, k: 100},
+              r: {a: 1, k: [{t: 0, s: [0], e: [360]}, {t: 60, s: [360]}]},
+              p: {a: 0, k: [12, 12, 0]},
+              a: {a: 0, k: [0, 0, 0]},
+              s: {a: 0, k: [100, 100, 100]}
+            },
+            ao: 0,
+            shapes: [{
+              ty: "rc",
+              d: 1,
+              s: {a: 0, k: [8, 8]},
+              p: {a: 0, k: [0, 0]},
+              r: {a: 0, k: 2}
+            }],
+            ip: 0,
+            op: 60,
+            st: 0,
+            bm: 0
+          }]
+        };
+
+        // Initialize logo icon
+        const logoIcon = lottie.loadAnimation({
+          container: document.getElementById('logoIcon'),
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: logoIconData
+        });
+
+        // Hover interaction for monogram
+        const monogram = document.getElementById('monogram');
+        monogram.addEventListener('mouseenter', () => {
+          logoIcon.setSpeed(2);
+        });
+        monogram.addEventListener('mouseleave', () => {
+          logoIcon.setSpeed(1);
+        });
+      }
+    }
+
+    // GSAP Scroll Animations
+    class ScrollAnimations {
+      constructor() {
+        this.setupScrollTriggers();
+      }
+
+      setupScrollTriggers() {
+        // Navigation reveal
+        gsap.fromTo("#nav", 
+          { opacity: 0, y: -50 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 1.2,
+            ease: "power3.out",
+            delay: 0.5
+          }
+        );
+
+        // Hero content staggered reveal
+        const tl = gsap.timeline({ delay: 0.8 });
+        tl.fromTo("#monogram", 
+          { opacity: 0, scale: 0.5, rotationY: 180 },
+          { opacity: 1, scale: 1, rotationY: 0, duration: 1.2, ease: "back.out(1.7)" }
+        )
+        .fromTo("#heroTitle", 
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.6"
+        )
+        .fromTo("#heroSubtitle", 
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.4"
+        )
+        .fromTo("#ctaButton", 
+          { opacity: 0, y: 20, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.2"
+        );
+
+        // Parallax scroll effect
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(".hero-content", {
+          y: -100,
+          opacity: 0.8,
+          scale: 0.95,
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1
+          }
+        });
+
+        // Background parallax layers
+        gsap.to("#threejs-canvas", {
+          y: 200,
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 2
+          }
+        });
+      }
+    }
+
+    // Loading Screen Manager
+    class LoadingManager {
+      constructor() {
+        this.loadingScreen = document.getElementById('loadingScreen');
+        this.setupLoading();
+      }
+
+      setupLoading() {
+        // Simulate loading process
+        const loadingSteps = [
+          'Initializing WebGL...',
+          'Loading animations...',
+          'Fetching weather data...',
+          'Optimizing performance...',
+          'Ready!'
+        ];
+
+        let currentStep = 0;
+        const loadingText = document.querySelector('.loading-text');
+
+        const updateStep = () => {
+          if (currentStep < loadingSteps.length - 1) {
+            loadingText.textContent = loadingSteps[currentStep];
+            currentStep++;
+            setTimeout(updateStep, 800);
+          } else {
+            loadingText.textContent = loadingSteps[currentStep];
+            setTimeout(() => this.hideLoading(), 500);
+          }
+        };
+
+        setTimeout(updateStep, 500);
+      }
+
+      hideLoading() {
+        gsap.to(this.loadingScreen, {
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.inOut",
+          onComplete: () => {
+            this.loadingScreen.classList.add('hidden');
+            // Initialize all other components after loading
+            this.initializeApp();
+          }
+        });
+      }
+
+      initializeApp() {
+        new PerformanceMonitor();
+        new ThreeJSBackground();
+        new ThemeManager();
+        new Analytics();
+        new LottieManager();
+        new ScrollAnimations();
+        
+        // Accessibility enhancements
+        this.setupAccessibility();
+      }
+
+      setupAccessibility() {
+        // Add skip link
+        const skipLink = document.createElement('a');
+        skipLink.href = '#hero';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.className = 'sr-only';
+        skipLink.style.position = 'absolute';
+        skipLink.style.top = '-40px';
+        skipLink.style.left = '6px';
+        skipLink.style.background = 'var(--accent-blue)';
+        skipLink.style.color = 'white';
+        skipLink.style.padding = '8px';
+        skipLink.style.textDecoration = 'none';
+        skipLink.style.zIndex = '10000';
+        skipLink.addEventListener('focus', () => {
+          skipLink.style.top = '6px';
+        });
+        skipLink.addEventListener('blur', () => {
+          skipLink.style.top = '-40px';
+        });
+        document.body.insertBefore(skipLink, document.body.firstChild);
+
+        // Enhanced focus management
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-nav');
+          }
+        });
+
+        document.addEventListener('mousedown', () => {
+          document.body.classList.remove('keyboard-nav');
+        });
+
+        // Screen reader announcements
+        const announcements = document.createElement('div');
+        announcements.setAttribute('aria-live', 'polite');
+        announcements.setAttribute('aria-atomic', 'true');
+        announcements.className = 'sr-only';
+        announcements.id = 'announcements';
+        document.body.appendChild(announcements);
+
+        // Announce when page is ready
+        setTimeout(() => {
+          announcements.textContent = 'Page loaded successfully. Interactive portfolio of Seongjun Lee.';
+        }, 1000);
+      }
+    }
+
+    // Simple, smooth button interactions
+    function setupInteractions() {
+      const ctaButton = document.getElementById('ctaButton');
+      const monogram = document.getElementById('monogram');
+      const themeToggle = document.getElementById('themeToggle');
+      const analyticsCounter = document.getElementById('analyticsCounter');
+      const performanceMonitor = document.getElementById('performanceMonitor');
+
+      const buttons = [ctaButton, monogram, themeToggle, analyticsCounter, performanceMonitor];
+
+      buttons.forEach(button => {
+        if (button) {
+          // Very subtle magnetic effect
+          button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
+          });
+
+          button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+            button.style.transition = 'transform 0.3s ease-out';
+            setTimeout(() => {
+              button.style.transition = '';
+            }, 300);
+          });
+
+          // Simple click feedback
+          button.addEventListener('mousedown', () => {
+            button.style.transform = button.style.transform + ' scale(0.97)';
+          });
+
+          button.addEventListener('mouseup', () => {
+            const currentTransform = button.style.transform.replace(' scale(0.97)', '');
+            button.style.transform = currentTransform;
+          });
+
+          button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+          });
+        }
+      });
+
+      // Special monogram effects
+      if (monogram) {
+        monogram.addEventListener('click', () => {
+          gsap.to(monogram, {
+            rotation: "+=360",
+            duration: 0.8,
+            ease: "power2.out"
+          });
+        });
+
+        monogram.addEventListener('mouseenter', () => {
+          monogram.style.borderRadius = '25%';
+          monogram.style.transition = 'border-radius 0.4s ease-out';
+        });
+
+        monogram.addEventListener('mouseleave', () => {
+          monogram.style.borderRadius = '50%';
+        });
+      }
+    }
+
+    // Error handling and fallbacks
+    window.addEventListener('error', (e) => {
+      console.warn('Non-critical error handled:', e.error);
+      // Graceful fallbacks for any errors
+    });
+
+    // Initialize the application
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize immediately without loading screen
+      new PerformanceMonitor();
+      new ThreeJSBackground();
+      new ThemeManager();
+      new Analytics();
+      new LottieManager();
+      new ScrollAnimations();
+      setupInteractions();
+      
+      // Setup accessibility
+      setupAccessibility();
+    });
+
+    function setupAccessibility() {
+      // Add skip link
+      const skipLink = document.createElement('a');
+      skipLink.href = '#hero';
+      skipLink.textContent = 'Skip to main content';
+      skipLink.className = 'sr-only';
+      skipLink.style.position = 'absolute';
+      skipLink.style.top = '-40px';
+      skipLink.style.left = '6px';
+      skipLink.style.background = 'var(--accent-blue)';
+      skipLink.style.color = 'white';
+      skipLink.style.padding = '8px';
+      skipLink.style.textDecoration = 'none';
+      skipLink.style.zIndex = '10000';
+      skipLink.addEventListener('focus', () => {
+        skipLink.style.top = '6px';
+      });
+      skipLink.addEventListener('blur', () => {
+        skipLink.style.top = '-40px';
+      });
+      document.body.insertBefore(skipLink, document.body.firstChild);
+
+      // Enhanced focus management
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          document.body.classList.add('keyboard-nav');
+        }
+      });
+
+      document.addEventListener('mousedown', () => {
+        document.body.classList.remove('keyboard-nav');
+      });
+
+      // Screen reader announcements
+      const announcements = document.createElement('div');
+      announcements.setAttribute('aria-live', 'polite');
+      announcements.setAttribute('aria-atomic', 'true');
+      announcements.className = 'sr-only';
+      announcements.id = 'announcements';
+      document.body.appendChild(announcements);
+
+      // Announce when page is ready
+      setTimeout(() => {
+        announcements.textContent = 'Interactive portfolio of Seongjun Lee loaded successfully.';
+      }, 1000);
+    }
+
+    // Service Worker for PWA (optional)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+
+    // Page visibility optimization
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // Pause non-essential animations
+        gsap.globalTimeline.pause();
+      } else {
+        // Resume animations
+        gsap.globalTimeline.resume();
+      }
+    });
   </script>
 </body>
 </html>
