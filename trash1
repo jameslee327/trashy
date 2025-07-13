@@ -11,13 +11,7 @@
       --muted: #9ea9ba;
       --accent: #7cb7ff;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -25,22 +19,12 @@
       color: var(--text);
       overflow: hidden;
     }
-
     .wave {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 0;
-      pointer-events: none;
+      top: 0; left: 0; width: 100%;
+      z-index: 0; pointer-events: none;
     }
-
-    svg {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
+    svg { display: block; width: 100%; height: auto; }
     .container {
       position: relative;
       z-index: 1;
@@ -53,41 +37,20 @@
       text-align: center;
       transition: transform 0.1s ease-out;
     }
-
-    h1 {
-      font-size: 2.6rem;
-      font-weight: 600;
-      margin-bottom: 1.2rem;
-    }
-
-    p {
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
+    h1 { font-size: 2.6rem; font-weight: 600; margin-bottom: 1.2rem; }
+    p  { font-size: 1.2rem; font-weight: 300; color: var(--muted); max-width: 560px; margin: 0 auto; }
     footer {
       position: absolute;
-      bottom: 3vh;
-      width: 100%;
-      text-align: center;
-      font-size: 0.95rem;
-      color: var(--muted);
+      bottom: 3vh; width: 100%; text-align: center;
+      font-size: 0.95rem; color: var(--muted);
     }
-
     footer a {
       color: var(--accent);
       text-decoration: none;
       border-bottom: 1px dotted var(--accent);
       transition: 0.3s ease;
     }
-
-    footer a:hover {
-      opacity: 0.7;
-    }
-
+    footer a:hover { opacity: 0.7; }
     @media (max-width: 600px) {
       h1 { font-size: 2.1rem; }
       p  { font-size: 1.05rem; }
@@ -95,35 +58,49 @@
   </style>
 </head>
 <body>
-
   <div class="wave">
     <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-      <path fill="#ffffff08">
-        <animate attributeName="d" dur="15s" repeatCount="indefinite"
-          values="
-            M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z;
-            M0,200 C480,100 960,280 1440,200 L1440,320 L0,320 Z;
-            M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z
-          "
-        />
-      </path>
+      <path id="wavePath" fill="#ffffff08"
+        d="M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z"/>
     </svg>
   </div>
-
-  <div class="container" id="main">
+  <main class="container" id="main">
     <h1>Hello, I’m Seongjun Lee.</h1>
     <p>This is my website.</p>
     <footer>
       Contact: <a href="mailto:james@seongjunl.ee">james@seongjunl.ee</a>
     </footer>
-  </div>
-
+  </main>
   <script>
+    // Wave animation (no SMIL, works in all browsers)
+    const wavePath = document.getElementById('wavePath');
+    const values = [
+      "M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z",
+      "M0,200 C480,100 960,280 1440,200 L1440,320 L0,320 Z"
+    ];
+    let i = 0;
+    setInterval(() => {
+      wavePath.setAttribute('d', values[i]);
+      i = (i + 1) % values.length;
+    }, 2000);
+
+    // Mouse and touch move effect
     const container = document.getElementById('main');
+    function moveContainer(x, y) {
+      container.style.transform = `translate(${x}px, ${y}px)`;
+    }
     document.addEventListener('mousemove', e => {
       const x = (e.clientX / window.innerWidth - 0.5) * 10;
       const y = (e.clientY / window.innerHeight - 0.5) * 10;
-      container.style.transform = `translate(${x}px, ${y}px)`;
+      moveContainer(x, y);
+    });
+    document.addEventListener('touchmove', e => {
+      if (e.touches.length) {
+        const touch = e.touches[0];
+        const x = (touch.clientX / window.innerWidth - 0.5) * 10;
+        const y = (touch.clientY / window.innerHeight - 0.5) * 10;
+        moveContainer(x, y);
+      }
     });
   </script>
 </body>
