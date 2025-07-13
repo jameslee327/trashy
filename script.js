@@ -1,71 +1,98 @@
-// script.js
+// Background canvas particles
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Light/Dark mode detection
-window.addEventListener("DOMContentLoaded", () => {
-  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-  if (prefersLight) {
-    document.body.classList.add("light");
+let particles = [];
+const colors = ["#7cb7ff", "#ffffff33", "#dceeff", "#9dbbe3"];
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 1.5 + 0.5;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
   }
-});
 
-// Cursor parallax movement
-const parallax = document.getElementById("parallax");
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
 
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 30;
-  const y = (e.clientY / window.innerHeight - 0.5) * 30;
-  parallax.style.transform = `translate(${x}px, ${y}px)`;
-});
-
-document.addEventListener("touchmove", (e) => {
-  if (e.touches.length > 0) {
-    const x = (e.touches[0].clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.touches[0].clientY / window.innerHeight - 0.5) * 30;
-    parallax.style.transform = `translate(${x}px, ${y}px)`;
+    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
   }
-});
 
-// Smooth intro animations when DOM is ready
-window.addEventListener("load", () => {
-  document.querySelectorAll(".fade-up, .fade-delay, .fade-delay-2").forEach(el => {
-    el.style.willChange = "opacity, transform";
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+function initParticles(count = 80) {
+  particles = [];
+  for (let i = 0; i < count; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
   });
+  requestAnimationFrame(animate);
+}
 
-  // Activate floating bubbles
-  const canvas = document.getElementById("bgCanvas");
-  if (canvas) {
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+initParticles();
+animate();
 
-    let bubbles = Array.from({ length: 40 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 3 + 1,
-      dx: (Math.random() - 0.5) * 0.6,
-      dy: (Math.random() - 0.5) * 0.6
-    }));
+// Resize canvas
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initParticles();
+});
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let b of bubbles) {
-        ctx.beginPath();
-        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-        ctx.fill();
-        b.x += b.dx;
-        b.y += b.dy;
+// Scroll fade-in effect
+const fadeSections = document.querySelectorAll(".fade-section, .fade-up, .fade-delay, .fade-delay-2, .fade-delay-3, .fade-delay-4, .fade-delay-5, .fade-delay-6");
 
-        if (b.x < 0 || b.x > canvas.width) b.dx *= -1;
-        if (b.y < 0 || b.y > canvas.height) b.dy *= -1;
-      }
-      requestAnimationFrame(animate);
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
     }
-    animate();
+  });
+}, {
+  threshold: 0.1
+});
 
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
+fadeSections.forEach(section => {
+  observer.observe(section);
+});
+
+// Scroll indicator animation
+const scrollCue = document.querySelector(".scroll-cue");
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 30) {
+    scrollCue.classList.add("hide");
+  } else {
+    scrollCue.classList.remove("hide");
   }
+});
+
+// Parallax layer movement
+const layers = document.querySelectorAll(".parallax-layer");
+window.addEventListener("mousemove", e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  layers.forEach((layer, index) => {
+    const speed = (index + 1) * 0.5;
+    layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+  });
 });
