@@ -1,1210 +1,1045 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Seongjun Lee" />
-  <title>Seongjun Lee</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-  <style>
-    :root {
-      --primary-bg: #000000;
-      --light-bg: #ffffff;
-      --glass-bg: rgba(255, 255, 255, 0.02);
-      --glass-bg-light: rgba(0, 0, 0, 0.02);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-border-light: rgba(0, 0, 0, 0.1);
-      --text-primary: #ffffff;
-      --text-primary-light: #000000;
-      --text-secondary: #a1a1a6;
-      --text-secondary-light: #6e6e73;
-      --text-tertiary: #86868b;
-      --accent-blue: #007aff;
-      --accent-purple: #5856d6;
-      --accent-gradient: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
-      --shadow-premium: 0 20px 60px rgba(0, 122, 255, 0.1);
-      --border-radius: 16px;
-      --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Seongjun Lee - Personal Portfolio" />
+    <title>Seongjun Lee</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f8f9fa;
+            --tertiary-bg: #f2f3f5;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --accent-primary: #007aff;
+            --accent-secondary: #5856d6;
+            --accent-success: #34c759;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-tertiary: #6e6e73;
+            --border-light: rgba(0, 0, 0, 0.06);
+            --border-medium: rgba(0, 0, 0, 0.12);
+            --shadow-light: 0 2px 16px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --shadow-heavy: 0 8px 48px rgba(0, 0, 0, 0.16);
+            --shadow-magnetic: 0 12px 64px rgba(0, 122, 255, 0.2);
+            --transition-quick: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-bouncy: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --border-radius: 12px;
+            --border-radius-lg: 18px;
+            --border-radius-xl: 24px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --spacing-3xl: 6rem;
+            --backdrop-blur: blur(24px);
+        }
 
-    [data-theme="light"] {
-      --primary-bg: #ffffff;
-      --glass-bg: rgba(0, 0, 0, 0.02);
-      --glass-border: rgba(0, 0, 0, 0.1);
-      --text-primary: #000000;
-      --text-secondary: #6e6e73;
-      --text-tertiary: #86868b;
-      --shadow-premium: 0 20px 60px rgba(0, 0, 0, 0.1);
-    }
+        [data-theme="dark"] {
+            --primary-bg: #000000;
+            --secondary-bg: #1c1c1e;
+            --tertiary-bg: #2c2c2e;
+            --glass-bg: rgba(28, 28, 30, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #98989d;
+            --text-tertiary: #8e8e93;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-medium: rgba(255, 255, 255, 0.16);
+            --shadow-light: 0 2px 16px rgba(0, 0, 0, 0.3);
+            --shadow-medium: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-heavy: 0 8px 48px rgba(0, 0, 0, 0.6);
+            --shadow-magnetic: 0 12px 64px rgba(0, 122, 255, 0.4);
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html {
-      scroll-behavior: smooth;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    body {
-      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--primary-bg);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transition: background-color 0.6s ease, color 0.6s ease;
-    }
+        body {
+            font-family: 'SF Pro Display', 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: var(--transition-smooth);
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
 
+        /* Apple-inspired Glass Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Performance Monitor */
-    .performance-monitor {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      padding: 0.5rem 1rem;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      border: 2px solid var(--glass-border);
-      border-radius: 50px;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      font-family: 'IBM Plex Mono', monospace;
-      z-index: 2000;
-      opacity: 0.7;
-      transition: var(--transition-smooth);
-      overflow: hidden;
-      cursor: pointer;
-      display: none;
-    }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            opacity: 0;
+            transition: var(--transition-quick);
+        }
 
-    .performance-monitor::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--accent-gradient);
-      opacity: 0;
-      transition: var(--transition-smooth);
-      z-index: -1;
-    }
+        .glass-card:hover::before {
+            opacity: 1;
+        }
 
-    .performance-monitor:hover {
-      opacity: 1;
-      transform: translateY(-2px);
-      color: white;
-      border-color: transparent;
-      box-shadow: var(--shadow-premium);
-    }
+        .glass-card:hover {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+        }
 
-    .performance-monitor:hover::before {
-      opacity: 1;
-    }
+        /* Magnetic Button System */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-quick);
+            overflow: hidden;
+            z-index: 1;
+        }
 
-    /* Analytics Counter */
-    .analytics-counter {
-      position: fixed;
-      right: 1rem !important;
-      bottom: 4rem !important;
-      left: auto !important;
-      transform: none !important;
-      padding: 0.5rem 1rem;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      border: 2px solid var(--glass-border);
-      border-radius: 50px;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      z-index: 2000;
-      opacity: 0;
-      animation: counterReveal 1s ease-out 3s forwards;
-      transition: var(--transition-smooth);
-      overflow: hidden;
-      cursor: pointer;
-    }
+        .magnetic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: var(--transition-quick);
+            z-index: -1;
+        }
 
-    .analytics-counter::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--accent-gradient);
-      opacity: 0;
-      transition: var(--transition-smooth);
-      z-index: -1;
-    }
+        .magnetic-btn:hover::before {
+            opacity: 1;
+        }
 
-    .analytics-counter:hover {
-      transform: translateY(-2px);
-      color: white;
-      border-color: transparent;
-      box-shadow: var(--shadow-premium);
-    }
+        .magnetic-btn--primary {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
 
-    .analytics-counter:hover::before {
-      opacity: 1;
-    }
+        .magnetic-btn--primary:hover {
+            background: #005fcf;
+            box-shadow: var(--shadow-magnetic);
+            transform: translateY(-2px) scale(1.02);
+        }
 
-    /* Theme Toggle */
-    .theme-toggle {
-      position: fixed !important;
-      right: 1rem !important;
-      bottom: 4rem !important;
-      left: auto !important;
-      transform: translateX(calc(-100% - 2rem)) !important;
-      gap: 0.3rem;
-      padding: 0.5rem 1rem;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      border: 2px solid var(--glass-border);
-      border-radius: 50px;
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      z-index: 2000;
-      opacity: 0;
-      animation: themeToggleReveal 1s ease-out 2.5s forwards;
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-decoration: none;
-      overflow: hidden;
-      visibility: visible !important;
-    }
+        .magnetic-btn--secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+        }
 
-    .theme-toggle::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--accent-gradient);
-      opacity: 0;
-      transition: var(--transition-smooth);
-      z-index: -1;
-    }
+        .magnetic-btn--secondary:hover {
+            background: var(--secondary-bg);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px) scale(1.02);
+        }
 
-    .theme-toggle:hover {
-      transform: translateY(-2px);
-      color: white;
-      border-color: transparent;
-      box-shadow: var(--shadow-premium);
-    }
+        .magnetic-btn--ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
 
-    .theme-toggle:hover::before {
-      opacity: 1;
-    }
+        .magnetic-btn--ghost:hover {
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
 
-    .theme-icon {
-      font-size: 0.8rem;
-      transition: var(--transition-smooth);
-    }
+        /* Control Panel */
+        .control-panel {
+            position: fixed;
+            right: var(--spacing-md);
+            bottom: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            z-index: 2000;
+            opacity: 0;
+            animation: slideUp 0.6s ease-out 1s forwards;
+        }
 
-    /* Three.js Background */
-    #threejs-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+        .control-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: 12px 16px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-quick);
+            min-width: 80px;
+        }
 
+        .control-btn:hover {
+            background: var(--secondary-bg);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-light);
+        }
 
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--spacing-3xl) var(--spacing-md);
+            position: relative;
+        }
 
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      padding: 1rem 2rem;
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 50px;
-      box-shadow: var(--shadow-premium);
-      opacity: 0;
-    }
+        .hero-content {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
 
-    .logo {
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      text-decoration: none;
-      color: var(--text-primary);
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        /* Profile Picture */
+        .profile-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
 
-    .logo-icon {
-      width: 24px;
-      height: 24px;
-    }
+        .profile-picture {
+            width: 160px;
+            height: 160px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--border-light);
+        }
 
+        .profile-picture::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            opacity: 0;
+            transition: var(--transition-quick);
+            z-index: -1;
+        }
 
+        .profile-picture:hover::before {
+            opacity: 1;
+        }
 
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      position: relative;
-    }
+        .profile-picture:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-heavy);
+        }
 
-    .hero-content {
-      max-width: 800px;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+        .profile-placeholder {
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition-quick);
+        }
 
-    .monogram-container {
-      position: relative;
-      margin: 0 auto 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .profile-picture:hover .profile-placeholder {
+            color: var(--text-primary);
+        }
 
-    .monogram {
-      width: 120px;
-      height: 120px;
-      background: var(--accent-gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      color: white;
-      box-shadow: var(--shadow-premium);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      margin: 0 auto;
-    }
+        /* Typography */
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin: 0;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .monogram:hover {
-      transform: scale(1.05) rotate(5deg);
-    }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0;
+        }
 
-    .lottie-icon {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 40px;
-      height: 40px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+        .hero-description {
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0;
+        }
 
-    .monogram:hover .lottie-icon {
-      opacity: 1;
-    }
+        /* Content Sections */
+        .content-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-3xl) 0;
+        }
 
-    .hero-title {
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      padding: 0.2em 0;
-      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: center;
+        }
 
-    .hero-subtitle {
-      font-size: 1.5rem;
-      color: var(--text-secondary);
-      margin-bottom: 3rem;
-      font-weight: 400;
-    }
+        .content-text {
+            padding: var(--spacing-xl);
+        }
 
-    .cta-container {
-      margin-bottom: 2rem;
-    }
+        .content-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
 
-    .cta-primary {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      background: var(--glass-bg);
-      color: var(--text-primary);
-      text-decoration: none;
-      border: 2px solid var(--glass-border);
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: var(--transition-smooth);
-      backdrop-filter: blur(20px);
-      position: relative;
-      overflow: hidden;
-    }
+        .content-subtitle {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
 
-    .cta-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--accent-gradient);
-      opacity: 0;
-      transition: var(--transition-smooth);
-      z-index: -1;
-    }
+        .content-description {
+            font-size: 1.125rem;
+            color: var(--text-tertiary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-lg);
+        }
 
-    .cta-primary:hover {
-      transform: translateY(-3px);
-      color: white;
-      border-color: transparent;
-      box-shadow: var(--shadow-premium);
-    }
+        /* Cubicle Decorations */
+        .cubicle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: var(--border-radius);
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
 
-    .cta-primary:hover::before {
-      opacity: 1;
-    }
+        .cubicle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .cubicle:nth-child(2) { top: 20%; right: 8%; animation-delay: 1s; }
+        .cubicle:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 2s; }
+        .cubicle:nth-child(4) { bottom: 15%; right: 5%; animation-delay: 3s; }
+        .cubicle:nth-child(5) { top: 50%; left: 3%; animation-delay: 4s; }
+        .cubicle:nth-child(6) { top: 60%; right: 3%; animation-delay: 5s; }
 
-    /* Footer */
-    .footer {
-      padding: 4rem 2rem 2rem;
-      text-align: center;
-      position: relative;
-    }
+        /* CTA Container */
+        .cta-container {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-lg);
+        }
 
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 1px;
-      background: var(--accent-gradient);
-      opacity: 0.3;
-    }
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--spacing-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: var(--transition-quick);
+        }
 
-    .footer-text {
-      color: var(--text-tertiary);
-      font-size: 0.9rem;
-      font-weight: 300;
-    }
+        .scroll-indicator:hover {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
 
-    /* Scroll Indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--accent-blue), transparent);
-      opacity: 0.6;
-    }
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            background: transparent;
+            margin-bottom: 12px;
+            animation: scrollPulse 3s ease-in-out infinite;
+        }
 
-    .scroll-indicator::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -8px;
-      width: 14px;
-      height: 14px;
-      border: 2px solid var(--accent-blue);
-      border-radius: 50%;
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
+        .scroll-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent-primary), transparent);
+        }
 
-    /* Animations */
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
+        /* Footer */
+        .footer {
+            padding: var(--spacing-xl) var(--spacing-md);
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: var(--backdrop-blur);
+            -webkit-backdrop-filter: var(--backdrop-blur);
+            border-top: 1px solid var(--border-light);
+        }
 
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
 
-    @keyframes counterReveal {
-      to { opacity: 0.8; }
-    }
+        .footer-text {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            font-weight: 400;
+        }
 
-    @keyframes themeToggleReveal {
-      to { opacity: 1; }
-    }
+        .visitor-stats {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            font-family: 'SF Mono', monospace;
+        }
 
-    @keyframes greetingReveal {
-      to { opacity: 0.9; }
-    }
+        /* Three.js Background */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
 
-    @keyframes scrollPulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.2); opacity: 1; }
-    }
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 3rem;
-      }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
 
-      .hero-subtitle {
-        font-size: 1.2rem;
-      }
+        @keyframes scrollPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
 
-      .monogram {
-        width: 100px;
-        height: 100px;
-        font-size: 2.5rem;
-      }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                padding: var(--spacing-2xl) var(--spacing-sm);
+            }
 
-      .nav {
-        top: 1rem;
-        padding: 0.8rem 1.5rem;
-      }
+            .hero-title {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
 
-      .cta-primary {
-        padding: 0.9rem 2rem;
-        font-size: 1rem;
-      }
+            .hero-subtitle {
+                font-size: 1.25rem;
+            }
 
-      .theme-toggle,
-      .time-greeting,
-      .weather-indicator {
-        display: none;
-      }
+            .hero-description {
+                font-size: 1rem;
+            }
 
-      .performance-monitor,
-      .analytics-counter,
-      .theme-toggle {
-        font-size: 0.7rem;
-        padding: 0.3rem 0.6rem;
-      }
+            .profile-picture {
+                width: 140px;
+                height: 140px;
+            }
 
-      .theme-toggle {
-        right: 130px;
-        gap: 0.3rem;
-      }
-    }
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
 
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+            .content-title {
+                font-size: 2rem;
+            }
 
-    /* Screen Reader Only */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
+            .cta-container {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
 
-    /* Focus Styles */
-    .cta-primary:focus,
-    .theme-toggle:focus {
-      outline: 2px solid var(--accent-blue);
-      outline-offset: 2px;
-    }
-  </style>
+            .cubicle {
+                width: 40px;
+                height: 40px;
+            }
+
+            .control-panel {
+                right: var(--spacing-sm);
+                bottom: var(--spacing-sm);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .magnetic-btn:focus,
+        .profile-picture:focus {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+    </style>
 </head>
-<body data-theme="dark">
+<body data-theme="light">
+    <!-- Cubicle Decorations -->
+    <div class="cubicle"></div>
+    <div class="cubicle"></div>
+    <div class="cubicle"></div>
+    <div class="cubicle"></div>
+    <div class="cubicle"></div>
+    <div class="cubicle"></div>
 
-
-  <!-- Performance Monitor -->
-  <div class="performance-monitor" id="performanceMonitor">
-    <div>FPS: <span id="fpsCounter">60</span></div>
-    <div>GPU: <span id="gpuInfo">WebGL</span></div>
-  </div>
-
-  <!-- Analytics Counter -->
-  <div class="analytics-counter" id="analyticsCounter">
-    <div>👁️ <span id="visitorCount">1,247</span> visitors</div>
-  </div>
-
-  <!-- Theme Toggle -->
-  <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="Toggle dark/light mode">
-    <div class="theme-icon" id="themeIcon">🌙</div>
-    <span id="themeText">Dark</span>
-  </div>
-
-
-
-
-
-  <!-- Three.js Background -->
-  <canvas id="threejs-canvas"></canvas>
-
-
-
-  <!-- Hero Section -->
-  <main class="hero" id="hero">
-    <div class="hero-content">
-      <div class="monogram-container">
-        <div class="monogram" id="monogram" role="button" tabindex="0" aria-label="Animated logo">
-          SL
-          <div class="lottie-icon" id="lottieIcon"></div>
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <div class="control-btn" id="languageToggle" role="button" tabindex="0" aria-label="Toggle language">
+            <span id="languageFlag">EN</span>
+            <span id="languageText">English</span>
         </div>
-      </div>
-      <h1 class="hero-title" id="heroTitle">Seongjun Lee
-(James)</h1>
-      <p class="hero-subtitle" id="heroSubtitle">Raised between Korea and the U.S., shaped by curiosity and skepticism. Driven to uncover deeper patterns and shape meaningful change.</p>
-      <div class="cta-container">
-        <a href="mailto:james@seongjunl.ee" class="cta-primary" id="ctaButton">Contact</a>
-      </div>
+        <div class="control-btn" id="themeToggle" role="button" tabindex="0" aria-label="Toggle dark/light mode">
+            <span id="themeIcon">🌙</span>
+            <span id="themeText">Dark</span>
+        </div>
     </div>
-    <div class="scroll-indicator" aria-hidden="true"></div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p class="footer-text">&copy; 2025 Seongjun Lee</p>
-  </footer>
+    <!-- Three.js Background -->
+    <canvas id="threejs-canvas"></canvas>
 
-  <script>
-    // Initialize GSAP
-    gsap.registerPlugin(ScrollTrigger);
+    <!-- Hero Section -->
+    <main class="hero" id="hero">
+        <div class="hero-content">
+            <div class="profile-container">
+                <div class="profile-picture" id="profilePicture" role="button" tabindex="0" aria-label="Profile picture">
+                    <div class="profile-placeholder">SL</div>
+                </div>
+            </div>
+            <h1 class="hero-title" id="heroTitle">Seongjun Lee (James)</h1>
+            <p class="hero-subtitle" id="heroSubtitle">Raised between Korea and the U.S., shaped by curiosity and skepticism. Driven to uncover deeper patterns and shape meaningful change.</p>
+            <p class="hero-description" id="heroDescription">Currently exploring the intersection of technology and human experience, with a focus on creating products that matter.</p>
+            <div class="cta-container">
+                <a href="mailto:james@seongjunl.ee" class="magnetic-btn magnetic-btn--primary" id="ctaButton">Contact</a>
+                <a href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener noreferrer" class="magnetic-btn magnetic-btn--secondary" id="linkedinButton">LinkedIn</a>
+            </div>
+        </div>
+        <div class="scroll-indicator" aria-hidden="true" onclick="scrollToContent()">
+            <div class="scroll-dot"></div>
+            <div class="scroll-line"></div>
+        </div>
+    </main>
 
-    // Performance Monitoring
-class PerformanceMonitor {
-  constructor() {
-    this.fpsCounter = document.getElementById('fpsCounter');
-    this.gpuInfo = document.getElementById('gpuInfo');
-    this.gpuInfo.textContent = 'WebGL';
-    this.fpsCounter.textContent = '60';
-  }
-}
+    <!-- Content Section 1 -->
+    <section class="content-section">
+        <div class="container">
+            <div class="content-grid">
+                <div class="glass-card content-text">
+                    <h2 class="content-title" id="aboutTitle">About Me</h2>
+                    <p class="content-subtitle" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
+                    <p class="content-description" id="aboutDescription">
+                        My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. 
+                        I believe in the power of diverse perspectives to solve complex challenges and create meaningful impact.
+                    </p>
+                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Learn More</a>
+                </div>
+                <div class="glass-card content-text">
+                    <h2 class="content-title" id="visionTitle">Vision</h2>
+                    <p class="content-subtitle" id="visionSubtitle">Technology with purpose</p>
+                    <p class="content-description" id="visionDescription">
+                        I envision a future where technology serves humanity's deepest needs, where innovation is guided by wisdom, 
+                        and where every solution considers its impact on the whole.
+                    </p>
+                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Explore</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Three.js Scene
-    class ThreeJSBackground {
-      constructor() {
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer({ 
-          canvas: document.getElementById('threejs-canvas'),
-          alpha: true,
-          antialias: true 
-        });
-        
-        this.setupRenderer();
-        this.createParticles();
-        this.setupLights();
-        this.animate();
-        
-        window.addEventListener('resize', () => this.onWindowResize());
-        document.addEventListener('mousemove', (e) => this.onMouseMove(e));
-      }
+    <!-- Content Section 2 -->
+    <section class="content-section">
+        <div class="container">
+            <div class="content-grid">
+                <div class="glass-card content-text">
+                    <h2 class="content-title" id="experienceTitle">Experience</h2>
+                    <p class="content-subtitle" id="experienceSubtitle">Building bridges across industries</p>
+                    <p class="content-description" id="experienceDescription">
+                        From startups to enterprise, from consulting to product development, I've learned that the most 
+                        valuable insights come from understanding the human stories behind the data.
+                    </p>
+                    <a href="#" class="magnetic-btn magnetic-btn--ghost">View Work</a>
+                </div>
+                <div class="glass-card content-text">
+                    <h2 class="content-title" id="approachTitle">Approach</h2>
+                    <p class="content-subtitle" id="approachSubtitle">Systematic thinking, creative solutions</p>
+                    <p class="content-description" id="approachDescription">
+                        I combine analytical rigor with creative intuition, always asking not just "how" but "why" and "what if." 
+                        Every project is an opportunity to learn, grow, and make a difference.
+                    </p>
+                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Discover</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      setupRenderer() {
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.camera.position.z = 5;
-      }
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text" id="copyrightText">&copy; 2025 Seongjun Lee</p>
+            <div class="visitor-stats" id="visitorStats">
+                <span id="visitorStatsText">Today: <span id="todayCount">1</span> | Total: <span id="totalCount">247</span></span>
+            </div>
+        </div>
+    </footer>
 
-      createParticles() {
-        // Create Apple-style wave layers
-        this.waveLayers = [];
-        const layerCount = 5;
-        
-        for (let layer = 0; layer < layerCount; layer++) {
-          const geometry = new THREE.PlaneGeometry(20, 20, 200, 200);
-          const positions = geometry.attributes.position.array;
-          
-          // Create wave pattern for each layer
-          for (let i = 0; i < positions.length; i += 3) {
-            const x = positions[i];
-            const z = positions[i + 2];
-            positions[i + 1] = Math.sin(x * 0.3 + layer) * Math.cos(z * 0.2 + layer) * 0.5;
-          }
-          
-          const material = new THREE.ShaderMaterial({
-            uniforms: {
-              time: { value: 0 },
-              layer: { value: layer },
-              opacity: { value: 0.1 - layer * 0.015 }
+    <script>
+        // Language data
+        const languages = {
+            en: {
+                title: "Seongjun Lee (James)",
+                subtitle: "Raised between Korea and the U.S., shaped by curiosity and skepticism. Driven to uncover deeper patterns and shape meaningful change.",
+                description: "Currently exploring the intersection of technology and human experience, with a focus on creating products that matter.",
+                contact: "Contact",
+                linkedin: "LinkedIn",
+                copyright: "© 2025 Seongjun Lee",
+                visitorStats: "Today: {today} | Total: {total}",
+                flag: "EN",
+                langText: "English",
+                themeText: "Dark",
+                aboutTitle: "About Me",
+                aboutSubtitle: "Bridging cultures, connecting ideas",
+                aboutDescription: "My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. I believe in the power of diverse perspectives to solve complex challenges and create meaningful impact.",
+                visionTitle: "Vision",
+                visionSubtitle: "Technology with purpose",
+                visionDescription: "I envision a future where technology serves humanity's deepest needs, where innovation is guided by wisdom, and where every solution considers its impact on the whole.",
+                experienceTitle: "Experience",
+                experienceSubtitle: "Building bridges across industries",
+                experienceDescription: "From startups to enterprise, from consulting to product development, I've learned that the most valuable insights come from understanding the human stories behind the data.",
+                approachTitle: "Approach",
+                approachSubtitle: "Systematic thinking, creative solutions",
+                approachDescription: "I combine analytical rigor with creative intuition, always asking not just 'how' but 'why' and 'what if.' Every project is an opportunity to learn, grow, and make a difference."
             },
-            vertexShader: `
-              uniform float time;
-              uniform float layer;
-              varying vec3 vPosition;
-              
-              void main() {
-                vPosition = position;
-                vec3 pos = position;
-                
-                // Multiple wave frequencies like Apple's design
-                pos.y += sin(pos.x * 0.3 + time + layer) * 0.3;
-                pos.y += cos(pos.z * 0.4 + time * 0.7 + layer) * 0.2;
-                pos.y += sin(pos.x * 0.1 + pos.z * 0.1 + time * 0.5) * 0.4;
-                
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-              }
-            `,
-            fragmentShader: `
-              uniform float opacity;
-              varying vec3 vPosition;
-              
-              void main() {
-                vec3 color = vec3(0.2, 0.6, 1.0); // Blue gradient
-                float alpha = opacity * (1.0 - length(vPosition.xz) * 0.05);
-                gl_FragColor = vec4(color, alpha);
-              }
-            `,
-            transparent: true,
-            side: THREE.DoubleSide,
-            wireframe: true
-          });
-          
-          const mesh = new THREE.Mesh(geometry, material);
-          mesh.rotation.x = -Math.PI / 2;
-          mesh.position.y = -2 - layer * 0.1;
-          
-          this.waveLayers.push(mesh);
-          this.scene.add(mesh);
-        }
-      }
-
-      setupLights() {
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
-        this.scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(1, 1, 1);
-        this.scene.add(directionalLight);
-      }
-
-      onMouseMove(event) {
-        const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        
-        // Interactive wave response to mouse
-        this.waveLayers.forEach((layer, index) => {
-          gsap.to(layer.rotation, {
-            duration: 2,
-            z: mouseX * 0.1 * (index + 1) * 0.1,
-          });
-          gsap.to(layer.position, {
-            duration: 2,
-            x: mouseX * 0.5,
-            z: mouseY * 0.5
-          });
-        });
-      }
-
-      onWindowResize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-
-      animate() {
-        requestAnimationFrame(() => this.animate());
-        
-        const time = performance.now() * 0.001;
-        
-        // Animate each wave layer
-        this.waveLayers.forEach((layer, index) => {
-          layer.material.uniforms.time.value = time + index * 0.1;
-          layer.rotation.z += 0.001 * (index + 1);
-        });
-        
-        this.renderer.render(this.scene, this.camera);
-      }
-    }
-
-    // Theme Toggle
-    class ThemeManager {
-      constructor() {
-        this.themeToggle = document.getElementById('themeToggle');
-        this.themeIcon = document.getElementById('themeIcon');
-        this.themeText = document.getElementById('themeText');
-        this.currentTheme = 'dark';
-        
-        this.detectSystemTheme();
-        this.setupEventListeners();
-      }
-
-      detectSystemTheme() {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (!prefersDark) {
-          this.toggleTheme();
-        }
-      }
-
-      setupEventListeners() {
-        this.themeToggle.addEventListener('click', () => this.toggleTheme());
-        this.themeToggle.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.toggleTheme();
-          }
-        });
-      }
-
-      toggleTheme() {
-        this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
-        document.body.setAttribute('data-theme', this.currentTheme);
-        
-        if (this.currentTheme === 'dark') {
-          this.themeIcon.textContent = '🌙';
-          this.themeText.textContent = 'Dark';
-        } else {
-          this.themeIcon.textContent = '☀️';
-          this.themeText.textContent = 'Light';
-        }
-        
-        // Smooth transition
-        gsap.to(document.body, {
-          duration: 0.6,
-          ease: "power2.inOut"
-        });
-      }
-    }
-
-    // Visitor Analytics
-   class Analytics {
-  constructor() {
-    this.visitorCount = document.getElementById('visitorCount');
-    this.visitorCount.textContent = '10';
-  }
-}
-
-    // Lottie Animations
-    class LottieManager {
-      constructor() {
-        this.setupLottieIcons();
-      }
-
-      setupLottieIcons() {
-        // Logo icon animation data (simplified)
-        const logoIconData = {
-          v: "5.7.4",
-          fr: 30,
-          ip: 0,
-          op: 60,
-          w: 24,
-          h: 24,
-          nm: "Logo Icon",
-          ddd: 0,
-          assets: [],
-          layers: [{
-            ddd: 0,
-            ind: 1,
-            ty: 4,
-            nm: "Shape Layer 1",
-            sr: 1,
-            ks: {
-              o: {a: 0, k: 100},
-              r: {a: 1, k: [{t: 0, s: [0], e: [360]}, {t: 60, s: [360]}]},
-              p: {a: 0, k: [12, 12, 0]},
-              a: {a: 0, k: [0, 0, 0]},
-              s: {a: 0, k: [100, 100, 100]}
-            },
-            ao: 0,
-            shapes: [{
-              ty: "rc",
-              d: 1,
-              s: {a: 0, k: [8, 8]},
-              p: {a: 0, k: [0, 0]},
-              r: {a: 0, k: 2}
-            }],
-            ip: 0,
-            op: 60,
-            st: 0,
-            bm: 0
-          }]
+            ko: {
+                title: "이성준 (제임스)",
+                subtitle: "한국과 미국을 오가며 자란, 호기심과 회의주의로 다져진 사람. 더 깊은 패턴을 발견하고 의미 있는 변화를 만들어가는 것이 목표입니다.",
+                description: "현재 기술과 인간 경험의 교차점을 탐구하며, 의미 있는 제품을 만드는 것에 집중하고 있습니다.",
+                contact: "연락하기",
+                linkedin: "링크드인",
+                copyright: "© 2025 이성준",
+                visitorStats: "오늘: {today} | 전체: {total}",
+                flag: "KO",
+                langText: "한국어",
+                themeText: "다크",
+                aboutTitle: "소개",
+                aboutSubtitle: "문화를 연결하고 아이디어를 잇다",
+                aboutDescription: "서울의 번화한 거리부터 실리콘밸리의 혁신 허브까지, 대륙과 분야를 아우르는 여정을 걸어왔습니다. 다양한 관점이 복잡한 문제를 해결하고 의미 있는 영향을 만들어낸다고 믿습니다.",
+                visionTitle: "비전",
+                visionSubtitle: "목적이 있는 기술",
+                visionDescription: "기술이 인류의 가장 깊은 욕구를 충족시키고, 혁신이 지혜에 의해 이끌어지며, 모든 해결책이 전체에 미치는 영향을 고려하는 미래를 그려봅니다.",
+                experienceTitle: "경험",
+                experienceSubtitle: "산업 간 가교 구축",
+                experienceDescription: "스타트업부터 대기업까지, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰은 데이터 뒤에 숨겨진 인간의 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
+                approachTitle: "접근법",
+                approachSubtitle: "체계적 사고, 창의적 해결책",
+                approachDescription: "분석적 엄밀함과 창의적 직관을 결합하여, 단순히 '어떻게'가 아니라 '왜' 그리고 '만약에'를 항상 묻습니다. 모든 프로젝트는 배우고, 성장하고, 변화를 만들어낼 기회입니다."
+            }
         };
 
-        // Initialize logo icon
-        const logoIcon = lottie.loadAnimation({
-          container: document.getElementById('logoIcon'),
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          animationData: logoIconData
-        });
+        // State management
+        let currentLang = 'en';
+        let currentTheme = 'light';
+        let visitorCount = { today: 1, total: 247 };
 
-        // Hover interaction for monogram
-        const monogram = document.getElementById('monogram');
-        monogram.addEventListener('mouseenter', () => {
-          logoIcon.setSpeed(2);
-        });
-        monogram.addEventListener('mouseleave', () => {
-          logoIcon.setSpeed(1);
-        });
-      }
-    }
+        // Three.js setup
+        let scene, camera, renderer, particles;
 
-    // GSAP Scroll Animations
-    class ScrollAnimations {
-      constructor() {
-        this.setupScrollTriggers();
-      }
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('threejs-canvas'), alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
 
-      setupScrollTriggers() {
-        // Navigation reveal
-        gsap.fromTo("#nav", 
-          { opacity: 0, y: -50 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 1.2,
-            ease: "power3.out",
-            delay: 0.5
-          }
-        );
+            // Create particle system
+            const particleCount = 100;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
 
-        // Hero content staggered reveal
-        const tl = gsap.timeline({ delay: 0.8 });
-        tl.fromTo("#monogram", 
-          { opacity: 0, scale: 0.5, rotationY: 180 },
-          { opacity: 1, scale: 1, rotationY: 0, duration: 1.2, ease: "back.out(1.7)" }
-        )
-        .fromTo("#heroTitle", 
-          { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.6"
-        )
-        .fromTo("#heroSubtitle", 
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.4"
-        )
-        .fromTo("#ctaButton", 
-          { opacity: 0, y: 20, scale: 0.9 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.2"
-        );
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 20;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
 
-        // Parallax scroll effect
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.to(".hero-content", {
-          y: -100,
-          opacity: 0.8,
-          scale: 0.95,
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: 1
-          }
-        });
+                colors[i * 3] = Math.random();
+                colors[i * 3 + 1] = Math.random();
+                colors[i * 3 + 2] = Math.random();
+            }
 
-        // Background parallax layers
-        gsap.to("#threejs-canvas", {
-          y: 200,
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: 2
-          }
-        });
-      }
-    }
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    // Loading Screen Manager
-    class LoadingManager {
-      constructor() {
-        this.loadingScreen = document.getElementById('loadingScreen');
-        this.setupLoading();
-      }
+            const material = new THREE.PointsMaterial({
+                size: 0.1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6
+            });
 
-      setupLoading() {
-        // Simulate loading process
-        const loadingSteps = [
-          'Initializing WebGL...',
-          'Loading animations...',
-          'Fetching weather data...',
-          'Optimizing performance...',
-          'Ready!'
-        ];
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
 
-        let currentStep = 0;
-        const loadingText = document.querySelector('.loading-text');
+            camera.position.z = 5;
 
-        const updateStep = () => {
-          if (currentStep < loadingSteps.length - 1) {
-            loadingText.textContent = loadingSteps[currentStep];
-            currentStep++;
-            setTimeout(updateStep, 800);
-          } else {
-            loadingText.textContent = loadingSteps[currentStep];
-            setTimeout(() => this.hideLoading(), 500);
-          }
-        };
+            animate();
+        }
 
-        setTimeout(updateStep, 500);
-      }
-
-      hideLoading() {
-        gsap.to(this.loadingScreen, {
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.inOut",
-          onComplete: () => {
-            this.loadingScreen.classList.add('hidden');
-            // Initialize all other components after loading
-            this.initializeApp();
-          }
-        });
-      }
-
-      initializeApp() {
-        new PerformanceMonitor();
-        new ThreeJSBackground();
-        new ThemeManager();
-        new Analytics();
-        new LottieManager();
-        new ScrollAnimations();
-        
-        // Accessibility enhancements
-        this.setupAccessibility();
-      }
-
-      setupAccessibility() {
-        // Add skip link
-        const skipLink = document.createElement('a');
-        skipLink.href = '#hero';
-        skipLink.textContent = 'Skip to main content';
-        skipLink.className = 'sr-only';
-        skipLink.style.position = 'absolute';
-        skipLink.style.top = '-40px';
-        skipLink.style.left = '6px';
-        skipLink.style.background = 'var(--accent-blue)';
-        skipLink.style.color = 'white';
-        skipLink.style.padding = '8px';
-        skipLink.style.textDecoration = 'none';
-        skipLink.style.zIndex = '10000';
-        skipLink.addEventListener('focus', () => {
-          skipLink.style.top = '6px';
-        });
-        skipLink.addEventListener('blur', () => {
-          skipLink.style.top = '-40px';
-        });
-        document.body.insertBefore(skipLink, document.body.firstChild);
-
-        // Enhanced focus management
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-nav');
-          }
-        });
-
-        document.addEventListener('mousedown', () => {
-          document.body.classList.remove('keyboard-nav');
-        });
-
-        // Screen reader announcements
-        const announcements = document.createElement('div');
-        announcements.setAttribute('aria-live', 'polite');
-        announcements.setAttribute('aria-atomic', 'true');
-        announcements.className = 'sr-only';
-        announcements.id = 'announcements';
-        document.body.appendChild(announcements);
-
-        // Announce when page is ready
-        setTimeout(() => {
-          announcements.textContent = 'Page loaded successfully. Interactive portfolio of Seongjun Lee.';
-        }, 1000);
-      }
-    }
-
-    // Simple, smooth button interactions
-    function setupInteractions() {
-      const ctaButton = document.getElementById('ctaButton');
-      const monogram = document.getElementById('monogram');
-      const themeToggle = document.getElementById('themeToggle');
-      const analyticsCounter = document.getElementById('analyticsCounter');
-      const performanceMonitor = document.getElementById('performanceMonitor');
-
-      const buttons = [ctaButton, monogram, themeToggle, analyticsCounter, performanceMonitor];
-
-      buttons.forEach(button => {
-        if (button) {
-          // Very subtle magnetic effect
-          button.addEventListener('mousemove', (e) => {
-            const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
+        function animate() {
+            requestAnimationFrame(animate);
             
-            button.style.transform = `translate(${x * 0.05}px, ${y * 0.05}px)`;
-          });
+            if (particles) {
+                particles.rotation.x += 0.001;
+                particles.rotation.y += 0.002;
+            }
 
-          button.addEventListener('mouseleave', () => {
-            button.style.transform = '';
-            button.style.transition = 'transform 0.3s ease-out';
-            setTimeout(() => {
-              button.style.transition = '';
-            }, 300);
-          });
-
-          // Simple click feedback
-          button.addEventListener('mousedown', () => {
-            button.style.transform = button.style.transform + ' scale(0.97)';
-          });
-
-          button.addEventListener('mouseup', () => {
-            const currentTransform = button.style.transform.replace(' scale(0.97)', '');
-            button.style.transform = currentTransform;
-          });
-
-          button.addEventListener('mouseleave', () => {
-            button.style.transform = '';
-          });
+            renderer.render(scene, camera);
         }
-      });
 
-      // Special monogram effects
-      if (monogram) {
-        monogram.addEventListener('click', () => {
-          gsap.to(monogram, {
-            rotation: "+=360",
-            duration: 0.8,
-            ease: "power2.out"
-          });
-        });
-
-        monogram.addEventListener('mouseenter', () => {
-          monogram.style.borderRadius = '25%';
-          monogram.style.transition = 'border-radius 0.4s ease-out';
-        });
-
-        monogram.addEventListener('mouseleave', () => {
-          monogram.style.borderRadius = '50%';
-        });
-      }
-    }
-
-    // Error handling and fallbacks
-    window.addEventListener('error', (e) => {
-      console.warn('Non-critical error handled:', e.error);
-      // Graceful fallbacks for any errors
-    });
-
-    // Initialize the application
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initialize immediately without loading screen
-      new PerformanceMonitor();
-      new ThreeJSBackground();
-      new ThemeManager();
-      new Analytics();
-      new LottieManager();
-      new ScrollAnimations();
-      setupInteractions();
-      
-      // Setup accessibility
-      setupAccessibility();
-    });
-
-    function setupAccessibility() {
-      // Add skip link
-      const skipLink = document.createElement('a');
-      skipLink.href = '#hero';
-      skipLink.textContent = 'Skip to main content';
-      skipLink.className = 'sr-only';
-      skipLink.style.position = 'absolute';
-      skipLink.style.top = '-40px';
-      skipLink.style.left = '6px';
-      skipLink.style.background = 'var(--accent-blue)';
-      skipLink.style.color = 'white';
-      skipLink.style.padding = '8px';
-      skipLink.style.textDecoration = 'none';
-      skipLink.style.zIndex = '10000';
-      skipLink.addEventListener('focus', () => {
-        skipLink.style.top = '6px';
-      });
-      skipLink.addEventListener('blur', () => {
-        skipLink.style.top = '-40px';
-      });
-      document.body.insertBefore(skipLink, document.body.firstChild);
-
-      // Enhanced focus management
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          document.body.classList.add('keyboard-nav');
+        // Language toggle
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ko' : 'en';
+            updateLanguage();
         }
-      });
 
-      document.addEventListener('mousedown', () => {
-        document.body.classList.remove('keyboard-nav');
-      });
+        function updateLanguage() {
+            const lang = languages[currentLang];
+            
+            // Update content
+            document.getElementById('heroTitle').textContent = lang.title;
+            document.getElementById('heroSubtitle').textContent = lang.subtitle;
+            document.getElementById('heroDescription').textContent = lang.description;
+            document.getElementById('ctaButton').textContent = lang.contact;
+            document.getElementById('linkedinButton').textContent = lang.linkedin;
+            document.getElementById('copyrightText').textContent = lang.copyright;
+            document.getElementById('languageFlag').textContent = lang.flag;
+            document.getElementById('languageText').textContent = lang.langText;
+            
+            // Update content sections
+            document.getElementById('aboutTitle').textContent = lang.aboutTitle;
+            document.getElementById('aboutSubtitle').textContent = lang.aboutSubtitle;
+            document.getElementById('aboutDescription').textContent = lang.aboutDescription;
+            document.getElementById('visionTitle').textContent = lang.visionTitle;
+            document.getElementById('visionSubtitle').textContent = lang.visionSubtitle;
+            document.getElementById('visionDescription').textContent = lang.visionDescription;
+            document.getElementById('experienceTitle').textContent = lang.experienceTitle;
+            document.getElementById('experienceSubtitle').textContent = lang.experienceSubtitle;
+            document.getElementById('experienceDescription').textContent = lang.experienceDescription;
+            document.getElementById('approachTitle').textContent = lang.approachTitle;
+            document.getElementById('approachSubtitle').textContent = lang.approachSubtitle;
+            document.getElementById('approachDescription').textContent = lang.approachDescription;
+            
+            // Update visitor stats
+            const visitorStatsText = lang.visitorStats
+                .replace('{today}', visitorCount.today)
+                .replace('{total}', visitorCount.total);
+            document.getElementById('visitorStatsText').innerHTML = visitorStatsText;
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = currentLang;
+        }
 
-      // Screen reader announcements
-      const announcements = document.createElement('div');
-      announcements.setAttribute('aria-live', 'polite');
-      announcements.setAttribute('aria-atomic', 'true');
-      announcements.className = 'sr-only';
-      announcements.id = 'announcements';
-      document.body.appendChild(announcements);
+        // Theme toggle
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            updateTheme();
+        }
 
-      // Announce when page is ready
-      setTimeout(() => {
-        announcements.textContent = 'Interactive portfolio of Seongjun Lee loaded successfully.';
-      }, 1000);
-    }
+        function updateTheme() {
+            document.body.setAttribute('data-theme', currentTheme);
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (currentTheme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = currentLang === 'en' ? 'Light' : '라이트';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = currentLang === 'en' ? 'Dark' : '다크';
+            }
+        }
 
-    // Service Worker for PWA (optional)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            console.log('SW registered: ', registration);
-          })
-          .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
-          });
-      });
-    }
+        // Scroll functionality
+        function scrollToContent() {
+            const firstSection = document.querySelector('.content-section');
+            if (firstSection) {
+                firstSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
 
-    // Page visibility optimization
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        // Pause non-essential animations
-        gsap.globalTimeline.pause();
-      } else {
-        // Resume animations
-        gsap.globalTimeline.resume();
-      }
-    });
-  </script>
+        // Magnetic button effects
+        function initMagneticButtons() {
+            const magneticButtons = document.querySelectorAll('.magnetic-btn');
+            
+            magneticButtons.forEach(button => {
+                button.addEventListener('mousemove', (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translate(0, 0)';
+                });
+            });
+        }
+
+        // Profile picture interaction
+        function initProfilePicture() {
+            const profilePicture = document.getElementById('profilePicture');
+            
+            profilePicture.addEventListener('click', () => {
+                profilePicture.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    profilePicture.style.transform = 'scale(1)';
+                }, 150);
+            });
+        }
+
+        // Visitor counter simulation
+        function updateVisitorCount() {
+            // Simulate visitor count updates
+            const today = Math.floor(Math.random() * 50) + 1;
+            const total = Math.floor(Math.random() * 1000) + 200;
+            
+            visitorCount = { today, total };
+            updateLanguage(); // This will update the visitor stats display
+        }
+
+        // Window resize handler
+        function handleResize() {
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        // Initialize everything
+        function init() {
+            initThreeJS();
+            initMagneticButtons();
+            initProfilePicture();
+            updateVisitorCount();
+            
+            // Event listeners
+            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            window.addEventListener('resize', handleResize);
+            
+            // Keyboard navigation
+            document.getElementById('languageToggle').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguage();
+                }
+            });
+            
+            document.getElementById('themeToggle').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+            
+            document.getElementById('profilePicture').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    document.getElementById('profilePicture').click();
+                }
+            });
+
+            // GSAP animations
+            if (typeof gsap !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Hero animation
+                gsap.from('.hero-title', { 
+                    duration: 1, 
+                    y: 50, 
+                    opacity: 0, 
+                    ease: 'power3.out' 
+                });
+                
+                gsap.from('.hero-subtitle', { 
+                    duration: 1, 
+                    y: 30, 
+                    opacity: 0, 
+                    ease: 'power3.out', 
+                    delay: 0.2 
+                });
+                
+                gsap.from('.hero-description', { 
+                    duration: 1, 
+                    y: 20, 
+                    opacity: 0, 
+                    ease: 'power3.out', 
+                    delay: 0.4 
+                });
+                
+                gsap.from('.cta-container', { 
+                    duration: 1, 
+                    y: 20, 
+                    opacity: 0, 
+                    ease: 'power3.out', 
+                    delay: 0.6 
+                });
+                
+                gsap.from('.profile-picture', { 
+                    duration: 1, 
+                    scale: 0.8, 
+                    opacity: 0, 
+                    ease: 'back.out(1.7)', 
+                    delay: 0.8 
+                });
+                
+                // Content sections animation
+                gsap.utils.toArray('.glass-card').forEach((card, index) => {
+                    gsap.from(card, {
+                        duration: 1,
+                        y: 100,
+                        opacity: 0,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 80%',
+                            end: 'bottom 20%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    });
+                });
+            }
+            
+            // Periodic visitor count updates
+            setInterval(updateVisitorCount, 30000); // Update every 30 seconds
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
 </body>
 </html>
