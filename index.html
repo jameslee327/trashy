@@ -856,7 +856,7 @@
                 visitorStats: "Visitors: 0"
             },
             ko: {
-                heroTitle: "이성준",
+                heroTitle: "이성준(李晟準)",
                 heroSubtitle: "깊어지는 질문과 무한한 호기심을 바탕으로. 패턴을 발견하고 변화를 만들어가는 것에 의해 추진됩니다.",
                 heroDescription: "현재 훌륭한 기술과 비즈니스 전략의 교차점을 탐구하고 있으며, 정말 중요한 훌륭한 조직을 만드는 데 집중하고 있습니다.",
                 ctaButton: "연락하기",
@@ -1074,15 +1074,15 @@
             // Profile picture click handler
             document.getElementById('profilePicture').addEventListener('click', function() {
                 gsap.to(this, {
-                    rotation: 360,
+                    rotation: 5,
                     scale: 1.1,
-                    duration: 0.6,
-                    ease: "back.out(1.7)",
+                    duration: 0.5,
+                    ease: "back.out(1.5)",
                     onComplete: function() {
                         gsap.to(this.targets()[0], {
                             rotation: 0,
                             scale: 1,
-                            duration: 0.3,
+                            duration: 0.4,
                             ease: "power2.out"
                         });
                     }
