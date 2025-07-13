@@ -189,18 +189,6 @@
             transform: translateY(-2px) scale(1.02);
         }
 
-        .magnetic-btn--ghost {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-light);
-        }
-
-        .magnetic-btn--ghost:hover {
-            background: var(--secondary-bg);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
         /* Control Panel */
         .control-panel {
             position: fixed;
@@ -354,10 +342,7 @@
 
         /* Content Sections */
         .content-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: var(--spacing-3xl) 0;
+            padding: var(--spacing-2xl) 0;
         }
 
         .content-grid {
@@ -392,23 +377,42 @@
             margin-bottom: var(--spacing-lg);
         }
 
-        /* Cubicle Decorations */
-        .cubicle {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: var(--border-radius);
-            opacity: 0.1;
-            animation: float 8s ease-in-out infinite;
+        /* Wave Background */
+        .wave-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
         }
 
-        .cubicle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-        .cubicle:nth-child(2) { top: 20%; right: 8%; animation-delay: 1s; }
-        .cubicle:nth-child(3) { bottom: 30%; left: 10%; animation-delay: 2s; }
-        .cubicle:nth-child(4) { bottom: 15%; right: 5%; animation-delay: 3s; }
-        .cubicle:nth-child(5) { top: 50%; left: 3%; animation-delay: 4s; }
-        .cubicle:nth-child(6) { top: 60%; right: 3%; animation-delay: 5s; }
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            opacity: 0.03;
+            animation: wave 20s linear infinite;
+        }
+
+        .wave:nth-child(1) {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            animation-delay: 0s;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        .wave:nth-child(2) {
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-success));
+            animation-delay: -7s;
+            border-radius: 70% 30% 50% 50% / 60% 40% 30% 70%;
+        }
+
+        .wave:nth-child(3) {
+            background: linear-gradient(225deg, var(--accent-success), var(--accent-primary));
+            animation-delay: -14s;
+            border-radius: 30% 70% 40% 60% / 50% 60% 40% 50%;
+        }
 
         /* CTA Container */
         .cta-container {
@@ -481,7 +485,8 @@
         .visitor-stats {
             color: var(--text-tertiary);
             font-size: 12px;
-            font-family: 'SF Mono', monospace;
+            font-family: 'SF Pro Display', 'Inter', system-ui, sans-serif;
+            font-weight: 400;
         }
 
         /* Three.js Background */
@@ -507,9 +512,13 @@
             }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        @keyframes wave {
+            0% {
+                transform: rotate(0deg) translate(-50%, -50%);
+            }
+            100% {
+                transform: rotate(360deg) translate(-50%, -50%);
+            }
         }
 
         @keyframes scrollPulse {
@@ -554,11 +563,6 @@
                 gap: var(--spacing-sm);
             }
 
-            .cubicle {
-                width: 40px;
-                height: 40px;
-            }
-
             .control-panel {
                 right: var(--spacing-sm);
                 bottom: var(--spacing-sm);
@@ -594,13 +598,12 @@
     </style>
 </head>
 <body data-theme="light">
-    <!-- Cubicle Decorations -->
-    <div class="cubicle"></div>
-    <div class="cubicle"></div>
-    <div class="cubicle"></div>
-    <div class="cubicle"></div>
-    <div class="cubicle"></div>
-    <div class="cubicle"></div>
+    <!-- Wave Background -->
+    <div class="wave-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
 
     <!-- Control Panel -->
     <div class="control-panel">
@@ -650,7 +653,6 @@
                         My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. 
                         I believe in the power of diverse perspectives to solve complex challenges and create meaningful impact.
                     </p>
-                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Learn More</a>
                 </div>
                 <div class="glass-card content-text">
                     <h2 class="content-title" id="visionTitle">Vision</h2>
@@ -659,7 +661,6 @@
                         I envision a future where technology serves humanity's deepest needs, where innovation is guided by wisdom, 
                         and where every solution considers its impact on the whole.
                     </p>
-                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Explore</a>
                 </div>
             </div>
         </div>
@@ -676,7 +677,6 @@
                         From startups to enterprise, from consulting to product development, I've learned that the most 
                         valuable insights come from understanding the human stories behind the data.
                     </p>
-                    <a href="#" class="magnetic-btn magnetic-btn--ghost">View Work</a>
                 </div>
                 <div class="glass-card content-text">
                     <h2 class="content-title" id="approachTitle">Approach</h2>
@@ -685,7 +685,6 @@
                         I combine analytical rigor with creative intuition, always asking not just "how" but "why" and "what if." 
                         Every project is an opportunity to learn, grow, and make a difference.
                     </p>
-                    <a href="#" class="magnetic-btn magnetic-btn--ghost">Discover</a>
                 </div>
             </div>
         </div>
@@ -729,55 +728,64 @@
                 approachDescription: "I combine analytical rigor with creative intuition, always asking not just 'how' but 'why' and 'what if.' Every project is an opportunity to learn, grow, and make a difference."
             },
             ko: {
-                title: "이성준 (제임스)",
-                subtitle: "한국과 미국을 오가며 자란, 호기심과 회의주의로 다져진 사람. 더 깊은 패턴을 발견하고 의미 있는 변화를 만들어가는 것이 목표입니다.",
-                description: "현재 기술과 인간 경험의 교차점을 탐구하며, 의미 있는 제품을 만드는 것에 집중하고 있습니다.",
+                title: "이성준 (James)",
+                subtitle: "한국과 미국을 오가며 성장하고, 호기심과 회의주의로 형성되었습니다. 더 깊은 패턴을 발견하고 의미 있는 변화를 만들어가는 것이 목표입니다.",
+                description: "현재 기술과 인간 경험의 교차점을 탐구하며, 중요한 의미를 가진 제품을 만드는 데 집중하고 있습니다.",
                 contact: "연락하기",
                 linkedin: "링크드인",
                 copyright: "© 2025 이성준",
-                visitorStats: "오늘: {today} | 전체: {total}",
-                flag: "KO",
+                visitorStats: "오늘: {today} | 총계: {total}",
+                flag: "한",
                 langText: "한국어",
                 themeText: "다크",
                 aboutTitle: "소개",
-                aboutSubtitle: "문화를 연결하고 아이디어를 잇다",
-                aboutDescription: "서울의 번화한 거리부터 실리콘밸리의 혁신 허브까지, 대륙과 분야를 아우르는 여정을 걸어왔습니다. 다양한 관점이 복잡한 문제를 해결하고 의미 있는 영향을 만들어낸다고 믿습니다.",
+                aboutSubtitle: "문화를 잇고, 아이디어를 연결하다",
+                aboutDescription: "제 여정은 서울의 번화한 거리부터 실리콘밸리의 혁신 허브까지 대륙과 분야를 아우릅니다. 다양한 관점의 힘으로 복잡한 문제를 해결하고 의미 있는 영향을 만들어낼 수 있다고 믿습니다.",
                 visionTitle: "비전",
                 visionSubtitle: "목적이 있는 기술",
-                visionDescription: "기술이 인류의 가장 깊은 욕구를 충족시키고, 혁신이 지혜에 의해 이끌어지며, 모든 해결책이 전체에 미치는 영향을 고려하는 미래를 그려봅니다.",
+                visionDescription: "기술이 인류의 가장 깊은 욕구를 충족시키고, 혁신이 지혜로 이끌어지며, 모든 해결책이 전체에 미치는 영향을 고려하는 미래를 그려봅니다.",
                 experienceTitle: "경험",
-                experienceSubtitle: "산업 간 가교 구축",
-                experienceDescription: "스타트업부터 대기업까지, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰은 데이터 뒤에 숨겨진 인간의 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
+                experienceSubtitle: "산업 간 다리 놓기",
+                experienceDescription: "스타트업부터 대기업까지, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰력은 데이터 뒤의 인간 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
                 approachTitle: "접근법",
                 approachSubtitle: "체계적 사고, 창의적 해결책",
-                approachDescription: "분석적 엄밀함과 창의적 직관을 결합하여, 단순히 '어떻게'가 아니라 '왜' 그리고 '만약에'를 항상 묻습니다. 모든 프로젝트는 배우고, 성장하고, 변화를 만들어낼 기회입니다."
+                approachDescription: "분석적 엄밀함과 창의적 직관을 결합하여, '어떻게'뿐만 아니라 '왜' 그리고 '만약에'라는 질문을 항상 던집니다. 모든 프로젝트는 배우고, 성장하고, 변화를 만들 수 있는 기회입니다."
             }
         };
 
         // State management
-        let currentLang = 'en';
+        let currentLanguage = 'en';
         let currentTheme = 'light';
-        let visitorCount = { today: 1, total: 247 };
-
-        // Three.js setup
         let scene, camera, renderer, particles;
+        let visitorStats = { today: 1, total: 247 };
 
+        // Initialize the application
+        function init() {
+            initThreeJS();
+            initEventListeners();
+            initScrollAnimations();
+            initMagneticButtons();
+            updateVisitorStats();
+        }
+
+        // Three.js Background
         function initThreeJS() {
+            const canvas = document.getElementById('threejs-canvas');
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('threejs-canvas'), alpha: true });
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
 
             // Create particle system
-            const particleCount = 100;
+            const particleCount = 1000;
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
 
             for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 20;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+                positions[i * 3] = (Math.random() - 0.5) * 100;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
 
                 colors[i * 3] = Math.random();
                 colors[i * 3 + 1] = Math.random();
@@ -789,7 +797,7 @@
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const material = new THREE.PointsMaterial({
-                size: 0.1,
+                size: 2,
                 vertexColors: true,
                 transparent: true,
                 opacity: 0.6
@@ -798,7 +806,7 @@
             particles = new THREE.Points(geometry, material);
             scene.add(particles);
 
-            camera.position.z = 5;
+            camera.position.z = 50;
 
             animate();
         }
@@ -814,16 +822,52 @@
             renderer.render(scene, camera);
         }
 
+        // Event listeners
+        function initEventListeners() {
+            // Language toggle
+            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+            document.getElementById('languageToggle').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguage();
+                }
+            });
+
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.getElementById('themeToggle').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+
+            // Profile picture click
+            document.getElementById('profilePicture').addEventListener('click', () => {
+                const placeholder = document.querySelector('.profile-placeholder');
+                placeholder.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    placeholder.style.transform = 'scale(1)';
+                }, 200);
+            });
+
+            // Window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
         // Language toggle
         function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'ko' : 'en';
+            currentLanguage = currentLanguage === 'en' ? 'ko' : 'en';
             updateLanguage();
         }
 
         function updateLanguage() {
-            const lang = languages[currentLang];
+            const lang = languages[currentLanguage];
             
-            // Update content
             document.getElementById('heroTitle').textContent = lang.title;
             document.getElementById('heroSubtitle').textContent = lang.subtitle;
             document.getElementById('heroDescription').textContent = lang.description;
@@ -832,6 +876,7 @@
             document.getElementById('copyrightText').textContent = lang.copyright;
             document.getElementById('languageFlag').textContent = lang.flag;
             document.getElementById('languageText').textContent = lang.langText;
+            document.getElementById('themeText').textContent = lang.themeText;
             
             // Update content sections
             document.getElementById('aboutTitle').textContent = lang.aboutTitle;
@@ -848,44 +893,65 @@
             document.getElementById('approachDescription').textContent = lang.approachDescription;
             
             // Update visitor stats
-            const visitorStatsText = lang.visitorStats
-                .replace('{today}', visitorCount.today)
-                .replace('{total}', visitorCount.total);
-            document.getElementById('visitorStatsText').innerHTML = visitorStatsText;
-            
-            // Update HTML lang attribute
-            document.documentElement.lang = currentLang;
+            const statsText = lang.visitorStats
+                .replace('{today}', visitorStats.today)
+                .replace('{total}', visitorStats.total);
+            document.getElementById('visitorStatsText').innerHTML = statsText;
         }
 
         // Theme toggle
         function toggleTheme() {
             currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            updateTheme();
-        }
-
-        function updateTheme() {
             document.body.setAttribute('data-theme', currentTheme);
+            
             const themeIcon = document.getElementById('themeIcon');
             const themeText = document.getElementById('themeText');
             
             if (currentTheme === 'dark') {
                 themeIcon.textContent = '☀️';
-                themeText.textContent = currentLang === 'en' ? 'Light' : '라이트';
+                themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
             } else {
                 themeIcon.textContent = '🌙';
-                themeText.textContent = currentLang === 'en' ? 'Dark' : '다크';
+                themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
             }
         }
 
-        // Scroll functionality
-        function scrollToContent() {
-            const firstSection = document.querySelector('.content-section');
-            if (firstSection) {
-                firstSection.scrollIntoView({ behavior: 'smooth' });
+        // Scroll animations
+        function initScrollAnimations() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Hero fade out on scroll
+                gsap.to('.hero-content', {
+                    opacity: 0,
+                    y: -50,
+                    scrollTrigger: {
+                        trigger: '.hero',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+
+                // Content cards animation
+                gsap.utils.toArray('.glass-card').forEach((card, index) => {
+                    gsap.from(card, {
+                        opacity: 0,
+                        y: 50,
+                        duration: 0.8,
+                        delay: index * 0.2,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 80%',
+                            end: 'bottom 20%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    });
+                });
             }
         }
 
-        // Magnetic button effects
+        // Magnetic buttons
         function initMagneticButtons() {
             const magneticButtons = document.querySelectorAll('.magnetic-btn');
             
@@ -904,142 +970,35 @@
             });
         }
 
-        // Profile picture interaction
-        function initProfilePicture() {
-            const profilePicture = document.getElementById('profilePicture');
+        // Visitor stats simulation
+        function updateVisitorStats() {
+            const today = new Date().toDateString();
+            const lastVisit = localStorage.getItem('lastVisit');
             
-            profilePicture.addEventListener('click', () => {
-                profilePicture.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    profilePicture.style.transform = 'scale(1)';
-                }, 150);
-            });
+            if (lastVisit !== today) {
+                visitorStats.today = Math.floor(Math.random() * 10) + 1;
+                localStorage.setItem('lastVisit', today);
+            }
+            
+            visitorStats.total = Math.floor(Math.random() * 1000) + 200;
+            
+            const lang = languages[currentLanguage];
+            const statsText = lang.visitorStats
+                .replace('{today}', visitorStats.today)
+                .replace('{total}', visitorStats.total);
+            document.getElementById('visitorStatsText').innerHTML = statsText;
         }
 
-        // Visitor counter simulation
-        function updateVisitorCount() {
-            // Simulate visitor count updates
-            const today = Math.floor(Math.random() * 50) + 1;
-            const total = Math.floor(Math.random() * 1000) + 200;
-            
-            visitorCount = { today, total };
-            updateLanguage(); // This will update the visitor stats display
-        }
-
-        // Window resize handler
-        function handleResize() {
-            if (camera && renderer) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+        // Scroll to content
+        function scrollToContent() {
+            const firstSection = document.querySelector('.content-section');
+            if (firstSection) {
+                firstSection.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
-        // Initialize everything
-        function init() {
-            initThreeJS();
-            initMagneticButtons();
-            initProfilePicture();
-            updateVisitorCount();
-            
-            // Event listeners
-            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-            window.addEventListener('resize', handleResize);
-            
-            // Keyboard navigation
-            document.getElementById('languageToggle').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLanguage();
-                }
-            });
-            
-            document.getElementById('themeToggle').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleTheme();
-                }
-            });
-            
-            document.getElementById('profilePicture').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    document.getElementById('profilePicture').click();
-                }
-            });
-
-            // GSAP animations
-            if (typeof gsap !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-                
-                // Hero animation
-                gsap.from('.hero-title', { 
-                    duration: 1, 
-                    y: 50, 
-                    opacity: 0, 
-                    ease: 'power3.out' 
-                });
-                
-                gsap.from('.hero-subtitle', { 
-                    duration: 1, 
-                    y: 30, 
-                    opacity: 0, 
-                    ease: 'power3.out', 
-                    delay: 0.2 
-                });
-                
-                gsap.from('.hero-description', { 
-                    duration: 1, 
-                    y: 20, 
-                    opacity: 0, 
-                    ease: 'power3.out', 
-                    delay: 0.4 
-                });
-                
-                gsap.from('.cta-container', { 
-                    duration: 1, 
-                    y: 20, 
-                    opacity: 0, 
-                    ease: 'power3.out', 
-                    delay: 0.6 
-                });
-                
-                gsap.from('.profile-picture', { 
-                    duration: 1, 
-                    scale: 0.8, 
-                    opacity: 0, 
-                    ease: 'back.out(1.7)', 
-                    delay: 0.8 
-                });
-                
-                // Content sections animation
-                gsap.utils.toArray('.glass-card').forEach((card, index) => {
-                    gsap.from(card, {
-                        duration: 1,
-                        y: 100,
-                        opacity: 0,
-                        ease: 'power3.out',
-                        scrollTrigger: {
-                            trigger: card,
-                            start: 'top 80%',
-                            end: 'bottom 20%',
-                            toggleActions: 'play none none reverse'
-                        }
-                    });
-                });
-            }
-            
-            // Periodic visitor count updates
-            setInterval(updateVisitorCount, 30000); // Update every 30 seconds
-        }
-
-        // Start when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
