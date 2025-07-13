@@ -261,6 +261,9 @@
             width: 160px;
             height: 160px;
             background: var(--glass-bg);
+            background-image: url('https://i.postimg.cc/2yY9RGDB/lsj160-2.jpg');
+            background-size: cover;
+            background-position: 10% 30%;
             backdrop-filter: var(--backdrop-blur);
             -webkit-backdrop-filter: var(--backdrop-blur);
             border-radius: 50%;
@@ -282,7 +285,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            background: linear-gradient(150deg, var(--accent-primary), var(--accent-secondary));
             border-radius: 50%;
             opacity: 0;
             transition: var(--transition-quick);
@@ -290,11 +293,15 @@
         }
 
         .profile-picture:hover::before {
-            opacity: 1;
+            opacity: 0.15;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition-quick);
         }
 
         .profile-picture:hover {
-            transform: scale(1.05);
+            transform: scale(1);
             box-shadow: var(--shadow-heavy);
         }
 
@@ -303,9 +310,11 @@
             font-weight: 600;
             color: var(--text-secondary);
             transition: var(--transition-quick);
+            display: none;
         }
 
-        .profile-picture:hover .profile-placeholder {
+        .profile-picture:hover 
+        .profile-placeholder {
             color: var(--text-primary);
         }
 
