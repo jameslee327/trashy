@@ -3,36 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Seongjun Lee's personal website" />
+  <meta name="description" content="Seongjun Lee’s personal site" />
   <title>Seongjun Lee</title>
-
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
-  <div class="cursor-parallax" id="parallax"></div>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="scroll-indicator"></div>
 
-  <main class="hero">
-    <div class="intro">
-      <h1 class="fade-up">Hello, I’m Seongjun Lee.</h1>
-      <p class="fade-delay">This is my website.</p>
+  <!-- Monogram SVG Hero -->
+  <section class="hero">
+    <svg viewBox="0 0 100 100" class="monogram" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#7cb7ff;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#dceeff;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="mono" fill="url(#grad1)">SJ</text>
+    </svg>
+    <div class="intro fade-up">
+      <h1 class="fade-delay">Hello, I’m Seongjun Lee.</h1>
+      <p class="fade-delay-2">This is my website.</p>
     </div>
-    <footer class="fade-delay-2">
-      Contact: <a href="mailto:james@seongjunl.ee">james@seongjunl.ee</a>
-    </footer>
-  </main>
+    <div class="scroll-cue">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </section>
 
-  <svg class="waves" viewBox="0 0 1440 320">
-    <path fill="currentColor" fill-opacity="0.04">
-      <animate attributeName="d" dur="6s" repeatCount="indefinite"
-        values="M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z;
-                M0,200 C480,100 960,280 1440,200 L1440,320 L0,320 Z;
-                M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z" />
-    </path>
-  </svg>
+  <!-- Section Divider -->
+  <div class="divider gradient-divider"></div>
+
+  <!-- Call to Action -->
+  <section class="cta fade-section">
+    <div class="content">
+      <h2 class="fade-delay-3">Let’s Connect</h2>
+      <p class="fade-delay-4">If you’re building something thoughtful, strategic, or bold—I’d love to hear from you.</p>
+      <a href="mailto:james@seongjunl.ee" class="cta-button fade-delay-5">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="fade-delay-6">
+    <p>© 2025 Seongjun Lee. All rights reserved.</p>
+    <p>Contact: <a href="mailto:james@seongjunl.ee">james@seongjunl.ee</a></p>
+  </footer>
+
+  <!-- Decorative Glow Overlay -->
+  <div class="glow-overlay"></div>
+  <div class="parallax-layer layer1"></div>
+  <div class="parallax-layer layer2"></div>
+  <div class="parallax-layer layer3"></div>
 
   <script src="script.js"></script>
 </body>
