@@ -377,42 +377,171 @@
             margin-bottom: var(--spacing-lg);
         }
 
-        /* Wave Background */
-        .wave-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
-        }
+        /* Wave Background - McKinsey/Apple Style Ocean Waves */
+.wave-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    background: linear-gradient(180deg, 
+        rgba(10, 25, 50, 0.1) 0%, 
+        rgba(15, 35, 70, 0.15) 50%, 
+        rgba(20, 45, 85, 0.2) 100%);
+}
 
-        .wave {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            opacity: 0.03;
-            animation: wave 20s linear infinite;
-        }
+.wave {
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    border-radius: 50%;
+    filter: blur(1px);
+    mix-blend-mode: multiply;
+}
 
-        .wave:nth-child(1) {
-            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
-            animation-delay: 0s;
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-        }
+/* Layer 1 - Deep ocean base */
+.wave:nth-child(1) {
+    background: radial-gradient(ellipse at center, 
+        rgba(15, 35, 70, 0.3) 0%, 
+        rgba(25, 55, 95, 0.2) 40%, 
+        rgba(35, 75, 120, 0.1) 70%, 
+        transparent 100%);
+    animation: wave 25s linear infinite;
+    animation-delay: 0s;
+    top: -100%;
+    left: -100%;
+    transform-origin: center;
+}
 
-        .wave:nth-child(2) {
-            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-success));
-            animation-delay: -7s;
-            border-radius: 70% 30% 50% 50% / 60% 40% 30% 70%;
-        }
+/* Layer 2 - Mid-depth waves */
+.wave:nth-child(2) {
+    background: radial-gradient(ellipse at center, 
+        rgba(25, 55, 95, 0.25) 0%, 
+        rgba(35, 75, 120, 0.18) 35%, 
+        rgba(45, 95, 145, 0.12) 65%, 
+        transparent 100%);
+    animation: wave 20s linear infinite reverse;
+    animation-delay: -8s;
+    top: -80%;
+    left: -80%;
+    transform-origin: 30% 70%;
+}
 
-        .wave:nth-child(3) {
-            background: linear-gradient(225deg, var(--accent-success), var(--accent-primary));
-            animation-delay: -14s;
-            border-radius: 30% 70% 40% 60% / 50% 60% 40% 50%;
-        }
+/* Layer 3 - Surface waves */
+.wave:nth-child(3) {
+    background: radial-gradient(ellipse at center, 
+        rgba(35, 75, 120, 0.2) 0%, 
+        rgba(45, 95, 145, 0.15) 30%, 
+        rgba(55, 115, 170, 0.1) 60%, 
+        transparent 100%);
+    animation: wave 18s linear infinite;
+    animation-delay: -12s;
+    top: -60%;
+    left: -60%;
+    transform-origin: 70% 30%;
+}
+
+/* Layer 4 - Foam and highlights */
+.wave:nth-child(4) {
+    background: radial-gradient(ellipse at center, 
+        rgba(45, 95, 145, 0.15) 0%, 
+        rgba(55, 115, 170, 0.12) 25%, 
+        rgba(65, 135, 195, 0.08) 50%, 
+        transparent 100%);
+    animation: wave 15s linear infinite reverse;
+    animation-delay: -5s;
+    top: -40%;
+    left: -40%;
+    transform-origin: 50% 50%;
+}
+
+/* Layer 5 - Subtle surface ripples */
+.wave:nth-child(5) {
+    background: radial-gradient(ellipse at center, 
+        rgba(55, 115, 170, 0.12) 0%, 
+        rgba(65, 135, 195, 0.08) 20%, 
+        rgba(75, 155, 220, 0.05) 45%, 
+        transparent 100%);
+    animation: wave 12s linear infinite;
+    animation-delay: -18s;
+    top: -20%;
+    left: -20%;
+    transform-origin: 20% 80%;
+}
+
+/* Enhanced wave animation */
+@keyframes wave {
+    0% {
+        transform: rotate(0deg) scale(1) translate(-50%, -50%);
+        opacity: 0.3;
+    }
+    25% {
+        transform: rotate(90deg) scale(1.1) translate(-50%, -50%);
+        opacity: 0.4;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2) translate(-50%, -50%);
+        opacity: 0.35;
+    }
+    75% {
+        transform: rotate(270deg) scale(1.1) translate(-50%, -50%);
+        opacity: 0.4;
+    }
+    100% {
+        transform: rotate(360deg) scale(1) translate(-50%, -50%);
+        opacity: 0.3;
+    }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .wave-background {
+    background: linear-gradient(180deg, 
+        rgba(5, 15, 30, 0.2) 0%, 
+        rgba(10, 25, 50, 0.25) 50%, 
+        rgba(15, 35, 70, 0.3) 100%);
+}
+
+[data-theme="dark"] .wave:nth-child(1) {
+    background: radial-gradient(ellipse at center, 
+        rgba(10, 25, 50, 0.4) 0%, 
+        rgba(20, 45, 85, 0.3) 40%, 
+        rgba(30, 65, 115, 0.2) 70%, 
+        transparent 100%);
+}
+
+[data-theme="dark"] .wave:nth-child(2) {
+    background: radial-gradient(ellipse at center, 
+        rgba(20, 45, 85, 0.35) 0%, 
+        rgba(30, 65, 115, 0.25) 35%, 
+        rgba(40, 85, 140, 0.18) 65%, 
+        transparent 100%);
+}
+
+[data-theme="dark"] .wave:nth-child(3) {
+    background: radial-gradient(ellipse at center, 
+        rgba(30, 65, 115, 0.3) 0%, 
+        rgba(40, 85, 140, 0.22) 30%, 
+        rgba(50, 105, 165, 0.15) 60%, 
+        transparent 100%);
+}
+
+[data-theme="dark"] .wave:nth-child(4) {
+    background: radial-gradient(ellipse at center, 
+        rgba(40, 85, 140, 0.25) 0%, 
+        rgba(50, 105, 165, 0.18) 25%, 
+        rgba(60, 125, 190, 0.12) 50%, 
+        transparent 100%);
+}
+
+[data-theme="dark"] .wave:nth-child(5) {
+    background: radial-gradient(ellipse at center, 
+        rgba(50, 105, 165, 0.2) 0%, 
+        rgba(60, 125, 190, 0.15) 20%, 
+        rgba(70, 145, 215, 0.1) 45%, 
+        transparent 100%);
+}
 
         /* CTA Container */
         .cta-container {
