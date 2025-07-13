@@ -950,47 +950,40 @@
 
         // Event listeners
         function initEventListeners() {
-            // Language toggle
-            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-            document.getElementById('languageFlag').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleLanguage();
-                }
-            });
+              // LANGUAGE TOGGLE
+                  const langToggle = document.getElementById('languageToggle');
+              langToggle.addEventListener('click', toggleLanguage);
+  langToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleLanguage();
+    }
+  });
 
-            // Theme toggle
-            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-            document.getElementById('themeFlag').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleTheme();
-                }
-            });
+  // THEME TOGGLE
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', toggleTheme);
+  themeToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleTheme();
+    }
+  });
 
-            // Profile picture click
-            document.getElementById('profilePicture').addEventListener('click', () => {
-                const placeholder = document.querySelector('.profile-placeholder');
-                placeholder.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    placeholder.style.transform = 'scale(1)';
-                }, 200);
-            });
+  // PROFILE PICTURE CLICK
+  document.getElementById('profilePicture').addEventListener('click', () => {
+    const placeholder = document.querySelector('.profile-placeholder');
+    placeholder.style.transform = 'scale(1.2)';
+    setTimeout(() => placeholder.style.transform = 'scale(1)'), 200;
+  });
 
-            // Window resize
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
-
-        // Language toggle
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'en' ? 'ko' : 'en';
-            updateLanguage();
-        }
-
+  // WINDOW RESIZE (for Three.js camera)
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
         function updateLanguage() {
             const lang = languages[currentLanguage];
             
