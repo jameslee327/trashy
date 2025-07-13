@@ -347,7 +347,7 @@
 
         /* Content Sections */
         .content-section {
-            padding: var(--spacing-2xl) 0;
+            padding: var(--spacing-l) 0;
         }
 
         .content-grid {
@@ -360,15 +360,15 @@
 
         .content-text {
         padding: var(--spacing-xl);
-        height: 100%;
-        min-height: 400px;
+        height: 95%;
+        min-height: 300px;
         display: flex;
         flex-direction: column;
         }
 
         .content-title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: var(--spacing-md);
             color: var(--text-primary);
         }
@@ -642,15 +642,6 @@
             }
         }
 
-        @keyframes wave {
-            0% {
-                transform: rotate(0deg) translate(-50%, -50%);
-            }
-            100% {
-                transform: rotate(360deg) translate(-50%, -50%);
-            }
-        }
-
         @keyframes scrollPulse {
             0%, 100% { transform: scale(1); opacity: 0.6; }
             50% { transform: scale(1.3); opacity: 1; }
@@ -813,10 +804,10 @@
                 </div>
                 <div class="glass-card content-text">
                     <h2 class="content-title" id="approachTitle">Approach</h2>
-                    <p class="content-subtitle" id="approachSubtitle">Systematic thinking, creative solutions</p>
+<p class="content-subtitle" id="approachSubtitle">Systems thinking meets human insight</p>
                     <p class="content-description" id="approachDescription">
-                        I combine analytical rigor with creative intuition, always asking not just "how" but "why" and "what if." 
-                        Every project is an opportunity to learn, grow, and make a difference.
+                        I believe in asking the right questions before jumping to solutions. My approach combines analytical rigor 
+                        with empathetic understanding, always keeping the human element at the center of technological innovation.
                     </p>
                 </div>
             </div>
@@ -826,27 +817,20 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p class="footer-text" id="copyrightText">&copy; 2025 Seongjun Lee</p>
-            <div class="visitor-stats" id="visitorStats">
-                <span id="visitorStatsText">Today: <span id="todayCount">1</span> | Total: <span id="totalCount">247</span></span>
-            </div>
+            <p class="footer-text" id="footerText">© 2024 Seongjun Lee. Built with curiosity and purpose.</p>
+            <div class="visitor-stats" id="visitorStats">Visitors: 0</div>
         </div>
     </footer>
 
     <script>
-        // Language data
-        const languages = {
+        // Language content
+        const content = {
             en: {
-                title: "Seongjun Lee (James)",
-                subtitle: "Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.",
-                description: "Currently exploring the intersection of great technology and business strategy, with a focus on creating great organizations that really matter.",
-                contact: "Contact",
-                linkedin: "LinkedIn",
-                copyright: "© 2025 Seongjun Lee",
-                visitorStats: "Today: {today} | Total: {total}",
-                flag: "EN",
-                langText: "English",
-                themeText: "Dark",
+                heroTitle: "Seongjun Lee (James)",
+                heroSubtitle: "Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.",
+                heroDescription: "Currently exploring the intersection of great technology and business strategy, with a focus on creating great organizations that really matter.",
+                ctaButton: "Contact",
+                linkedinButton: "LinkedIn",
                 aboutTitle: "About Me",
                 aboutSubtitle: "Bridging cultures, connecting ideas",
                 aboutDescription: "My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. I believe in the power of diverse perspectives to solve complex challenges and create impact.",
@@ -857,317 +841,245 @@
                 experienceSubtitle: "Building bridges across industries",
                 experienceDescription: "From startups to enterprise, from consulting to product development, I've learned that the most valuable insights come from understanding the human stories behind the data.",
                 approachTitle: "Approach",
-                approachSubtitle: "Systematic thinking, creative solutions",
-                approachDescription: "I combine analytical rigor with creative intuition, always asking not just 'how' but 'why' and 'what if.' Every project is an opportunity to learn, grow, and make a difference."
+                approachSubtitle: "Systems thinking meets human insight",
+                approachDescription: "I believe in asking the right questions before jumping to solutions. My approach combines analytical rigor with empathetic understanding, always keeping the human element at the center of technological innovation.",
+                footerText: "© 2024 Seongjun Lee. Built with curiosity and purpose.",
+                visitorStats: "Visitors: 0"
             },
             ko: {
-                title: "이성준 (James)",
-                subtitle: "한국과 미국을 오가며 성장하고, 호기심과 회의주의로 형성되었습니다. 더 깊은 패턴을 발견하고 의미 있는 변화를 만들어가는 것이 목표입니다.",
-                description: "현재 기술과 인간 경험의 교차점을 탐구하며, 중요한 의미를 가진 제품을 만드는 데 집중하고 있습니다.",
-                contact: "연락하기",
-                linkedin: "링크드인",
-                copyright: "© 2025 이성준",
-                visitorStats: "오늘: {today} | 총계: {total}",
-                flag: "한",
-                langText: "한국어",
-                themeText: "다크",
+                heroTitle: "이성준 (James)",
+                heroSubtitle: "깊어지는 질문과 무한한 호기심을 바탕으로. 패턴을 발견하고 변화를 만들어가는 것에 의해 추진됩니다.",
+                heroDescription: "현재 훌륭한 기술과 비즈니스 전략의 교차점을 탐구하고 있으며, 정말 중요한 훌륭한 조직을 만드는 데 집중하고 있습니다.",
+                ctaButton: "연락하기",
+                linkedinButton: "링크드인",
                 aboutTitle: "소개",
-                aboutSubtitle: "문화를 잇고, 아이디어를 연결하다",
-                aboutDescription: "제 여정은 서울의 번화한 거리부터 실리콘밸리의 혁신 허브까지 대륙과 분야를 아우릅니다. 다양한 관점의 힘으로 복잡한 문제를 해결하고 의미 있는 영향을 만들어낼 수 있다고 믿습니다.",
+                aboutSubtitle: "문화를 잇고, 아이디어를 연결하기",
+                aboutDescription: "서울의 번화한 거리부터 실리콘 밸리의 혁신 허브까지, 제 여정은 대륙과 학문을 넘나듭니다. 다양한 관점의 힘으로 복잡한 도전을 해결하고 임팩트를 만들어낼 수 있다고 믿습니다.",
                 visionTitle: "비전",
                 visionSubtitle: "목적이 있는 기술",
-                visionDescription: "기술이 인류의 가장 깊은 욕구를 충족시키고, 혁신이 지혜로 이끌어지며, 모든 해결책이 전체에 미치는 영향을 고려하는 미래를 그려봅니다.",
+                visionDescription: "기술이 인류의 가장 깊은 필요를 충족시키고, 혁신이 지혜로 이끌어지며, 모든 솔루션이 전체에 미치는 영향을 고려하는 미래를 꿈꿉니다.",
                 experienceTitle: "경험",
-                experienceSubtitle: "산업 간 다리 놓기",
-                experienceDescription: "스타트업부터 대기업까지, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰력은 데이터 뒤의 인간 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
+                experienceSubtitle: "산업 간 가교 구축",
+                experienceDescription: "스타트업부터 기업, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰력은 데이터 뒤에 있는 인간의 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
                 approachTitle: "접근법",
-                approachSubtitle: "체계적 사고, 창의적 해결책",
-                approachDescription: "분석적 엄밀함과 창의적 직관을 결합하여, '어떻게'뿐만 아니라 '왜' 그리고 '만약에'라는 질문을 항상 던집니다. 모든 프로젝트는 배우고, 성장하고, 변화를 만들 수 있는 기회입니다."
+                approachSubtitle: "시스템 사고와 인간적 통찰의 만남",
+                approachDescription: "해결책으로 뛰어들기 전에 올바른 질문을 하는 것을 믿습니다. 제 접근법은 분석적 엄격함과 공감적 이해를 결합하여, 항상 기술 혁신의 중심에 인간적 요소를 두고 있습니다.",
+                footerText: "© 2024 이성준. 호기심과 목적으로 만들어졌습니다.",
+                visitorStats: "방문자: 0"
             }
         };
 
-        // State management
+        // Current language
         let currentLanguage = 'en';
-        let currentTheme = 'light';
-        let scene, camera, renderer, particles;
-        let visitorStats = { today: 1, total: 247 };
 
-        // Initialize the application
-        function init() {
-            initEventListeners();
-            initScrollAnimations();
-            initMagneticButtons();
-            initOceanWaves();
-            updateVisitorStats();
-            updateThemeText();
-            updateLanguage(); 
-             initThree();
-}
-
-function initThree() {
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(innerWidth, innerHeight);
-  document.body.appendChild(renderer.domElement);
-
-  // now build your particles without errors
-  const geometry = new THREE.BufferGeometry();
-  /* … */
-  particles = new THREE.Points(geometry, material);
-  scene.add(particles);
-  camera.position.z = 50;
-  animate();
-}
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
         }
 
-            // Create particle system
-            const particleCount = 1000;
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-
-            for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 100;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-
-                colors[i * 3] = Math.random();
-                colors[i * 3 + 1] = Math.random();
-                colors[i * 3 + 2] = Math.random();
+        // Language toggle functionality
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ko' : 'en';
+            
+            // Update language flag and text
+            const languageFlag = document.getElementById('languageFlag');
+            const languageText = document.getElementById('languageText');
+            
+            if (currentLanguage === 'ko') {
+                languageFlag.textContent = 'KR';
+                languageText.textContent = '한국어';
+            } else {
+                languageFlag.textContent = 'EN';
+                languageText.textContent = 'English';
             }
-
-            const geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 2,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.6
+            
+            // Update visitor counter when language changes
+            const visitorStats = document.getElementById('visitorStats');
+            if (visitorStats) {
+                visitorStats.textContent = currentLanguage === 'ko' ? `방문자: ${visitorCount}` : `Visitors: ${visitorCount}`;
+            }
+            
+            // Update all content
+            const currentContent = content[currentLanguage];
+            
+            // Update all elements with IDs
+            Object.keys(currentContent).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = currentContent[key];
+                }
             });
-
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(...);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            if (particles) {
-                particles.rotation.x += 0.001;
-                particles.rotation.y += 0.002;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // Event listeners
-        function initEventListeners() {
-          // LANGUAGE TOGGLE (click & keyboard)
-  const langBtn = document.getElementById('languageToggle');
-  langBtn.addEventListener('click', toggleLanguage);
-  langBtn.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleLanguage();
-    }
-  });
-
-  // THEME TOGGLE (click & keyboard)
-  const themeBtn = document.getElementById('themeToggle');
-  themeBtn.addEventListener('click', toggleTheme);
-  themeBtn.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleTheme();
-    }
-  });
-
-  // PROFILE PICTURE CLICK
-  document.getElementById('profilePicture').addEventListener('click', () => {
-    const p = document.querySelector('.profile-placeholder');
-    p.style.transform = 'scale(1.2)';
-    setTimeout(() => p.style.transform = 'scale(1)', 200);
-  });
-
-  // WINDOW RESIZE (Three.js)
-  window.addEventListener('resize', () => {
-    if (camera && renderer) {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-  });
-}
-        function updateLanguage() {
-            const lang = languages[currentLanguage];
-            
-            document.getElementById('heroTitle').textContent = lang.title;
-            document.getElementById('heroSubtitle').textContent = lang.subtitle;
-            document.getElementById('heroDescription').textContent = lang.description;
-            document.getElementById('ctaButton').textContent = lang.contact;
-            document.getElementById('linkedinButton').textContent = lang.linkedin;
-            document.getElementById('copyrightText').textContent = lang.copyright;
-            document.getElementById('languageFlag').textContent = lang.flag;
-            document.getElementById('languageText').textContent = lang.langText;
-            document.getElementById('themeText').textContent = lang.themeText;
-            
-            // Update content sections
-            document.getElementById('aboutTitle').textContent = lang.aboutTitle;
-            document.getElementById('aboutSubtitle').textContent = lang.aboutSubtitle;
-            document.getElementById('aboutDescription').textContent = lang.aboutDescription;
-            document.getElementById('visionTitle').textContent = lang.visionTitle;
-            document.getElementById('visionSubtitle').textContent = lang.visionSubtitle;
-            document.getElementById('visionDescription').textContent = lang.visionDescription;
-            document.getElementById('experienceTitle').textContent = lang.experienceTitle;
-            document.getElementById('experienceSubtitle').textContent = lang.experienceSubtitle;
-            document.getElementById('experienceDescription').textContent = lang.experienceDescription;
-            document.getElementById('approachTitle').textContent = lang.approachTitle;
-            document.getElementById('approachSubtitle').textContent = lang.approachSubtitle;
-            document.getElementById('approachDescription').textContent = lang.approachDescription;
-            
-            // Update visitor stats
-            const statsText = lang.visitorStats
-                .replace('{today}', visitorStats.today)
-                .replace('{total}', visitorStats.total);
-            document.getElementById('visitorStatsText').innerHTML = statsText;
-        }
-
-        // Theme toggle
-       function toggleTheme() {
-    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.body.setAttribute('data-theme', currentTheme);
-    
-    const themeIcon = document.getElementById('themeIcon');
-    const themeText = document.getElementById('themeText');
-    
-    if (currentTheme === 'dark') {
-        themeIcon.textContent = '☀️';
-        themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
-    } else {
-        themeIcon.textContent = '🌙';
-        themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
-    }
-        }
-
-        // Scroll animations
-        function initScrollAnimations() {
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-
-                // Hero fade out on scroll
-                gsap.to('.hero-content', {
-                    opacity: 0,
-                    y: -50,
-                    scrollTrigger: {
-                        trigger: '.hero',
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: true
-                    }
+        // Scroll to content functionality
+        function scrollToContent() {
+            const contentSection = document.querySelector('.content-section');
+            if (contentSection) {
+                contentSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
                 });
+            }
+        }
 
-                // Content cards animation
-                gsap.utils.toArray('.glass-card').forEach((card, index) => {
-                    gsap.from(card, {
-                        opacity: 0,
-                        y: 50,
-                        duration: 0.8,
-                        delay: index * 0.2,
-                        scrollTrigger: {
-                            trigger: card,
-                            start: 'top 80%',
-                            end: 'bottom 20%',
-                            toggleActions: 'play none none reverse'
-                        }
+        // Initialize visitor counter (using in-memory storage)
+        let visitorCount = 1;
+        function initVisitorCounter() {
+            const visitorStats = document.getElementById('visitorStats');
+            if (visitorStats) {
+                visitorStats.textContent = currentLanguage === 'ko' ? `방문자: ${visitorCount}` : `Visitors: ${visitorCount}`;
+            }
+        }
+
+        // Magnetic button effect
+        function initMagneticButtons() {
+            const magneticBtns = document.querySelectorAll('.magnetic-btn');
+            
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function(e) {
+                    gsap.to(this, {
+                        scale: 1.02,
+                        y: -2,
+                        duration: 0.3,
+                        ease: "power2.out"
                     });
                 });
-            }
-        }
-
-        // Magnetic buttons
-        function initMagneticButtons() {
-            const magneticButtons = document.querySelectorAll('.magnetic-btn');
-            
-            magneticButtons.forEach(button => {
-                button.addEventListener('mousemove', (e) => {
-                    const rect = button.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    
-                    button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-                });
                 
-                button.addEventListener('mouseleave', () => {
-                    button.style.transform = 'translate(0, 0)';
+                btn.addEventListener('mouseleave', function(e) {
+                    gsap.to(this, {
+                        scale: 1,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
                 });
             });
         }
 
-        // Enhanced ocean wave parallax effect
-function initOceanWaves() {
-    const waves = document.querySelectorAll('.wave');
-    
-    // Add mouse movement parallax
-    document.addEventListener('mousemove', (e) => {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-        
-        waves.forEach((wave, index) => {
-            const speed = (index + 1) * 0.5;
-            const x = (mouseX - 0.5) * speed;
-            const y = (mouseY - 0.5) * speed;
+        // Initialize animations
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
             
-            wave.style.transform = `translate(${x}px, ${y}px)`;
-        });
-    });
-    
-    // Add scroll-based depth effect
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-        
-        waves.forEach((wave, index) => {
-            const speed = (index + 1) * 0.2;
-            wave.style.transform = `translateY(${rate * speed}px)`;
-        });
-    });
-}
-        // Visitor stats simulation
-        function updateVisitorStats() {
-        visitorStats.today = Math.floor(Math.random() * 10) + 1;
-        visitorStats.total = Math.floor(Math.random() * 1000) + 200;
-    
-        const lang = languages[currentLanguage];
-        const statsText = lang.visitorStats
-        .replace('{today}', visitorStats.today)
-        .replace('{total}', visitorStats.total);
-        document.getElementById('visitorStatsText').innerHTML = statsText;
+            // Hero animations
+            gsap.from('.profile-picture', {
+                scale: 0.8,
+                opacity: 0,
+                duration: 1,
+                ease: "back.out(1.7)"
+            });
+            
+            gsap.from('.hero-title', {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.2,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.hero-subtitle', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.4,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.hero-description', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.6,
+                ease: "power2.out"
+            });
+            
+            gsap.from('.cta-container', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.8,
+                ease: "power2.out"
+            });
+            
+            // Content sections animations
+            gsap.utils.toArray('.glass-card').forEach((card, index) => {
+                gsap.from(card, {
+                    y: 60,
+                    opacity: 0,
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            });
         }
 
-        function updateThemeText() {
-    const themeText = document.getElementById('themeText');
-    if (currentTheme === 'dark') {
-        themeText.textContent = currentLanguage === 'en' ? 'Light' : '라이트';
-    } else {
-        themeText.textContent = currentLanguage === 'en' ? 'Dark' : '다크';
-    }
-}
-
-        // Scroll to content
-        function scrollToContent() {
-            const firstSection = document.querySelector('.content-section');
-            if (firstSection) {
-                firstSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize visitor counter
+            initVisitorCounter();
+            
+            // Initialize magnetic buttons
+            initMagneticButtons();
+            
+            // Initialize animations
+            initAnimations();
+            
+            // Theme toggle event listener
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Language toggle event listener
+            document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+            
+            // Keyboard accessibility
+            document.getElementById('themeToggle').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+            
+            document.getElementById('languageToggle').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguage();
+                }
+            });
+            
+            // Profile picture click handler
+            document.getElementById('profilePicture').addEventListener('click', function() {
+                gsap.to(this, {
+                    rotation: 360,
+                    scale: 1.1,
+                    duration: 0.6,
+                    ease: "back.out(1.7)",
+                    onComplete: function() {
+                        gsap.to(this.targets()[0], {
+                            rotation: 0,
+                            scale: 1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
