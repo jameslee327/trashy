@@ -6,9 +6,6 @@
     <meta name="description" content="Seongjun Lee - Personal Portfolio">
     <title>Seongjun Lee</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
@@ -122,9 +119,9 @@
 
         .wave:nth-child(1) {
             background: radial-gradient(ellipse at center, 
-                rgba(0, 122, 255, 0.15) 0%, 
-                rgba(88, 86, 214, 0.1) 40%, 
-                rgba(120, 120, 200, 0.05) 70%, 
+                rgba(0, 122, 255, 0.25) 0%, 
+                rgba(88, 86, 214, 0.18) 40%, 
+                rgba(120, 120, 200, 0.12) 70%, 
                 transparent 100%);
             animation: wave 25s linear infinite;
             top: -50%;
@@ -133,9 +130,9 @@
 
         .wave:nth-child(2) {
             background: radial-gradient(ellipse at center, 
-                rgba(88, 86, 214, 0.12) 0%, 
-                rgba(120, 120, 200, 0.08) 35%, 
-                rgba(150, 150, 220, 0.04) 65%, 
+                rgba(88, 86, 214, 0.15) 0%, 
+                rgba(120, 120, 200, 0.1) 35%, 
+                rgba(150, 150, 220, 0.06) 65%, 
                 transparent 100%);
             animation: wave 20s linear infinite reverse;
             animation-delay: -8s;
@@ -145,8 +142,8 @@
 
         .wave:nth-child(3) {
             background: radial-gradient(ellipse at center, 
-                rgba(120, 120, 200, 0.1) 0%, 
-                rgba(150, 150, 220, 0.06) 30%, 
+                rgba(120, 120, 200, 0.08) 0%, 
+                rgba(150, 150, 220, 0.05) 30%, 
                 rgba(180, 180, 240, 0.03) 60%, 
                 transparent 100%);
             animation: wave 18s linear infinite;
@@ -158,47 +155,47 @@
         @keyframes wave {
             0% {
                 transform: rotate(0deg) scale(0.8);
-                opacity: 0.4;
+                opacity: 0.5;
             }
             25% {
                 transform: rotate(90deg) scale(1);
-                opacity: 0.6;
+                opacity: 0.7;
             }
             50% {
                 transform: rotate(180deg) scale(1.2);
-                opacity: 0.5;
+                opacity: 0.6;
             }
             75% {
                 transform: rotate(270deg) scale(1);
-                opacity: 0.6;
+                opacity: 0.7;
             }
             100% {
                 transform: rotate(360deg) scale(0.8);
-                opacity: 0.4;
+                opacity: 0.5;
             }
         }
 
         [data-theme="dark"] .wave:nth-child(1) {
             background: radial-gradient(ellipse at center, 
-                rgba(0, 122, 255, 0.2) 0%, 
-                rgba(88, 86, 214, 0.15) 40%, 
-                rgba(120, 120, 200, 0.1) 70%, 
+                rgba(0, 122, 255, 0.35) 0%, 
+                rgba(88, 86, 214, 0.25) 40%, 
+                rgba(120, 120, 200, 0.18) 70%, 
                 transparent 100%);
         }
 
         [data-theme="dark"] .wave:nth-child(2) {
             background: radial-gradient(ellipse at center, 
-                rgba(88, 86, 214, 0.18) 0%, 
-                rgba(120, 120, 200, 0.12) 35%, 
-                rgba(150, 150, 220, 0.08) 65%, 
+                rgba(88, 86, 214, 0.2) 0%, 
+                rgba(120, 120, 200, 0.14) 35%, 
+                rgba(150, 150, 220, 0.1) 65%, 
                 transparent 100%);
         }
 
         [data-theme="dark"] .wave:nth-child(3) {
             background: radial-gradient(ellipse at center, 
-                rgba(120, 120, 200, 0.15) 0%, 
-                rgba(150, 150, 220, 0.1) 30%, 
-                rgba(180, 180, 240, 0.06) 60%, 
+                rgba(120, 120, 200, 0.12) 0%, 
+                rgba(150, 150, 220, 0.08) 30%, 
+                rgba(180, 180, 240, 0.05) 60%, 
                 transparent 100%);
         }
 
@@ -318,7 +315,7 @@
             right: var(--spacing-md);
             bottom: var(--spacing-md);
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: var(--spacing-xs);
             z-index: 2000;
             opacity: 0;
@@ -420,12 +417,16 @@
         }
 
         .profile-picture:hover::before {
-            opacity: 0.2;
+            opacity: 0.1;
         }
 
         .profile-picture:hover {
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.02);
             box-shadow: var(--shadow-heavy);
+        }
+
+        .profile-picture:active {
+            transform: scale(0.98);
         }
 
         .profile-placeholder {
@@ -729,6 +730,8 @@
             .control-panel {
                 right: var(--spacing-sm);
                 bottom: var(--spacing-sm);
+                flex-direction: row;
+                gap: var(--spacing-xs);
             }
         }
 
@@ -1106,31 +1109,29 @@
         // Optimized visitor counter - REMOVED
         // function initVisitorCounter() - REMOVED
 
-        // Enhanced profile picture interaction
+        // Enhanced profile picture interaction - SMOOTH & SUBTLE
         function initProfileInteraction() {
             const profilePic = document.getElementById('profilePicture');
             
             profilePic.addEventListener('click', function() {
+                // Simple, smooth click animation
                 gsap.timeline()
                     .to(this, {
-                        rotation: 360,
-                        scale: 1.1,
-                        duration: 0.8,
-                        ease: "back.out(1.2)"
+                        scale: 0.95,
+                        duration: 0.1,
+                        ease: "power2.out"
                     })
                     .to(this, {
-                        rotation: 0,
                         scale: 1,
-                        duration: 0.6,
-                        ease: "power2.out"
+                        duration: 0.3,
+                        ease: "back.out(1.2)"
                     });
             });
 
             // Subtle hover effect
             profilePic.addEventListener('mouseenter', function() {
                 gsap.to(this, {
-                    scale: 1.05,
-                    rotation: 2,
+                    scale: 1.02,
                     duration: 0.3,
                     ease: "power2.out"
                 });
@@ -1139,7 +1140,6 @@
             profilePic.addEventListener('mouseleave', function() {
                 gsap.to(this, {
                     scale: 1,
-                    rotation: 0,
                     duration: 0.3,
                     ease: "power2.out"
                 });
