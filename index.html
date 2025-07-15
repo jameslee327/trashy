@@ -311,12 +311,11 @@
         }
 
         .profile-picture {
-            transform: scale(1.1)
             width: 200px;
             height: 200px;
             background: var(--color-bg-glass) url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center/cover no-repeat;
             backdrop-filter: var(--backdrop-blur);
-            border-radius: var(--radius-profile);
+            border-radius: var(--radius-profile, 50%);
             border: 3px solid var(--color-border-light);
             box-shadow: var(--shadow-md);
             cursor: pointer;
@@ -331,7 +330,7 @@
             inset: -3px;
             background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary), var(--color-accent-primary));
             background-size: 200% 200%;
-            border-radius: calc(var(--radius-profile) + 3px);
+            border-radius: calc(var(--radius-profile, 50%) + 3px);
             opacity: 0;
             transition: opacity 400ms;
             z-index: -1;
