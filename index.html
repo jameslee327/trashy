@@ -1,1518 +1,585 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Seongjun Lee - Technology & Business Strategy">
-    <title>Seongjun Lee - Portfolio</title>
-    <link rel="preconnect" href="https://u.cubeupload.com/jameslee327/200200lsj.jpg" crossorigin>
-    
-    <style>
-        :root {
-            --color-bg-primary: #ffffff;
-            --color-bg-secondary: #f8f9fa;
-            --color-bg-glass: rgba(255, 255, 255, 0.6);
-            --color-accent-primary: #007aff;
-            --color-accent-secondary: #5856d6;
-            --color-text-primary: #1d1d1f;
-            --color-text-secondary: #86868b;
-            --color-text-tertiary: #6e6e73;
-            --color-border-light: rgba(0, 0, 0, 0.06);
-            --color-border-medium: rgba(0, 0, 0, 0.12);
-            --shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.16);
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 1.5rem;
-            --space-lg: 2rem;
-            --space-xl: 3rem;
-            --space-2xl: 4rem;
-            --radius-md: 12px;
-            --radius-lg: 18px;
-            --radius-profile: 40px;
-            --backdrop-blur: blur(24px);
-            --z-background: -2;
-            --z-content: 1;
-            --z-controls: 100;
-            --z-scroll-indicator: 50;
-        }
-
-        [data-theme="dark"] {
-            --color-bg-primary: #000000;
-            --color-bg-secondary: #1c1c1e;
-            --color-bg-glass: rgba(28, 28, 30, 0.7);
-            --color-text-primary: #ffffff;
-            --color-text-secondary: #98989d;
-            --color-text-tertiary: #8e8e93;
-            --color-border-light: rgba(255, 255, 255, 0.08);
-            --color-border-medium: rgba(255, 255, 255, 0.16);
-            --shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.6);
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--color-bg-primary);
-            color: var(--color-text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background-color 300ms ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-md);
-        }
-
-        /* Wave Background */
-        .wave-background {
-            position: fixed;
-            inset: 0;
-            z-index: var(--z-background);
-            background: linear-gradient(180deg, 
-                hsl(220, 100%, 97%) 0%, 
-                hsl(220, 50%, 95%) 50%, 
-                hsl(220, 30%, 93%) 100%);
-        }
-
-        [data-theme="dark"] .wave-background {
-            background: linear-gradient(180deg, 
-                hsl(220, 50%, 5%) 0%, 
-                hsl(220, 40%, 8%) 50%, 
-                hsl(220, 30%, 12%) 100%);
-        }
-
-        .wave {
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            opacity: 0.6;
-        }
-
-        .wave:nth-child(1) {
-            background: radial-gradient(ellipse 600px 300px at 50% 50%, 
-                hsla(212, 100%, 50%, 0.15) 0%, 
-                transparent 70%);
-            animation: wave-float 20s ease-in-out infinite;
-            top: -50%;
-            left: -25%;
-        }
-
-        .wave:nth-child(2) {
-            background: radial-gradient(ellipse 500px 250px at 50% 50%, 
-                hsla(248, 53%, 58%, 0.12) 0%, 
-                transparent 70%);
-            animation: wave-float 25s ease-in-out infinite reverse;
-            top: -30%;
-            right: -25%;
-        }
-
-        @keyframes wave-float {
-            0%, 100% {
-                transform: translate3d(0, 0, 0) scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate3d(20px, -20px, 0) scale(1.05);
-                opacity: 0.8;
-            }
-        }
-
-        /* Glass Cards - CRITICAL FIX */
-        .glass-card {
-            background: var(--color-bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            -webkit-backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--color-border-light);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            overflow: hidden;
-            /* REMOVED: opacity: 0 and transform that were hiding cards */
-            transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, opacity;
-            /* FORCE VISIBILITY */
-            opacity: 1 !important;
-            transform: translate3d(0, 0, 0) !important;
-        }
-
-        .glass-card.animate-in {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-            opacity: 0;
-            transition: opacity 200ms;
-        }
-
-        @media (hover: hover) {
-            .glass-card:hover {
-                transform: translate3d(0, -8px, 0);
-                box-shadow: var(--shadow-md);
-                border-color: var(--color-border-medium);
-            }
-            .glass-card:hover::before {
-                opacity: 1;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--space-md) var(--space-lg);
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: none;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translate3d(0, 0, 0);
-            user-select: none;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 500ms;
-            z-index: -1;
-        }
-
-        @media (hover: hover) {
-            .btn:hover::before {
-                left: 100%;
-            }
-            .btn:hover {
-                transform: translate3d(0, -3px, 0);
-            }
-        }
-
-        .btn--primary {
-            background: var(--color-accent-primary);
-            color: white;
-            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
-            border: 1px solid var(--color-accent-primary);
-            animation: breathe 4s ease-in-out infinite;
-        }
-
-        .btn--secondary {
-            background: var(--color-bg-glass);
-            color: var(--color-text-primary);
-            border: 1px solid var(--color-border-light);
-            backdrop-filter: var(--backdrop-blur);
-            box-shadow: var(--shadow-sm);
-        }
-
-        @keyframes breathe {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
-            }
-            50% {
-                transform: scale(1.01);
-                box-shadow: 0 6px 24px rgba(0, 122, 255, 0.4);
-            }
-        }
-
-        /* Control Panel - FIXED POSITIONING */
-        .control-panel {
-            position: fixed;
-            top: var(--space-md);
-            right: var(--space-md);
-            display: flex;
-            gap: var(--space-xs);
-            z-index: var(--z-controls);
-            opacity: 0;
-            animation: slide-up 800ms ease-out 1.5s forwards;
-        }
-
-        .control-btn {
-            display: flex;
-            align-items: center;
-            gap: var(--space-xs);
-            padding: var(--space-sm) var(--space-md);
-            background: var(--color-bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--color-border-light);
-            border-radius: var(--radius-md);
-            color: var(--color-text-primary);
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 300ms;
-            min-width: 80px;
-        }
-
-        @media (hover: hover) {
-            .control-btn:hover {
-                background: var(--color-bg-secondary);
-                transform: translate3d(0, -2px, 0);
-                box-shadow: var(--shadow-sm);
-            }
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: var(--space-2xl) var(--space-md);
-            position: relative;
-            z-index: var(--z-content);
-        }
-
-        .hero-content {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-lg);
-        }
-
-        .profile-container {
-            position: relative;
-            margin-bottom: var(--space-md);
-            animation: fade-in-up 800ms ease-out 0.1s both;
-        }
-
-        .profile-picture {
-            width: 200px;
-            height: 200px;
-            background: var(--color-bg-glass) url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center no-repeat;
-            background-size: 105%;
-            backdrop-filter: var(--backdrop-blur);
-            border-radius: var(--radius-profile, 50%);
-            border: 3px solid var(--color-border-light);
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 400ms ease;
-        }
-
-        .profile-picture::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary), var(--color-accent-primary));
-            background-size: 200% 200%;
-            border-radius: calc(var(--radius-profile, 50%) + 3px);
-            opacity: 0;
-            transition: opacity 400ms;
-            z-index: -1;
-            animation: gradient-shift 3s ease-in-out infinite;
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @media (hover: hover) {
-            .profile-picture:hover {
-                transform: translate3d(0, -8px, 0) scale(1.05);
-                box-shadow: var(--shadow-lg);
-                border-color: var(--color-border-medium);
-            }
-            .profile-picture:hover::before {
-                opacity: 0.3;
-            }
-        }
-
-        .profile-placeholder {
-            font-size: 3rem;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            position: absolute;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 6.8vw, 4.5rem);
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-            margin: 0;
-            background: linear-gradient(135deg, var(--color-text-primary), var(--color-text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fade-in-up 800ms ease-out 0.2s both;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--color-text-secondary);
-            line-height: 1.4;
-            max-width: 800px;
-            margin: 0;
-            animation: fade-in-up 800ms ease-out 0.4s both;
-        }
-
-        .hero-description {
-            font-size: 1.125rem;
-            font-weight: 400;
-            color: var(--color-text-tertiary);
-            line-height: 1.6;
-            max-width: 700px;
-            margin: 0;
-            animation: fade-in-up 800ms ease-out 0.6s both;
-        }
-
-        .cta-container {
-            display: flex;
-            gap: var(--space-md);
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: var(--space-lg);
-            animation: fade-in-up 800ms ease-out 0.8s both;
-        }
-
-        /* Content Sections - FORCE VISIBILITY */
-        .content-section {
-            padding: var(--space-lg) 0;
-            margin: var(--space-lg) 0;
-            position: relative;
-            z-index: var(--z-content);
-            /* ENSURE SECTIONS ARE VISIBLE */
-            display: block !important;
-            visibility: visible !important;
-        }
-
-        .content-grid {
-            display: grid !important;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--space-lg);
-            align-items: stretch;
-            /* ENSURE GRID IS VISIBLE */
-            visibility: visible !important;
-        }
-
-        .content-text {
-            padding: var(--space-xl);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .content-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: var(--space-md);
-            color: var(--color-text-primary);
-            letter-spacing: -0.01em;
-            line-height: 1.2;
-        }
-
-        .content-subtitle {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-lg);
-            line-height: 1.4;
-        }
-
-        .content-description {
-            font-size: 1.125rem;
-            color: var(--color-text-tertiary);
-            line-height: 1.6;
-            flex: 1;
-        }
-
-        /* Scroll Indicator - REDUCED SPACING */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 20px; /* Reduced from 60px */
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.7;
-            cursor: pointer;
-            transition: all 300ms ease;
-            z-index: var(--z-scroll-indicator);
-            background: none;
-            border: none;
-            padding: 10px;
-            animation: fade-in-up 1000ms ease-out 1.2s both;
-            width: 60px;
-            margin-left: -30px;
-            left: 50%;
-        }
-
-        @media (hover: hover) {
-            .scroll-indicator:hover {
-                opacity: 1;
-                transform: translateX(-50%) translateY(-6px);
-            }
-        }
-
-        /* Ensure hero container doesn't interfere with centering */
-        .hero {
-            position: relative; /* Ensure positioning context */
-        }
-
-        @media (hover: hover) {
-            .scroll-indicator:hover {
-                opacity: 1;
-                transform: translateX(-50%) translateY(-6px);
-            }
-        }
-
-        /* Hero content spacing fix */
-        .hero-content {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-lg);
-            margin-bottom: var(--space-xl); /* Reduced to prevent awkward spacing */
-        }
-
-        /* CTA container spacing */
-        .cta-container {
-            display: flex;
-            gap: var(--space-md);
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: var(--space-lg);
-            margin-bottom: var(--space-lg); /* Add bottom margin for scroll indicator space */
-            animation: fade-in-up 800ms ease-out 0.8s both;
-        }
-
-        .scroll-dot {
-            width: 6px;
-            height: 6px;
-            border: 2px solid var(--color-accent-primary);
-            border-radius: 50%;
-            background: transparent;
-            margin-bottom: 8px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 32px;
-            background: linear-gradient(to bottom, var(--color-accent-primary), transparent);
-            animation: line-grow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
-
-        @keyframes line-grow {
-            0%, 100% { opacity: 0.5; transform: scaleY(1); }
-            50% { opacity: 1; transform: scaleY(1.2); }
-        }
-
-        /* Footer - FORCE VISIBILITY */
-        .footer {
-            padding: var(--space-lg) 0;
-            text-align: center;
-            background: var(--color-bg-glass);
-            backdrop-filter: var(--backdrop-blur);
-            border-top: 1px solid var(--color-border-light);
-            position: relative;
-            z-index: var(--z-content);
-            /* ENSURE FOOTER IS VISIBLE */
-            display: block !important;
-            visibility: visible !important;
-        }
-
-        .footer-text {
-            color: var(--color-text-tertiary);
-            font-size: 0.875rem;
-            font-weight: 400;
-        }
-
-        /* Animations */
-        @keyframes slide-up {
-            from { opacity: 0; transform: translate3d(0, 30px, 0); }
-            to { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
-
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translate3d(0, 40px, 0); }
-            to { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
-
-        /* Enhanced mobile compatibility */
-        @media (max-width: 768px) {
-            .hero { 
-                padding: var(--space-xl) var(--space-sm); 
-            }
-            .hero-title { 
-                font-size: clamp(2rem, 8vw, 3.5rem); 
-            }
-            .profile-picture { 
-                width: 160px; 
-                height: 160px; 
-                border-radius: 32px; 
-            }
-            .content-grid { 
-                grid-template-columns: 1fr; 
-                gap: var(--space-md);
-                /* Fallback for older browsers */
-                display: block;
-            }
-            .content-grid > * {
-                margin-bottom: var(--space-md);
-            }
-            .content-text { 
-                padding: var(--space-lg); 
-            }
-            .content-title { 
-                font-size: 2rem; 
-            }
-            .cta-container { 
-                flex-direction: column; 
-                gap: var(--space-sm); 
-                width: 100%; 
-            }
-            .btn { 
-                width: 100%; 
-                max-width: 280px;
-                /* Improve touch targets */
-                min-height: 48px;
-            }
-            .control-panel { 
-                top: var(--space-sm);
-                right: var(--space-sm);
-                /* Stack vertically on very small screens */
-                flex-direction: column;
-                gap: var(--space-xs);
-            }
-            .control-btn {
-                min-height: 44px; /* Better touch target */
-            }
-            
-            /* Disable complex animations on mobile */
-            .glass-card {
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                background: rgba(255, 255, 255, 0.9);
-            }
-            [data-theme="dark"] .glass-card {
-                background: rgba(28, 28, 30, 0.9);
-            }
-        }
-
-        /* Very small screens */
-        @media (max-width: 480px) {
-            .content-text { 
-                padding: var(--space-lg); 
-            }
-            .content-title { 
-                font-size: 1.8rem; 
-            }
-            .hero-title { 
-                font-size: clamp(1.8rem, 10vw, 3rem); 
-            }
-            .scroll-indicator {
-                bottom: 10px; /* Closer on small screens */
-            }
-        }
-
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-            
-            .glass-card {
-                transform: none !important;
-            }
-            
-            .btn {
-                transform: none !important;
-            }
-        }
-
-        /* High contrast mode */
-        @media (prefers-contrast: high) {
-            .glass-card {
-                border: 2px solid var(--color-border-medium);
-                background: var(--color-bg-primary);
-            }
-            
-            .btn {
-                border-width: 2px;
-            }
-        }
-
-        /* Fallbacks for older browsers */
-        .content-grid {
-            display: -ms-grid; /* IE11 */
-            display: grid;
-        }
-        
-        /* IE11 fallback */
-        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-            .content-grid {
-                display: block;
-            }
-            .content-grid > * {
-                margin-bottom: 2rem;
-                width: 100%;
-            }
-            .glass-card {
-                backdrop-filter: none;
-                background: rgba(255, 255, 255, 0.95);
-            }
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        .btn:focus-visible,
-        .profile-picture:focus-visible,
-        .control-btn:focus-visible,
-        .scroll-indicator:focus-visible {
-            outline: 2px solid var(--color-accent-primary);
-            outline-offset: 2px;
-        }
-
-        /* DEBUG STYLES - Remove in production */
-        .debug-border {
-            border: 2px solid red !important;
-        }
-        
-        .debug-visible {
-            background: rgba(255, 0, 0, 0.1) !important;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Seongjun Lee - Strategy, organization, and technology" />
+  <title>Seongjun Lee - Portfolio</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f6f7f9;
+      --glass: rgba(255, 255, 255, 0.72);
+      --text: #1d1d1f;
+      --text-soft: #6e6e73;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.14);
+      --accent: #007aff;
+      --accent-2: #5856d6;
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 16px 40px rgba(0, 0, 0, 0.10);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --space-1: 0.5rem;
+      --space-2: 1rem;
+      --space-3: 1.5rem;
+      --space-4: 2rem;
+      --space-5: 3rem;
+      --space-6: 4rem;
+      --blur: blur(18px);
+      --max-width: 1120px;
+      --transition: 220ms ease;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0b0b0c;
+      --bg-soft: #141416;
+      --glass: rgba(24, 24, 27, 0.72);
+      --text: #f5f5f7;
+      --text-soft: #a1a1aa;
+      --border: rgba(255, 255, 255, 0.10);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 20px 48px rgba(0, 0, 0, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(700px 320px at 15% 10%, rgba(0, 122, 255, 0.10), transparent 65%),
+        radial-gradient(650px 300px at 85% 20%, rgba(88, 86, 214, 0.10), transparent 65%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 20;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .control-btn,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .control-btn {
+      min-height: 44px;
+      padding: 0.75rem 1rem;
+      background: var(--glass);
+      color: var(--text);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn {
+      min-height: 48px;
+      padding: 0.9rem 1.25rem;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 10px 24px rgba(0, 122, 255, 0.24);
+    }
+
+    .btn-secondary {
+      background: var(--glass);
+      color: var(--text);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 7rem 0 3rem;
+      position: relative;
+    }
+
+    .hero-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      max-width: 820px;
+    }
+
+    .avatar {
+      width: 180px;
+      aspect-ratio: 1;
+      border-radius: 36px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)),
+        url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center/cover no-repeat;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero .subtitle {
+      margin: 0;
+      font-size: clamp(1.125rem, 2vw, 1.5rem);
+      color: var(--text-soft);
+      max-width: 760px;
+    }
+
+    .hero .description {
+      margin: 0;
+      font-size: 1.08rem;
+      color: var(--text-soft);
+      max-width: 700px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      color: var(--text-soft);
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .scroll-indicator::before {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      margin: 0 auto 0.35rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      animation: bob 1.8s infinite;
+    }
+
+    .section {
+      padding: 1.5rem 0 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-sm);
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 500ms ease, transform 500ms ease, box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .card .eyebrow {
+      margin: 0 0 1rem;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+      color: var(--text-soft);
+      font-size: 1.04rem;
+    }
+
+    .footer {
+      padding: 2rem 0 3rem;
+      color: var(--text-soft);
+      text-align: center;
+    }
+
+    .reveal-ready {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .reveal-ready.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(45deg); }
+      50% { transform: translateY(6px) rotate(45deg); }
+    }
+
+    @media (hover: hover) {
+      .btn:hover,
+      .control-btn:hover,
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--border-strong);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        top: 0.75rem;
+        right: 0.75rem;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding-top: 6.25rem;
+      }
+
+      .avatar {
+        width: 148px;
+        border-radius: 28px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .cta-row {
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .card,
+      .reveal-ready {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
 </head>
+<body>
+  <div class="page-bg" aria-hidden="true"></div>
 
-<body data-theme="light">
-    <!-- Wave Background -->
-    <div class="wave-background" aria-hidden="true">
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
+  <div class="topbar reveal-ready">
+    <button class="control-btn" id="languageToggle" type="button" aria-label="Toggle language" aria-pressed="false">
+      <span id="languageFlag">EN</span>
+      <span id="languageText">English</span>
+    </button>
+    <button class="control-btn" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+      <span id="themeIcon">🌙</span>
+      <span id="themeText">Dark</span>
+    </button>
+  </div>
 
-    <!-- Control Panel - MOVED TO TOP RIGHT -->
-    <aside class="control-panel">
-        <button class="control-btn" id="languageToggle" type="button">
-            <span id="languageFlag">EN</span>
-            <span id="languageText">English</span>
-        </button>
-        <button class="control-btn" id="themeToggle" type="button">
-            <span id="themeIcon">🌙</span>
-            <span id="themeText">Dark</span>
-        </button>
-    </aside>
-
-    <!-- Hero Section -->
-    <main class="hero" id="hero">
-        <div class="hero-content">
-            <div class="profile-container">
-                <div class="profile-picture" id="profilePicture" tabindex="0">
-                    <div class="profile-placeholder">SL</div>
-                </div>
-            </div>
-            
-            <h1 class="hero-title" id="heroTitle">Seongjun Lee</h1>
-            <p class="hero-subtitle" id="heroSubtitle">Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.</p>
-            <p class="hero-description" id="heroDescription">Currently exploring the intersection of great technology and business strategy, with a focus on creating great organizations that really matter.</p>
-            
-            <div class="cta-container">
-                <a href="mailto:james@seongjunl.ee" class="btn btn--primary" id="ctaButton">Contact</a>
-                <a href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener" class="btn btn--secondary" id="linkedinButton">LinkedIn</a>
-            </div>
+  <main>
+    <section class="hero container" id="hero">
+      <div class="hero-inner reveal-ready">
+        <div class="avatar" aria-hidden="true"></div>
+        <h1 id="heroTitle">Seongjun Lee</h1>
+        <p class="subtitle" id="heroSubtitle">Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.</p>
+        <p class="description" id="heroDescription">Currently exploring the intersection of strategy, organization, and technology, with a focus on building institutions that matter.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" id="ctaButton" href="mailto:james@seongjunl.ee">Contact</a>
+          <a class="btn btn-secondary" id="linkedinButton" href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
-        
-        <!-- Scroll Indicator - PROPERLY POSITIONED -->
-        <button class="scroll-indicator" type="button" id="scrollIndicator">
-            <div class="scroll-dot"></div>
-            <div class="scroll-line"></div>
-        </button>
-    </main>
-
-    <!-- Content Section 1 - FORCED VISIBILITY -->
-    <section class="content-section" style="display: block !important;">
-        <div class="container">
-            <div class="content-grid" style="display: grid !important;">
-                <article class="glass-card content-text" style="opacity: 1 !important; transform: none !important;">
-                    <h2 class="content-title" id="aboutTitle">About Me</h2>
-                    <p class="content-subtitle" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
-                    <p class="content-description" id="aboutDescription">
-                        My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. 
-                        I believe in the power of diverse perspectives to solve complex challenges and create impact.
-                    </p>
-                </article>
-                
-                <article class="glass-card content-text" style="opacity: 1 !important; transform: none !important;">
-                    <h2 class="content-title" id="visionTitle">Vision</h2>
-                    <p class="content-subtitle" id="visionSubtitle">Technology with purpose</p>
-                    <p class="content-description" id="visionDescription">
-                        I envision a future where technology serves humanity's deepest needs, where innovation is guided by wisdom, 
-                        and where every solution considers its impact on the whole.
-                    </p>
-                </article>
-            </div>
-        </div>
+      </div>
+      <button class="scroll-indicator" id="scrollIndicator" type="button" aria-label="Scroll to next section">
+        <span class="sr-only">Scroll</span>
+      </button>
     </section>
 
-    <!-- Content Section 2 - FORCED VISIBILITY -->
-    <section class="content-section" style="display: block !important;">
-        <div class="container">
-            <div class="content-grid" style="display: grid !important;">
-                <article class="glass-card content-text" style="opacity: 1 !important; transform: none !important;">
-                    <h2 class="content-title" id="experienceTitle">Experience</h2>
-                    <p class="content-subtitle" id="experienceSubtitle">Building bridges across industries</p>
-                    <p class="content-description" id="experienceDescription">
-                        From startups to enterprise, from consulting to product development, I've learned that the most 
-                        valuable insights come from understanding the human stories behind the data.
-                    </p>
-                </article>
-                
-                <article class="glass-card content-text" style="opacity: 1 !important; transform: none !important;">
-                    <h2 class="content-title" id="approachTitle">Approach</h2>
-                    <p class="content-subtitle" id="approachSubtitle">Systems thinking with human heart</p>
-                    <p class="content-description" id="approachDescription">
-                        Every challenge is an ecosystem. I approach problems by understanding the interconnections, 
-                        finding leverage points, and designing solutions that create positive ripple effects.
-                    </p>
-                </article>
-            </div>
-        </div>
+    <section class="section container">
+      <div class="grid">
+        <article class="card">
+          <h2 id="aboutTitle">About Me</h2>
+          <p class="eyebrow" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
+          <p id="aboutDescription">Raised across cultures and trained across disciplines, I am most interested in how organizations make decisions, adapt under pressure, and build durable advantage.</p>
+        </article>
+        <article class="card">
+          <h2 id="visionTitle">Vision</h2>
+          <p class="eyebrow" id="visionSubtitle">Technology with institutional judgment</p>
+          <p id="visionDescription">I am interested in the point where technology stops being novelty and becomes structure: something that changes how firms operate, compete, and endure.</p>
+        </article>
+      </div>
     </section>
 
-    <!-- Footer - FORCED VISIBILITY -->
-    <footer class="footer" style="display: block !important;">
-        <div class="container">
-            <p class="footer-text" id="footerText">© 2025 Seongjun Lee. Built with curiosity and purpose.</p>
-        </div>
-    </footer>
+    <section class="section container">
+      <div class="grid">
+        <article class="card">
+          <h2 id="experienceTitle">Experience</h2>
+          <p class="eyebrow" id="experienceSubtitle">Strategy, research, and field exposure</p>
+          <p id="experienceDescription">My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.</p>
+        </article>
+        <article class="card">
+          <h2 id="approachTitle">Approach</h2>
+          <p class="eyebrow" id="approachSubtitle">Systems thinking without abstraction for its own sake</p>
+          <p id="approachDescription">I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
-    <script>
-/**
- * Portfolio Application - Production Grade
- * Google-level engineering with proper error handling and performance
- */
-(function() {
-    'use strict';
-    
-    // Constants
-    const STORAGE_PREFIX = 'sj_portfolio_';
-    const ANIMATION_DELAY = 200;
-    
-    // Content translations
-    const CONTENT = {
+  <footer class="footer container reveal-ready">
+    <p id="footerText">© 2025 Seongjun Lee. Built with curiosity and purpose.</p>
+  </footer>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "sj_portfolio";
+
+      const content = {
         en: {
-            heroTitle: "Seongjun Lee",
-            heroSubtitle: "Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.",
-            heroDescription: "Currently exploring the intersection of great technology and business strategy, with a focus on creating great organizations that really matter.",
-            ctaButton: "Contact",
-            linkedinButton: "LinkedIn",
-            aboutTitle: "About Me",
-            aboutSubtitle: "Bridging cultures, connecting ideas",
-            aboutDescription: "My journey spans continents and disciplines, from Seoul's bustling streets to Silicon Valley's innovation hubs. I believe in the power of diverse perspectives to solve complex challenges and create impact.",
-            visionTitle: "Vision",
-            visionSubtitle: "Technology with purpose",
-            visionDescription: "I envision a future where technology serves humanity's deepest needs, where innovation is guided by wisdom, and where every solution considers its impact on the whole.",
-            experienceTitle: "Experience",
-            experienceSubtitle: "Building bridges across industries",
-            experienceDescription: "From startups to enterprise, from consulting to product development, I've learned that the most valuable insights come from understanding the human stories behind the data.",
-            approachTitle: "Approach",
-            approachSubtitle: "Systems thinking with human heart",
-            approachDescription: "Every challenge is an ecosystem. I approach problems by understanding the interconnections, finding leverage points, and designing solutions that create positive ripple effects.",
-            footerText: "© 2025 Seongjun Lee. Built with curiosity and purpose.",
-            languageFlag: "EN",
-            languageText: "English"
+          heroTitle: "Seongjun Lee",
+          heroSubtitle: "Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.",
+          heroDescription: "Currently exploring the intersection of strategy, organization, and technology, with a focus on building institutions that matter.",
+          ctaButton: "Contact",
+          linkedinButton: "LinkedIn",
+          aboutTitle: "About Me",
+          aboutSubtitle: "Bridging cultures, connecting ideas",
+          aboutDescription: "Raised across cultures and trained across disciplines, I am most interested in how organizations make decisions, adapt under pressure, and build durable advantage.",
+          visionTitle: "Vision",
+          visionSubtitle: "Technology with institutional judgment",
+          visionDescription: "I am interested in the point where technology stops being novelty and becomes structure: something that changes how firms operate, compete, and endure.",
+          experienceTitle: "Experience",
+          experienceSubtitle: "Strategy, research, and field exposure",
+          experienceDescription: "My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.",
+          approachTitle: "Approach",
+          approachSubtitle: "Systems thinking without abstraction for its own sake",
+          approachDescription: "I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.",
+          footerText: "© 2025 Seongjun Lee. Built with curiosity and purpose.",
+          languageFlag: "EN",
+          languageText: "English",
+          themeTextLight: "Light",
+          themeTextDark: "Dark"
         },
         ko: {
-            heroTitle: "이성준",
-            heroSubtitle: "깊어지는 질문과 무한한 호기심을 바탕으로. 패턴을 발견하고 변화를 만들어가는 것에 동기부여를 받습니다.",
-            heroDescription: "현재 훌륭한 기술과 비즈니스 전략의 교차점을 탐구하고 있으며, 정말 중요한 위대한 조직을 만드는 것에 집중하고 있습니다.",
-            ctaButton: "연락하기",
-            linkedinButton: "링크드인",
-            aboutTitle: "소개",
-            aboutSubtitle: "문화를 연결하고, 아이디어를 이어가다",
-            aboutDescription: "제 여정은 서울의 번화한 거리에서 실리콘밸리의 혁신 허브까지 대륙과 분야를 아우릅니다. 다양한 관점의 힘으로 복잡한 문제를 해결하고 임팩트를 만들어낼 수 있다고 믿습니다.",
-            visionTitle: "비전",
-            visionSubtitle: "목적이 있는 기술",
-            visionDescription: "기술이 인류의 가장 깊은 필요를 충족하고, 혁신이 지혜에 의해 인도되며, 모든 솔루션이 전체에 미치는 영향을 고려하는 미래를 상상합니다.",
-            experienceTitle: "경험",
-            experienceSubtitle: "산업 간 다리 놓기",
-            experienceDescription: "스타트업부터 대기업까지, 컨설팅부터 제품 개발까지, 가장 가치 있는 통찰력은 데이터 뒤에 숨겨진 인간의 이야기를 이해하는 것에서 나온다는 것을 배웠습니다.",
-            approachTitle: "접근법",
-            approachSubtitle: "인간적인 마음을 가진 시스템 사고",
-            approachDescription: "모든 도전은 하나의 생태계입니다. 상호연결을 이해하고, 레버리지 포인트를 찾고, 긍정적인 파급효과를 만드는 솔루션을 설계하는 방식으로 문제에 접근합니다.",
-            footerText: "© 2025 이성준. 호기심과 목적으로 제작되었습니다.",
-            languageFlag: "한",
-            languageText: "한국어"
+          heroTitle: "이성준",
+          heroSubtitle: "깊어지는 질문과 끝없는 호기심 위에서, 패턴을 읽고 변화를 만드는 일에 끌립니다.",
+          heroDescription: "현재 전략, 조직, 기술의 교차점을 탐구하며, 오래 버티는 조직과 제도를 어떻게 만들 수 있는지에 관심을 두고 있습니다.",
+          ctaButton: "연락하기",
+          linkedinButton: "링크드인",
+          aboutTitle: "소개",
+          aboutSubtitle: "문화를 잇고, 아이디어를 연결하다",
+          aboutDescription: "서로 다른 문화와 분야를 오가며 형성된 관점 덕분에, 저는 조직이 어떻게 판단하고 적응하며 지속 가능한 경쟁우위를 만드는지에 관심이 많습니다.",
+          visionTitle: "비전",
+          visionSubtitle: "제도적 판단이 결합된 기술",
+          visionDescription: "저는 기술이 단순한 신기함을 넘어 기업의 운영 방식과 경쟁 방식, 생존 방식을 바꾸는 구조가 되는 지점에 주목합니다.",
+          experienceTitle: "경험",
+          experienceSubtitle: "전략, 리서치, 현장 감각",
+          experienceDescription: "컨설팅 리서치와 실사 업무부터 지역 산업 현장에 대한 관찰까지, 전략이 실제 운영 현실과 만나는 지점을 직접 보며 배웠습니다.",
+          approachTitle: "접근법",
+          approachSubtitle: "추상화를 위한 추상이 아닌 시스템 사고",
+          approachDescription: "저는 구조적 원인과 피드백 루프, 그리고 그 아래 있는 인간의 유인을 함께 봅니다. 좋은 전략은 분석만이 아니라 불완전한 정보 속에서의 절제된 판단이라고 생각합니다.",
+          footerText: "© 2025 이성준. 호기심과 목적의식 위에서 만들었습니다.",
+          languageFlag: "한",
+          languageText: "한국어",
+          themeTextLight: "라이트",
+          themeTextDark: "다크"
         }
-    };
-    
-    // State management
-    let state = {
-        currentLanguage: 'en',
-        currentTheme: 'light',
-        isInitialized: false
-    };
-    
-    // Utility functions
-    const utils = {
-        storage: {
-            get(key) {
-                try {
-                    return localStorage.getItem(STORAGE_PREFIX + key);
-                } catch (e) {
-                    console.warn('localStorage get failed:', e);
-                    return null;
-                }
-            },
-            set(key, value) {
-                try {
-                    localStorage.setItem(STORAGE_PREFIX + key, value);
-                    return true;
-                } catch (e) {
-                    console.warn('localStorage set failed:', e);
-                    return false;
-                }
-            }
-        },
-        
-        $(selector) {
-            return document.querySelector(selector);
-        },
-        
-        $(selector) {
-            return document.querySelectorAll(selector);
-        },
-        
-        debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
+      };
+
+      const qs = (selector, scope = document) => scope.querySelector(selector);
+      const qsa = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
+
+      const safeRead = () => {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch {
+          return {};
         }
-    };
-    
-    // Theme management
-    const themeManager = {
-        init() {
-            const savedTheme = utils.storage.get('theme') || 'light';
-            state.currentTheme = savedTheme;
-            document.body.setAttribute('data-theme', savedTheme);
-            this.updateUI();
-        },
-        
-        toggle() {
-            state.currentTheme = state.currentTheme === 'dark' ? 'light' : 'dark';
-            document.body.setAttribute('data-theme', state.currentTheme);
-            utils.storage.set('theme', state.currentTheme);
-            this.updateUI();
-        },
-        
-        updateUI() {
-            const themeIcon = utils.$('#themeIcon');
-            const themeText = utils.$('#themeText');
-            const themeToggle = utils.$('#themeToggle');
-            
-            // FIXED: Proper null checking and error handling
-            if (!themeIcon || !themeText || !themeToggle) {
-                console.warn('Theme UI elements not found:', {
-                    themeIcon: !!themeIcon,
-                    themeText: !!themeText,
-                    themeToggle: !!themeToggle
-                });
-                return;
-            }
-            
-            try {
-                const isDark = state.currentTheme === 'dark';
-                themeIcon.textContent = isDark ? '☀️' : '🌙';
-                themeText.textContent = isDark ? 'Light' : 'Dark';
-                
-                // FIXED: Check if setAttribute exists before calling
-                if (typeof themeToggle.setAttribute === 'function') {
-                    themeToggle.setAttribute('aria-pressed', isDark.toString());
-                } else {
-                    console.warn('themeToggle.setAttribute is not a function');
-                }
-            } catch (error) {
-                console.error('Error updating theme UI:', error);
-            }
-        }
-    };
-    
-    // Language management
-    const languageManager = {
-        init() {
-            const savedLanguage = utils.storage.get('language') || 'en';
-            if (CONTENT[savedLanguage]) {
-                state.currentLanguage = savedLanguage;
-            }
-            this.updateContent();
-            this.updateUI();
-        },
-        
-        toggle() {
-            state.currentLanguage = state.currentLanguage === 'en' ? 'ko' : 'en';
-            utils.storage.set('language', state.currentLanguage);
-            this.updateContent();
-            this.updateUI();
-        },
-        
-        updateContent() {
-            const content = CONTENT[state.currentLanguage];
-            if (!content) {
-                console.warn('Content not found for language:', state.currentLanguage);
-                return;
-            }
-            
-            try {
-                Object.entries(content).forEach(([key, value]) => {
-                    const element = document.getElementById(key);
-                    if (element && typeof element.textContent !== 'undefined') {
-                        element.textContent = value;
-                    }
-                });
-            } catch (error) {
-                console.error('Error updating content:', error);
-            }
-        },
-        
-        updateUI() {
-            const languageFlag = utils.$('#languageFlag');
-            const languageText = utils.$('#languageText');
-            const languageToggle = utils.$('#languageToggle');
-            
-            // FIXED: Proper null checking
-            if (!languageFlag || !languageText || !languageToggle) {
-                console.warn('Language UI elements not found:', {
-                    languageFlag: !!languageFlag,
-                    languageText: !!languageText,
-                    languageToggle: !!languageToggle
-                });
-                return;
-            }
-            
-            try {
-                const content = CONTENT[state.currentLanguage];
-                if (content) {
-                    languageFlag.textContent = content.languageFlag;
-                    languageText.textContent = content.languageText;
-                    
-                    // FIXED: Check if setAttribute exists before calling
-                    if (typeof languageToggle.setAttribute === 'function') {
-                        languageToggle.setAttribute('aria-pressed', (state.currentLanguage === 'ko').toString());
-                    } else {
-                        console.warn('languageToggle.setAttribute is not a function');
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating language UI:', error);
-            }
-        }
-    };
-    
-    // Animation management
-    const animationManager = {
-        init() {
-            this.setupScrollIndicator();
-            this.setupProfilePicture();
-            this.setupMagneticButtons();
-            this.animateCards();
-        },
-        
-        animateCards() {
-            // Cards should already be visible with forced styles
-            // This just adds the animation class for enhanced effects
-            const cards = utils.$('.glass-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('animate-in');
-                }, index * ANIMATION_DELAY);
-            });
-        },
-        
-        setupScrollIndicator() {
-            const scrollIndicator = utils.$('#scrollIndicator');
-            if (!scrollIndicator) return;
-            
-            const handleClick = () => {
-                const firstSection = utils.$('.content-section');
-                if (firstSection) {
-                    firstSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            };
-            
-            scrollIndicator.addEventListener('click', handleClick);
-            scrollIndicator.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleClick();
-                }
-            });
-            
-            // Hide indicator on scroll
-            const handleScroll = utils.debounce(() => {
-                const scrollY = window.pageYOffset;
-                const threshold = window.innerHeight * 0.3;
-                const isVisible = scrollY <= threshold;
-                
-                scrollIndicator.style.opacity = isVisible ? '0.7' : '0';
-                scrollIndicator.style.pointerEvents = isVisible ? 'auto' : 'none';
-            }, 16);
-            
-            window.addEventListener('scroll', handleScroll, { passive: true });
-        },
-        
-        setupProfilePicture() {
-            const profilePicture = utils.$('#profilePicture');
-            const profilePlaceholder = utils.$('.profile-placeholder');
-            
-            if (!profilePicture) return;
-            
-            // Image loading
-            const img = new Image();
-            img.onload = () => {
-                if (profilePlaceholder) {
-                    profilePlaceholder.style.display = 'none';
-                }
-            };
-            img.onerror = () => {
-                profilePicture.style.backgroundImage = 'none';
-                if (profilePlaceholder) {
-                    profilePlaceholder.style.display = 'flex';
-                }
-            };
-            img.src = 'https://avatars.githubusercontent.com/u/98581131';
-            
-            // Click animation
-            const handleClick = () => {
-                profilePicture.style.transform = 'scale(0.95)';
-                profilePicture.style.transition = 'transform 100ms ease';
-                
-                setTimeout(() => {
-                    profilePicture.style.transform = '';
-                    profilePicture.style.transition = '';
-                }, 150);
-            };
-            
-            profilePicture.addEventListener('click', handleClick);
-            profilePicture.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleClick();
-                }
-            });
-        },
-        
-        setupMagneticButtons() {
-            if (!window.matchMedia('(hover: hover)').matches) return;
-            
-            const buttons = utils.$('.btn');
-            buttons.forEach(button => {
-                button.addEventListener('mousemove', (e) => {
-                    const rect = button.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-                });
-                
-                button.addEventListener('mouseleave', () => {
-                    button.style.transform = '';
-                });
-            });
-        }
-    };
-    
-    // Main application
-    const app = {
-        init() {
-            if (state.isInitialized) {
-                console.log('Portfolio already initialized');
-                return;
-            }
-            
-            console.log('Starting portfolio initialization...');
-            
-            try {
-                // Wait for DOM to be fully ready
-                if (document.readyState === 'loading') {
-                    console.log('DOM not ready, waiting...');
-                    document.addEventListener('DOMContentLoaded', () => {
-                        this.init();
-                    });
-                    return;
-                }
-                
-                console.log('DOM ready, initializing components...');
-                
-                // Force visibility first (before any other operations)
-                this.ensureVisibility();
-                
-                // Initialize managers with error handling
-                try {
-                    themeManager.init();
-                    console.log('Theme manager initialized');
-                } catch (error) {
-                    console.error('Theme manager initialization failed:', error);
-                }
-                
-                try {
-                    languageManager.init();
-                    console.log('Language manager initialized');
-                } catch (error) {
-                    console.error('Language manager initialization failed:', error);
-                }
-                
-                try {
-                    animationManager.init();
-                    console.log('Animation manager initialized');
-                } catch (error) {
-                    console.error('Animation manager initialization failed:', error);
-                }
-                
-                // Bind events with error handling
-                try {
-                    this.bindEvents();
-                    console.log('Events bound successfully');
-                } catch (error) {
-                    console.error('Event binding failed:', error);
-                }
-                
-                state.isInitialized = true;
-                console.log('Portfolio initialized successfully');
-                
-                // Final verification
-                this.verifyInitialization();
-                
-            } catch (error) {
-                console.error('Portfolio initialization failed:', error);
-                // Attempt basic functionality even if full init fails
-                this.ensureVisibility();
-            }
-        },
-        
-        verifyInitialization() {
-            const verification = {
-                sections: utils.$('.content-section').length,
-                cards: utils.$('.glass-card').length,
-                footer: !!utils.$('.footer'),
-                themeToggle: !!utils.$('#themeToggle'),
-                languageToggle: !!utils.$('#languageToggle'),
-                scrollIndicator: !!utils.$('#scrollIndicator')
-            };
-            
-            console.log('Initialization verification:', verification);
-            
-            if (verification.cards === 0) {
-                console.error('CRITICAL: No content cards found after initialization!');
-            }
-            
-            return verification;
-        },
-        
-        bindEvents() {
-            const themeToggle = utils.$('#themeToggle');
-            const languageToggle = utils.$('#languageToggle');
-            
-            // FIXED: Enhanced error checking and event binding
-            if (themeToggle) {
-                // Verify it's actually a DOM element
-                if (themeToggle.nodeType === Node.ELEMENT_NODE && typeof themeToggle.addEventListener === 'function') {
-                    themeToggle.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        try {
-                            themeManager.toggle();
-                        } catch (error) {
-                            console.error('Theme toggle error:', error);
-                        }
-                    });
-                    console.log('Theme toggle bound successfully');
-                } else {
-                    console.error('Theme toggle is not a valid DOM element');
-                }
-            } else {
-                console.warn('Theme toggle element not found');
-            }
-            
-            if (languageToggle) {
-                // Verify it's actually a DOM element
-                if (languageToggle.nodeType === Node.ELEMENT_NODE && typeof languageToggle.addEventListener === 'function') {
-                    languageToggle.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        try {
-                            languageManager.toggle();
-                        } catch (error) {
-                            console.error('Language toggle error:', error);
-                        }
-                    });
-                    console.log('Language toggle bound successfully');
-                } else {
-                    console.error('Language toggle is not a valid DOM element');
-                }
-            } else {
-                console.warn('Language toggle element not found');
-            }
-            
-            // Global error handling
-            window.addEventListener('error', (e) => {
-                console.error('Global error:', e.error);
-            });
-            
-            window.addEventListener('unhandledrejection', (e) => {
-                console.error('Unhandled promise rejection:', e.reason);
-            });
-        },
-        
-        ensureVisibility() {
-            // Force visibility of content sections and cards
-            const sections = utils.$('.content-section');
-            const cards = utils.$('.glass-card');
-            const footer = utils.$('.footer');
-            
-            sections.forEach(section => {
-                section.style.display = 'block';
-                section.style.visibility = 'visible';
-            });
-            
-            cards.forEach(card => {
-                card.style.opacity = '1';
-                card.style.transform = 'none';
-                card.style.visibility = 'visible';
-            });
-            
-            if (footer) {
-                footer.style.display = 'block';
-                footer.style.visibility = 'visible';
-            }
-            
-            console.log('Visibility ensured for:', {
-                sections: sections.length,
-                cards: cards.length,
-                footer: !!footer
-            });
-        }
-    };
-    
-    // Initialize when DOM is ready - COMPLETELY FIXED
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            // Simple DOM manipulation without complex app initialization
-            document.querySelectorAll('.content-section').forEach(el => {
-                if (el && el.style) el.style.display = 'block';
-            });
-            document.querySelectorAll('.glass-card').forEach(el => {
-                if (el && el.style) {
-                    el.style.opacity = '1';
-                    el.style.visibility = 'visible';
-                }
-            });
-            const footer = document.querySelector('.footer');
-            if (footer && footer.style) footer.style.display = 'block';
-            
-            // Try to initialize features if possible
-            try {
-                const themeToggle = document.getElementById('themeToggle');
-                const languageToggle = document.getElementById('languageToggle');
-                
-                // Enhanced device compatibility
-                if (themeToggle) {
-                    themeToggle.addEventListener('click', () => {
-                        const current = document.body.getAttribute('data-theme');
-                        const newTheme = current === 'dark' ? 'light' : 'dark';
-                        document.body.setAttribute('data-theme', newTheme);
-                        
-                        // Update button text
-                        const themeIcon = document.getElementById('themeIcon');
-                        const themeText = document.getElementById('themeText');
-                        if (themeIcon && themeText) {
-                            themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-                            themeText.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
-                        }
-                        
-                        // Save to localStorage if supported
-                        try {
-                            localStorage.setItem('sj_portfolio_theme', newTheme);
-                        } catch (e) {
-                            console.log('localStorage not available');
-                        }
-                    });
-                }
-                
-                if (languageToggle) {
-                    let currentLanguage = 'en';
-                    
-                    // Try to load saved language
-                    try {
-                        const saved = localStorage.getItem('sj_portfolio_language');
-                        if (saved && CONTENT[saved]) {
-                            currentLanguage = saved;
-                        }
-                    } catch (e) {
-                        console.log('localStorage not available');
-                    }
-                    
-                    languageToggle.addEventListener('click', () => {
-                        currentLanguage = currentLanguage === 'en' ? 'ko' : 'en';
-                        console.log('Language toggled to:', currentLanguage);
-                        
-                        // Update content based on language
-                        const content = CONTENT[currentLanguage];
-                        if (content) {
-                            Object.entries(content).forEach(([key, value]) => {
-                                const element = document.getElementById(key);
-                                if (element) {
-                                    element.textContent = value;
-                                }
-                            });
-                            
-                            // Update language toggle button
-                            const languageFlag = document.getElementById('languageFlag');
-                            const languageText = document.getElementById('languageText');
-                            
-                            if (languageFlag && languageText) {
-                                languageFlag.textContent = content.languageFlag;
-                                languageText.textContent = content.languageText;
-                            }
-                            
-                            // Save to localStorage if supported
-                            try {
-                                localStorage.setItem('sj_portfolio_language', currentLanguage);
-                            } catch (e) {
-                                console.log('localStorage not available');
-                            }
-                        }
-                    });
-                    
-                    // Initialize with current language
-                    if (currentLanguage !== 'en') {
-                        languageToggle.click();
-                    }
-                }
-                
-                // Add touch event handlers for better mobile experience
-                if ('ontouchstart' in window) {
-                    document.querySelectorAll('.btn, .control-btn').forEach(btn => {
-                        btn.addEventListener('touchstart', function() {
-                            this.style.transform = 'scale(0.98)';
-                        }, { passive: true });
-                        
-                        btn.addEventListener('touchend', function() {
-                            this.style.transform = '';
-                        }, { passive: true });
-                    });
-                }
-                
-                // Add scroll indicator functionality
-                const scrollIndicator = document.getElementById('scrollIndicator');
-                if (scrollIndicator) {
-                    const handleScroll = () => {
-                        const firstSection = document.querySelector('.content-section');
-                        if (firstSection) {
-                            firstSection.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    };
-                    
-                    scrollIndicator.addEventListener('click', handleScroll);
-                    
-                    // Touch support
-                    if ('ontouchstart' in window) {
-                        scrollIndicator.addEventListener('touchend', handleScroll, { passive: true });
-                    }
-                }
-            } catch (e) {
-                console.log('Feature initialization skipped');
-            }
-            
-            console.log('Simple initialization completed');
+      };
+
+      const safeWrite = (nextState) => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
+        } catch {}
+      };
+
+      const state = {
+        language: "en",
+        theme: "light",
+        ...safeRead()
+      };
+
+      const applyLanguage = () => {
+        const dict = content[state.language] || content.en;
+        Object.entries(dict).forEach(([id, value]) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = value;
         });
-    } else {
-        // DOM already ready
-        document.querySelectorAll('.content-section').forEach(el => {
-            if (el && el.style) el.style.display = 'block';
-        });
-        document.querySelectorAll('.glass-card').forEach(el => {
-            if (el && el.style) {
-                el.style.opacity = '1';
-                el.style.visibility = 'visible';
+
+        qs("#languageToggle")?.setAttribute("aria-pressed", String(state.language === "ko"));
+      };
+
+      const applyTheme = () => {
+        document.documentElement.setAttribute("data-theme", state.theme);
+        const isDark = state.theme === "dark";
+        const icon = qs("#themeIcon");
+        const text = qs("#themeText");
+        const dict = content[state.language] || content.en;
+        if (icon) icon.textContent = isDark ? "☀️" : "🌙";
+        if (text) text.textContent = isDark ? dict.themeTextLight : dict.themeTextDark;
+        qs("#themeToggle")?.setAttribute("aria-pressed", String(isDark));
+      };
+
+      const persist = () => safeWrite({ language: state.language, theme: state.theme });
+
+      const setupReveal = () => {
+        const items = qsa(".card, .reveal-ready");
+        if (!items.length) return;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+          items.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              obs.unobserve(entry.target);
             }
+          });
+        }, { threshold: 0.14 });
+
+        items.forEach((el, index) => {
+          el.style.transitionDelay = `${Math.min(index * 60, 240)}ms`;
+          observer.observe(el);
         });
-        const footer = document.querySelector('.footer');
-        if (footer && footer.style) footer.style.display = 'block';
-    }
-    
-    // Export for debugging
-    window.PortfolioApp = {
-        state,
-        utils,
-        themeManager,
-        languageManager,
-        animationManager,
-        app
-    };
-    
-})();
-    </script>
+      };
+
+      const bindEvents = () => {
+        qs("#themeToggle")?.addEventListener("click", () => {
+          state.theme = state.theme === "dark" ? "light" : "dark";
+          applyTheme();
+          persist();
+        });
+
+        qs("#languageToggle")?.addEventListener("click", () => {
+          state.language = state.language === "en" ? "ko" : "en";
+          applyLanguage();
+          applyTheme();
+          persist();
+        });
+
+        qs("#scrollIndicator")?.addEventListener("click", () => {
+          const nextSection = qs(".section");
+          nextSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key.toLowerCase() === "t" && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault();
+            qs("#themeToggle")?.click();
+          }
+        });
+      };
+
+      const init = () => {
+        applyLanguage();
+        applyTheme();
+        bindEvents();
+        setupReveal();
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init, { once: true });
+      } else {
+        init();
+      }
+    })();
+  </script>
 </body>
 </html>
