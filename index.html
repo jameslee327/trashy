@@ -64,27 +64,39 @@
       transition: transform 60ms linear;
     }
 
-    /* two-orb background — CSS only, no JS needed */
+    /* Background: dot grid + two floating orbs — all CSS, zero JS */
     .bg {
       position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+      /* Subtle dot grid */
+      background-image: radial-gradient(rgba(0,113,227,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    html[data-theme="dark"] .bg {
+      background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
     }
     .bg::before, .bg::after {
-      content: ''; position: absolute; border-radius: 50%; filter: blur(100px);
+      content: ''; position: absolute; border-radius: 50%;
+      filter: blur(80px); will-change: transform;
     }
     .bg::before {
-      width: 640px; height: 640px; top: -180px; left: -160px;
-      background: radial-gradient(circle, rgba(0,113,227,0.16) 0%, transparent 70%);
-      animation: float-a 28s ease-in-out infinite alternate;
+      width: 560px; height: 560px; top: -140px; left: -120px;
+      background: radial-gradient(circle, rgba(0,113,227,0.18) 0%, transparent 70%);
+      animation: float-a 30s ease-in-out infinite alternate;
     }
     .bg::after {
-      width: 480px; height: 480px; bottom: -60px; right: -80px;
-      background: radial-gradient(circle, rgba(94,92,230,0.13) 0%, transparent 70%);
-      animation: float-b 34s ease-in-out infinite alternate; animation-delay: -14s;
+      width: 420px; height: 420px; bottom: -40px; right: -60px;
+      background: radial-gradient(circle, rgba(94,92,230,0.15) 0%, transparent 70%);
+      animation: float-b 36s ease-in-out infinite alternate; animation-delay: -16s;
     }
-    html[data-theme="dark"] .bg::before { background: radial-gradient(circle, rgba(0,113,227,0.09) 0%, transparent 70%); }
-    html[data-theme="dark"] .bg::after  { background: radial-gradient(circle, rgba(94,92,230,0.07) 0%, transparent 70%); }
-    @keyframes float-a { from { transform: translate(0,0) scale(1); } to { transform: translate(70px,-90px) scale(1.1); } }
-    @keyframes float-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-55px,65px) scale(0.9); } }
+    html[data-theme="dark"] .bg::before { background: radial-gradient(circle, rgba(0,113,227,0.10) 0%, transparent 70%); }
+    html[data-theme="dark"] .bg::after  { background: radial-gradient(circle, rgba(94,92,230,0.08) 0%, transparent 70%); }
+    @keyframes float-a { from { transform: translate(0,0) scale(1); } to { transform: translate(60px,-80px) scale(1.08); } }
+    @keyframes float-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-50px,60px) scale(0.92); } }
+    /* On low-power / mobile: halve animation range via media query */
+    @media (max-width: 768px) {
+      .bg::before { width: 360px; height: 360px; }
+      .bg::after  { width: 280px; height: 280px; }
+    }
 
     /* nav */
     .nav {
@@ -169,30 +181,14 @@
     }
     .avatar-shell:hover .avatar { transform: scale(1.04); box-shadow: var(--sh3); }
 
-    /*
-     * NAME CLIPPING FIX:
-     * -webkit-background-clip:text clips to the element's ink bounding box.
-     * Negative letter-spacing causes the last glyph's ink to extend past
-     * that box, clipping it. Two fixes applied together:
-     *   1. Reduced letter-spacing (-0.02em vs -0.04em previously)
-     *   2. padding: 0.04em 0.08em gives gradient room on every side
-     *   3. overflow: visible so no parent clips the painted area
-     */
+    /* NAME — solid color: background-clip:text is inherently unreliable
+       across fonts, letter-spacings, and zoom levels. Solid color never clips. */
     .hero h1 {
-      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-size: clamp(2.8rem, 8vw, 6rem);
       font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      padding: 0.04em 0.08em;
-      overflow: visible;
-      background: linear-gradient(160deg, var(--text) 40%, var(--text-2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    html[data-theme="dark"] .hero h1 {
-      background: linear-gradient(160deg, #f5f5f7 40%, #8a8a90 100%);
-      -webkit-background-clip: text; background-clip: text;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text);
     }
 
     .hero .sub {
@@ -254,19 +250,34 @@
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--r); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
       box-shadow: var(--sh1); padding: 2rem;
+      position: relative; overflow: hidden;
       opacity: 0; transform: translateY(22px);
       transition: opacity 0.55s var(--ease), transform 0.55s var(--ease),
                   background 0.22s, border-color 0.22s, box-shadow 0.22s;
       will-change: transform, opacity;
       transform-style: preserve-3d;
     }
+    /* Colored top accent bar per card */
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--card-accent, var(--accent));
+      border-radius: var(--r) var(--r) 0 0;
+    }
+    .card:nth-child(1) { --card-accent: #0071e3; }
+    .card:nth-child(2) { --card-accent: #5e5ce6; }
+    .card:nth-child(3) { --card-accent: #32ade6; }
+    .card:nth-child(4) { --card-accent: #bf5af2; }
+
     .card.visible { opacity: 1; transform: translateY(0); }
     @media (hover: hover) {
-      .card:hover { background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2); }
+      .card:hover {
+        background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2);
+      }
     }
     .card-tag {
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.10em;
-      text-transform: uppercase; color: var(--accent); opacity: 0.7; margin-bottom: 1rem;
+      font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--card-accent, var(--accent));
+      opacity: 0.8; margin-bottom: 1.1rem;
     }
     .card h2 {
       font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-weight: 700;
@@ -277,13 +288,31 @@
 
     /* footer */
     .footer {
-      padding: 2rem 0; border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      position: relative;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+    /* Gradient rule instead of solid border */
+    .footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent) 20%, #5e5ce6 50%, #bf5af2 80%, transparent);
+      opacity: 0.35;
     }
     .footer-copy { font-size: 0.82rem; color: var(--text-3); }
     .footer-links { display: flex; gap: 1.25rem; }
-    .footer-links a { font-size: 0.82rem; color: var(--text-3); transition: color 0.2s; }
+    .footer-links a {
+      font-size: 0.82rem; color: var(--text-3);
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    .footer-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s var(--ease);
+    }
     .footer-links a:hover { color: var(--text-2); }
+    .footer-links a:hover::after { transform: scaleX(1); }
 
     /* reveal */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.55s var(--ease), transform 0.55s var(--ease); }
