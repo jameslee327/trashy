@@ -6,40 +6,49 @@
   <meta name="description" content="Seongjun Lee — Strategy, organization, and technology" />
   <title>Seongjun Lee</title>
   <style>
+    /* ── Tokens ── */
     :root {
-      --bg:         #f9f9fb;
-      --surface:    rgba(255,255,255,0.84);
-      --surface-hi: rgba(255,255,255,0.97);
-      --text:       #1d1d1f;
-      --text-2:     #6e6e73;
-      --text-3:     #b0b0b8;
-      --border:     rgba(0,0,0,0.07);
-      --border-hi:  rgba(0,0,0,0.12);
-      --accent:     #0071e3;
-      --sh1:        0 2px 12px rgba(0,0,0,0.06);
-      --sh2:        0 8px 32px rgba(0,0,0,0.10);
-      --sh3:        0 20px 56px rgba(0,0,0,0.14);
-      --r:          18px;
-      --blur:       blur(18px);
+      --bg:         #f2f5fa;
+      --surface:    rgba(255,255,255,0.90);
+      --surface-hi: rgba(255,255,255,0.99);
+      --text:       #0a0e1a;
+      --text-2:     #4a5568;
+      --text-3:     #9aa5b4;
+      --border:     rgba(0,91,172,0.10);
+      --border-hi:  rgba(0,91,172,0.22);
+      /* KAIST Blue + supporting palette */
+      --accent:     #005BAC;
+      --accent-2:   #0088cc;
+      --accent-3:   #00aaff;
+      --sh1:        0 1px 4px rgba(0,91,172,0.08), 0 4px 16px rgba(0,91,172,0.06);
+      --sh2:        0 4px 16px rgba(0,91,172,0.12), 0 16px 40px rgba(0,91,172,0.08);
+      --sh3:        0 8px 32px rgba(0,91,172,0.16), 0 32px 64px rgba(0,91,172,0.10);
+      --r:          12px;
+      --r-sm:       8px;
+      --blur:       blur(20px);
       --nav-h:      52px;
       --w:          1080px;
       --ease:       cubic-bezier(0.16,1,0.3,1);
       --spring:     cubic-bezier(0.34,1.56,0.64,1);
+      --mono:       "SF Mono","JetBrains Mono","Fira Code",ui-monospace,monospace;
+      --grid-line:  rgba(0,91,172,0.055);
     }
     html[data-theme="dark"] {
-      --bg:         #090909;
-      --surface:    rgba(22,22,24,0.86);
-      --surface-hi: rgba(36,36,38,0.96);
-      --text:       #f5f5f7;
-      --text-2:     #98989d;
-      --text-3:     #52525a;
-      --border:     rgba(255,255,255,0.08);
-      --border-hi:  rgba(255,255,255,0.14);
-      --sh1:        0 2px 12px rgba(0,0,0,0.35);
-      --sh2:        0 8px 32px rgba(0,0,0,0.50);
-      --sh3:        0 20px 56px rgba(0,0,0,0.65);
+      --bg:         #070c18;
+      --surface:    rgba(10,16,32,0.92);
+      --surface-hi: rgba(16,24,48,0.98);
+      --text:       #dce8f8;
+      --text-2:     #7a90b0;
+      --text-3:     #3a4a62;
+      --border:     rgba(0,136,204,0.14);
+      --border-hi:  rgba(0,136,204,0.28);
+      --sh1:        0 1px 4px rgba(0,0,0,0.40), 0 4px 16px rgba(0,91,172,0.18);
+      --sh2:        0 4px 16px rgba(0,0,0,0.50), 0 16px 40px rgba(0,91,172,0.22);
+      --sh3:        0 8px 32px rgba(0,0,0,0.60), 0 32px 64px rgba(0,91,172,0.28);
+      --grid-line:  rgba(0,136,204,0.07);
     }
 
+    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; }
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
     body {
@@ -52,53 +61,50 @@
     button { font: inherit; border: 0; cursor: pointer; background: none; }
     ::-webkit-scrollbar       { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); opacity: 0.4; border-radius: 2px; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
-    /* scroll progress */
+    /* ── Scroll progress ── */
     #progress {
       position: fixed; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent), #5e5ce6, #bf5af2);
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
       transform-origin: left; transform: scaleX(0);
       z-index: 200; pointer-events: none;
       transition: transform 60ms linear;
     }
 
-    /* Background: dot grid + two floating orbs — all CSS, zero JS */
+    /* ── Background: line grid + two orbs ── */
     .bg {
       position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
-      /* Subtle dot grid */
-      background-image: radial-gradient(rgba(0,113,227,0.07) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    html[data-theme="dark"] .bg {
-      background-image: radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 40px 40px;
     }
     .bg::before, .bg::after {
       content: ''; position: absolute; border-radius: 50%;
-      filter: blur(80px); will-change: transform;
+      filter: blur(90px); will-change: transform;
     }
     .bg::before {
-      width: 560px; height: 560px; top: -140px; left: -120px;
-      background: radial-gradient(circle, rgba(0,113,227,0.18) 0%, transparent 70%);
+      width: 580px; height: 580px; top: -160px; left: -140px;
+      background: radial-gradient(circle, rgba(0,91,172,0.22) 0%, transparent 68%);
       animation: float-a 30s ease-in-out infinite alternate;
     }
     .bg::after {
-      width: 420px; height: 420px; bottom: -40px; right: -60px;
-      background: radial-gradient(circle, rgba(94,92,230,0.15) 0%, transparent 70%);
-      animation: float-b 36s ease-in-out infinite alternate; animation-delay: -16s;
+      width: 440px; height: 440px; bottom: -60px; right: -80px;
+      background: radial-gradient(circle, rgba(0,170,255,0.16) 0%, transparent 68%);
+      animation: float-b 38s ease-in-out infinite alternate; animation-delay: -18s;
     }
-    html[data-theme="dark"] .bg::before { background: radial-gradient(circle, rgba(0,113,227,0.10) 0%, transparent 70%); }
-    html[data-theme="dark"] .bg::after  { background: radial-gradient(circle, rgba(94,92,230,0.08) 0%, transparent 70%); }
-    @keyframes float-a { from { transform: translate(0,0) scale(1); } to { transform: translate(60px,-80px) scale(1.08); } }
-    @keyframes float-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-50px,60px) scale(0.92); } }
-    /* On low-power / mobile: halve animation range via media query */
+    html[data-theme="dark"] .bg::before { background: radial-gradient(circle, rgba(0,91,172,0.28) 0%, transparent 68%); }
+    html[data-theme="dark"] .bg::after  { background: radial-gradient(circle, rgba(0,170,255,0.18) 0%, transparent 68%); }
+    @keyframes float-a { from { transform: translate(0,0) scale(1); } to { transform: translate(55px,-75px) scale(1.08); } }
+    @keyframes float-b { from { transform: translate(0,0) scale(1); } to { transform: translate(-45px,55px) scale(0.93); } }
     @media (max-width: 768px) {
-      .bg::before { width: 360px; height: 360px; }
-      .bg::after  { width: 280px; height: 280px; }
+      .bg::before { width: 340px; height: 340px; }
+      .bg::after  { width: 260px; height: 260px; }
     }
 
-    /* nav */
+    /* ── Nav ── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100; height: var(--nav-h);
@@ -112,198 +118,223 @@
       border-bottom: 1px solid var(--border); box-shadow: var(--sh1);
     }
     .nav-name {
-      font-size: 0.86rem; font-weight: 600; letter-spacing: -0.01em;
-      color: var(--text-2); opacity: 0; transform: translateX(-8px);
+      font-size: 0.84rem; font-weight: 700; letter-spacing: -0.01em;
+      color: var(--accent); opacity: 0; transform: translateX(-8px);
       transition: opacity 0.3s ease, transform 0.3s ease;
       pointer-events: none; user-select: none;
     }
     .nav.scrolled .nav-name { opacity: 1; transform: none; pointer-events: auto; }
     .nav-actions { margin-left: auto; display: flex; gap: 0.4rem; }
+
     .pill {
       display: inline-flex; align-items: center; gap: 0.3rem;
-      height: 34px; padding: 0 0.85rem; border-radius: 100px;
+      height: 32px; padding: 0 0.8rem; border-radius: var(--r-sm);
       background: var(--surface); border: 1px solid var(--border);
       backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-      color: var(--text); font-size: 0.82rem; font-weight: 500;
+      color: var(--text-2); font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
       box-shadow: var(--sh1); white-space: nowrap;
-      transition: background 0.2s, border-color 0.2s, transform 0.22s var(--spring), box-shadow 0.2s;
+      transition: background 0.2s, border-color 0.2s, color 0.2s,
+                  transform 0.22s var(--spring), box-shadow 0.2s;
     }
-    .pill:hover { background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2); transform: scale(1.05); }
+    .pill:hover {
+      background: var(--surface-hi); border-color: var(--accent);
+      color: var(--accent); box-shadow: var(--sh2); transform: scale(1.05);
+    }
 
-    /* layout */
+    /* ── Layout ── */
     .wrap { width: min(calc(100% - 2.5rem), var(--w)); margin: 0 auto; }
 
-    /* hero */
+    /* ── Hero ── */
     .hero {
       min-height: 100svh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       padding: calc(var(--nav-h) + 4rem) 1.25rem 6rem;
       position: relative;
     }
     .hero-body {
       text-align: center; display: flex; flex-direction: column;
-      align-items: center; gap: 1.25rem; max-width: 780px; width: 100%;
+      align-items: center; gap: 1.4rem; max-width: 820px; width: 100%;
     }
 
-    /* badge */
+    /* Tech badge */
     .badge {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.3rem 0.9rem; border-radius: 100px;
-      background: rgba(0,113,227,0.08); border: 1px solid rgba(0,113,227,0.18);
-      font-size: 0.78rem; font-weight: 500; color: var(--accent); letter-spacing: 0.02em;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.3rem 0.85rem; border-radius: var(--r-sm);
+      background: rgba(0,91,172,0.07); border: 1px solid rgba(0,91,172,0.20);
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.04em;
     }
+    html[data-theme="dark"] .badge { background: rgba(0,91,172,0.14); border-color: rgba(0,136,204,0.35); }
     .badge-dot {
       width: 6px; height: 6px; border-radius: 50%;
       background: currentColor; flex-shrink: 0;
       animation: breathe 2.4s ease-in-out infinite;
     }
-    @keyframes breathe { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.35; transform:scale(.6); } }
+    @keyframes breathe { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.3; transform:scale(.55); } }
 
-    /* avatar */
-    .avatar-shell { position: relative; width: 140px; height: 140px; }
+    /* Avatar */
+    .avatar-shell { position: relative; width: 136px; height: 136px; }
     .avatar-shell::before {
-      content: ''; position: absolute; inset: -3px; border-radius: 36px;
-      background: conic-gradient(from 0deg, var(--accent), #5e5ce6, #bf5af2, var(--accent));
+      content: ''; position: absolute; inset: -3px; border-radius: 15px;
+      background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
       opacity: 0; animation: spin 5s linear infinite;
       transition: opacity 0.4s ease; z-index: 0;
     }
     .avatar-shell::after {
-      content: ''; position: absolute; inset: -1px; border-radius: 34px;
+      content: ''; position: absolute; inset: -1px; border-radius: 13px;
       background: var(--bg); z-index: 1; transition: background 0.45s ease;
     }
     .avatar-shell:hover::before { opacity: 1; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .avatar {
-      position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 32px;
+      position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 12px;
       background: url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center/cover no-repeat;
       border: 1px solid var(--border); box-shadow: var(--sh2);
       transition: transform 0.5s var(--spring), box-shadow 0.4s ease;
     }
     .avatar-shell:hover .avatar { transform: scale(1.04); box-shadow: var(--sh3); }
 
-    /* NAME — solid color: background-clip:text is inherently unreliable
-       across fonts, letter-spacings, and zoom levels. Solid color never clips. */
+    /* Hero heading — solid color, never clips */
     .hero h1 {
-      font-size: clamp(2.8rem, 8vw, 6rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
       color: var(--text);
     }
+    /* Accent underline on the name */
+    .hero h1 span {
+      position: relative; display: inline-block;
+    }
+    .hero h1 span::after {
+      content: '';
+      position: absolute; left: 0; right: 0;
+      bottom: -4px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-3));
+      border-radius: 2px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.6s var(--ease);
+    }
+    .hero h1 span.line-visible::after { transform: scaleX(1); }
 
     .hero .sub {
-      font-size: clamp(1rem, 2vw, 1.35rem); color: var(--text-2);
-      max-width: 640px; line-height: 1.6; font-weight: 400;
+      font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-2);
+      max-width: 620px; line-height: 1.65; font-weight: 400;
     }
-    .hero .note { font-size: 0.94rem; color: var(--text-3); max-width: 520px; line-height: 1.75; }
+    .hero .note {
+      font-family: var(--mono); font-size: 0.82rem;
+      color: var(--text-3); max-width: 500px; line-height: 1.75;
+      border-left: 2px solid var(--border-hi);
+      padding-left: 0.85rem; text-align: left;
+    }
 
+    /* CTA */
     .cta { display: flex; gap: 0.65rem; flex-wrap: wrap; justify-content: center; margin-top: 0.25rem; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      padding: 0.78rem 1.5rem; border-radius: 100px;
-      font-size: 0.92rem; font-weight: 600; white-space: nowrap;
+      padding: 0.75rem 1.5rem; border-radius: var(--r-sm);
+      font-size: 0.9rem; font-weight: 600; white-space: nowrap;
       position: relative; overflow: hidden;
       transition: transform 0.28s var(--spring), box-shadow 0.28s ease, background 0.2s;
     }
     .btn::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(160deg, rgba(255,255,255,0.20) 0%, transparent 60%);
+      background: linear-gradient(160deg, rgba(255,255,255,0.18) 0%, transparent 60%);
       opacity: 0; transition: opacity 0.25s ease;
     }
     .btn:hover::after { opacity: 1; }
     .btn-fill {
       background: var(--accent); color: #fff; border: 1px solid transparent;
-      box-shadow: 0 4px 18px rgba(0,113,227,0.36);
+      box-shadow: 0 4px 18px rgba(0,91,172,0.40);
     }
-    .btn-fill:hover { transform: scale(1.04) translateY(-1px); box-shadow: 0 8px 28px rgba(0,113,227,0.50); }
+    .btn-fill:hover { transform: scale(1.04) translateY(-1px); box-shadow: 0 8px 28px rgba(0,91,172,0.55); }
     .btn-outline {
       background: var(--surface); color: var(--text); border: 1px solid var(--border-hi);
       backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); box-shadow: var(--sh1);
     }
-    .btn-outline:hover { background: var(--surface-hi); transform: scale(1.04) translateY(-1px); box-shadow: var(--sh2); }
+    .btn-outline:hover { background: var(--surface-hi); border-color: var(--accent); transform: scale(1.04) translateY(-1px); box-shadow: var(--sh2); }
 
-    /* scroll cue */
+    /* Scroll cue */
     .scroll-cue {
       position: absolute; bottom: 2.25rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center;
-      opacity: 0.4; transition: opacity 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      opacity: 0.4; transition: opacity 0.2s; color: var(--accent);
     }
-    .scroll-cue:hover { opacity: 0.75; }
+    .scroll-cue:hover { opacity: 0.8; }
     .scroll-cue-line {
       width: 1px; height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--text-2));
+      background: linear-gradient(to bottom, transparent, var(--accent));
       animation: drop 2.4s ease-in-out infinite;
     }
     @keyframes drop { 0%,100% { transform:scaleY(1); opacity:.5; } 50% { transform:scaleY(.4); opacity:1; } }
 
-    /* sections */
+    /* ── Sections ── */
     .section { padding: 1.5rem 0 3rem; }
+
+    /* "// comment" style eyebrow */
     .eyebrow {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-3); margin-bottom: 1rem;
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 1.1rem;
     }
+    .eyebrow::before { content: '// '; color: var(--accent); opacity: 0.7; }
+
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
 
-    /* cards */
+    /* ── Cards — left accent border style (IDE/terminal) ── */
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--r); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-      box-shadow: var(--sh1); padding: 2rem;
-      position: relative; overflow: hidden;
-      opacity: 0; transform: translateY(22px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--card-accent, var(--accent));
+      border-radius: var(--r);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--sh1); padding: 1.75rem 2rem;
+      opacity: 0; transform: translateY(20px);
       transition: opacity 0.55s var(--ease), transform 0.55s var(--ease),
                   background 0.22s, border-color 0.22s, box-shadow 0.22s;
       will-change: transform, opacity;
       transform-style: preserve-3d;
     }
-    /* Colored top accent bar per card */
-    .card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--card-accent, var(--accent));
-      border-radius: var(--r) var(--r) 0 0;
-    }
-    .card:nth-child(1) { --card-accent: #0071e3; }
-    .card:nth-child(2) { --card-accent: #5e5ce6; }
-    .card:nth-child(3) { --card-accent: #32ade6; }
-    .card:nth-child(4) { --card-accent: #bf5af2; }
+    .card:nth-child(1) { --card-accent: #005BAC; }
+    .card:nth-child(2) { --card-accent: #0088cc; }
+    .card:nth-child(3) { --card-accent: #00aaff; }
+    .card:nth-child(4) { --card-accent: #5e5ce6; }
 
     .card.visible { opacity: 1; transform: translateY(0); }
     @media (hover: hover) {
       .card:hover {
-        background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2);
+        background: var(--surface-hi); border-color: var(--card-accent, var(--accent));
+        box-shadow: var(--sh2);
       }
     }
+
     .card-tag {
-      font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--card-accent, var(--accent));
-      opacity: 0.8; margin-bottom: 1.1rem;
+      font-family: var(--mono); font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--card-accent, var(--accent)); opacity: 0.75; margin-bottom: 1rem;
     }
     .card h2 {
-      font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-weight: 700;
+      font-size: clamp(1.25rem, 2.2vw, 1.65rem); font-weight: 700;
       line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 0.4rem;
     }
-    .card .lead { font-size: 0.85rem; color: var(--text-2); font-weight: 500; margin-bottom: 1rem; }
-    .card p { font-size: 0.94rem; color: var(--text-2); line-height: 1.72; }
+    .card .lead { font-size: 0.84rem; color: var(--text-2); font-weight: 500; margin-bottom: 1rem; }
+    .card p { font-size: 0.93rem; color: var(--text-2); line-height: 1.74; }
 
-    /* footer */
+    /* ── Footer ── */
     .footer {
-      padding: 2.5rem 0;
-      position: relative;
+      padding: 2.5rem 0; position: relative;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
     }
-    /* Gradient rule instead of solid border */
     .footer::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent) 20%, #5e5ce6 50%, #bf5af2 80%, transparent);
-      opacity: 0.35;
+      background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-2) 50%, var(--accent-3) 80%, transparent);
+      opacity: 0.40;
     }
-    .footer-copy { font-size: 0.82rem; color: var(--text-3); }
+    .footer-copy { font-family: var(--mono); font-size: 0.78rem; color: var(--text-3); }
     .footer-links { display: flex; gap: 1.25rem; }
     .footer-links a {
-      font-size: 0.82rem; color: var(--text-3);
-      transition: color 0.2s ease;
-      position: relative;
+      font-family: var(--mono); font-size: 0.78rem; color: var(--text-3);
+      transition: color 0.2s ease; position: relative;
     }
     .footer-links a::after {
       content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
@@ -311,22 +342,23 @@
       transform: scaleX(0); transform-origin: left;
       transition: transform 0.25s var(--ease);
     }
-    .footer-links a:hover { color: var(--text-2); }
+    .footer-links a:hover { color: var(--accent); }
     .footer-links a:hover::after { transform: scaleX(1); }
 
-    /* reveal */
+    /* ── Reveal ── */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.55s var(--ease), transform 0.55s var(--ease); }
     .reveal.visible { opacity: 1; transform: none; }
 
-    /* responsive */
+    /* ── Responsive ── */
     @media (max-width: 768px) {
       .hero { padding-top: calc(var(--nav-h) + 5rem); }
-      .avatar-shell { width: 116px; height: 116px; }
-      .avatar { border-radius: 26px; }
-      .avatar-shell::before { border-radius: 30px; }
-      .avatar-shell::after  { border-radius: 28px; }
+      .avatar-shell { width: 112px; height: 112px; }
+      .avatar { border-radius: 10px; }
+      .avatar-shell::before { border-radius: 14px; }
+      .avatar-shell::after  { border-radius: 12px; }
+      .hero .note { text-align: left; }
       .grid { grid-template-columns: 1fr; }
-      .card { padding: 1.6rem; }
+      .card { padding: 1.4rem 1.6rem; }
       .cta .btn { flex: 1; min-width: 0; }
       .footer { flex-direction: column; align-items: center; text-align: center; }
     }
@@ -372,7 +404,7 @@
         <div class="reveal" style="--d:0ms">
           <span class="badge">
             <span class="badge-dot" aria-hidden="true"></span>
-            Strategy · Organization · Technology
+            KAIST College of Business
           </span>
         </div>
 
@@ -380,7 +412,9 @@
           <div class="avatar" role="img" aria-label="Portrait of Seongjun Lee"></div>
         </div>
 
-        <h1 class="reveal" id="heroTitle" style="--d:160ms">Seongjun Lee</h1>
+        <h1 class="reveal" id="heroTitle" style="--d:160ms">
+          <span>Seongjun Lee</span>
+        </h1>
 
         <p class="sub reveal" id="heroSubtitle" style="--d:230ms">
           Built upon deepening questions and boundless curiosity.
@@ -407,16 +441,16 @@
     </section>
 
     <section class="section wrap">
-      <p class="eyebrow reveal">About</p>
+      <p class="eyebrow reveal">about</p>
       <div class="grid">
         <article class="card">
-          <p class="card-tag">01</p>
+          <p class="card-tag">01 — profile</p>
           <h2 id="aboutTitle">About Me</h2>
           <p class="lead" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
           <p id="aboutDescription">Raised across cultures and trained across disciplines, I am most interested in how organizations make decisions, adapt under pressure, and build durable advantage.</p>
         </article>
         <article class="card">
-          <p class="card-tag">02</p>
+          <p class="card-tag">02 — vision</p>
           <h2 id="visionTitle">Vision</h2>
           <p class="lead" id="visionSubtitle">Technology with institutional judgment</p>
           <p id="visionDescription">I am interested in the point where technology stops being novelty and becomes structure: something that changes how firms operate, compete, and endure.</p>
@@ -425,16 +459,16 @@
     </section>
 
     <section class="section wrap">
-      <p class="eyebrow reveal">Work &amp; Thinking</p>
+      <p class="eyebrow reveal">work &amp; thinking</p>
       <div class="grid">
         <article class="card">
-          <p class="card-tag">03</p>
+          <p class="card-tag">03 — experience</p>
           <h2 id="experienceTitle">Experience</h2>
           <p class="lead" id="experienceSubtitle">Strategy, research, and field exposure</p>
           <p id="experienceDescription">My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.</p>
         </article>
         <article class="card">
-          <p class="card-tag">04</p>
+          <p class="card-tag">04 — approach</p>
           <h2 id="approachTitle">Approach</h2>
           <p class="lead" id="approachSubtitle">Systems thinking without abstraction for its own sake</p>
           <p id="approachDescription">I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.</p>
@@ -444,17 +478,17 @@
   </main>
 
   <footer class="footer wrap reveal">
-    <p class="footer-copy" id="footerText">© 2025 Seongjun Lee. Built with curiosity and purpose.</p>
+    <p class="footer-copy" id="footerText">© 2025 Seongjun Lee — KAIST College of Business</p>
     <nav class="footer-links" aria-label="Footer links">
-      <a href="mailto:james@seongjunl.ee">Email</a>
-      <a href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:james@seongjunl.ee">email</a>
+      <a href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener noreferrer">linkedin</a>
     </nav>
   </footer>
 
   <script>
   (() => {
     'use strict';
-    const KEY = 'sj_v2';
+    const KEY = 'sj_v3';
 
     const i18n = {
       en: {
@@ -470,7 +504,7 @@
         experienceDescription:'My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.',
         approachTitle:'Approach', approachSubtitle:'Systems thinking without abstraction for its own sake',
         approachDescription:'I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.',
-        footerText:'© 2025 Seongjun Lee. Built with curiosity and purpose.',
+        footerText:'© 2025 Seongjun Lee — KAIST College of Business',
         languageFlag:'EN', languageText:'English', themeTextLight:'Light', themeTextDark:'Dark',
       },
       ko: {
@@ -486,7 +520,7 @@
         experienceDescription:'컨설팅 리서치와 실사 업무부터 지역 산업 현장에 대한 관찰까지, 전략이 실제 운영 현실과 만나는 지점을 직접 보며 배웠습니다.',
         approachTitle:'접근법', approachSubtitle:'추상화를 위한 추상이 아닌 시스템 사고',
         approachDescription:'저는 구조적 원인과 피드백 루프, 그리고 그 아래 있는 인간의 유인을 함께 봅니다. 좋은 전략은 분석만이 아니라 불완전한 정보 속에서의 절제된 판단이라고 생각합니다.',
-        footerText:'© 2025 이성준. 호기심과 목적의식 위에서 만들었습니다.',
+        footerText:'© 2025 이성준 — KAIST 경영대학',
         languageFlag:'한', languageText:'한국어', themeTextLight:'라이트', themeTextDark:'다크',
       },
     };
@@ -502,7 +536,13 @@
 
     const applyLang = () => {
       const d = i18n[S.lang] || i18n.en;
-      for (const [id, val] of Object.entries(d)) { const el = document.getElementById(id); if (el) el.textContent = val; }
+      for (const [id, val] of Object.entries(d)) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        // heroTitle lives inside a <span> — update only text, preserve the span
+        if (id === 'heroTitle') { const span = el.querySelector('span') || el; span.firstChild ? (span.firstChild.textContent = val) : (span.textContent = val); }
+        else el.textContent = val;
+      }
       $('#languageToggle')?.setAttribute('aria-pressed', String(S.lang === 'ko'));
     };
 
@@ -516,7 +556,7 @@
       $('#themeToggle')?.setAttribute('aria-pressed', String(dark));
     };
 
-    /* Single rAF loop: progress bar + nav glass */
+    /* Single rAF scroll loop */
     const setupScrollLoop = () => {
       const bar = $('#progress'), nav = $('#nav');
       let pending = false, lastY = -1;
@@ -536,7 +576,7 @@
       tick();
     };
 
-    /* Lerped 3-D tilt — desktop pointer only */
+    /* Lerped 3-D tilt — desktop only */
     const setupTilt = () => {
       if (!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
       $$('.card').forEach(card => {
@@ -546,20 +586,20 @@
           rx = lerp(rx,tx,0.12); ry = lerp(ry,ty,0.12);
           card.style.transform = card.classList.contains('visible')
             ? `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(1.012)`
-            : 'translateY(22px)';
-          raf = (Math.abs(rx-tx) < 0.01 && Math.abs(ry-ty) < 0.01) ? null : requestAnimationFrame(step);
+            : 'translateY(20px)';
+          raf = (Math.abs(rx-tx)<0.01 && Math.abs(ry-ty)<0.01) ? null : requestAnimationFrame(step);
         };
         card.addEventListener('mousemove', e => {
           const r = card.getBoundingClientRect();
-          tx = -((e.clientY - r.top)  / r.height - 0.5) * 7;
-          ty =  ((e.clientX - r.left) / r.width  - 0.5) * 7;
+          tx = -((e.clientY-r.top)/r.height-0.5)*7;
+          ty =  ((e.clientX-r.left)/r.width-0.5)*7;
           if (!raf) raf = requestAnimationFrame(step);
         });
         card.addEventListener('mouseleave', () => { tx=0; ty=0; if (!raf) raf=requestAnimationFrame(step); });
       });
     };
 
-    /* Intersection reveal */
+    /* Reveal with IntersectionObserver */
     const setupReveal = () => {
       const items = $$('.card, .reveal');
       if (matchMedia('(prefers-reduced-motion:reduce)').matches || !('IntersectionObserver' in window)) {
@@ -578,6 +618,19 @@
       items.forEach(el => io.observe(el));
     };
 
+    /* Animate the underline on h1 after reveal */
+    const setupNameUnderline = () => {
+      const h1 = $('.hero h1');
+      const span = h1?.querySelector('span');
+      if (!span) return;
+      const io = new IntersectionObserver(([e], obs) => {
+        if (!e.isIntersecting) return;
+        setTimeout(() => span.classList.add('line-visible'), 500);
+        obs.disconnect();
+      }, { threshold: 0.5 });
+      io.observe(h1);
+    };
+
     const bindEvents = () => {
       $('#themeToggle')?.addEventListener('click', () => { S.theme = S.theme==='dark'?'light':'dark'; applyTheme(); store.write(S); });
       $('#languageToggle')?.addEventListener('click', () => { S.lang = S.lang==='en'?'ko':'en'; applyLang(); applyTheme(); store.write(S); });
@@ -585,7 +638,10 @@
       document.addEventListener('keydown', e => { if (e.key.toLowerCase()==='t' && (e.metaKey||e.ctrlKey)) { e.preventDefault(); $('#themeToggle')?.click(); } });
     };
 
-    const init = () => { applyLang(); applyTheme(); bindEvents(); setupScrollLoop(); setupReveal(); setupTilt(); };
+    const init = () => {
+      applyLang(); applyTheme(); bindEvents();
+      setupScrollLoop(); setupReveal(); setupTilt(); setupNameUnderline();
+    };
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', init, { once: true })
       : init();
