@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Seongjun Lee — Strategy, organization, and technology" />
   <title>Seongjun Lee</title>
-  <!-- Pretendard: Apple SD Gothic Neo-inspired, covers both KO and EN -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="stylesheet" as="style" onload="this.onload=null;this.rel='stylesheet'"
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <noscript>
-    <link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  </noscript>
+  <!-- Pretendard: Apple SD Gothic Neo-inspired, covers both KO and EN — blocking load for FOUT-free render -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <style>
     /* ── @property: typed custom props enable smooth theme transitions ── */
     @property --bg      { syntax: '<color>'; inherits: true; initial-value: #f0f4f9; }
@@ -174,7 +170,7 @@
       background: var(--surface); border: 1px solid var(--border);
       backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
       color: var(--text-2);
-      font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+      font-size: 0.74rem; font-weight: 500; letter-spacing: -0.01em;
       box-shadow: var(--sh1); white-space: nowrap;
       transition:
         background var(--td) ease, border-color 0.22s ease,
@@ -208,8 +204,8 @@
       display: inline-flex; align-items: center; gap: 0.45rem;
       padding: 0.28rem 0.9rem; border-radius: 100px;
       background: rgba(0,91,172,0.07); border: 1px solid rgba(0,91,172,0.18);
-      font-family: var(--mono); font-size: 0.69rem; font-weight: 500;
-      color: var(--accent); letter-spacing: 0.03em;
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--accent); letter-spacing: 0.01em;
       transition: background var(--td) ease, border-color var(--td) ease;
     }
     html[data-theme="dark"] .badge { background: rgba(0,91,172,0.15); border-color: rgba(0,120,212,0.34); }
@@ -249,6 +245,8 @@
       font-weight: 800; line-height: 1.0; letter-spacing: -0.04em;
       color: var(--text);
     }
+    /* Korean: tight negative tracking breaks Hangul — reset to natural */
+    html[lang="ko"] .hero h1 { letter-spacing: -0.01em; line-height: 1.05; }
     .hero h1 span { position: relative; display: inline-block; }
     .hero h1 span::after {
       content: ''; position: absolute; left: 0; right: 0;
@@ -393,6 +391,84 @@
     .footer-links a:hover { color: var(--accent); }
     .footer-links a:hover::after { transform: scaleX(1); }
 
+    /* ── Interest tags ── */
+    .tags {
+      display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center;
+    }
+    .tag {
+      padding: 0.22rem 0.75rem; border-radius: 100px;
+      font-size: 0.76rem; font-weight: 500; letter-spacing: -0.01em;
+      color: var(--text-3); border: 1px solid var(--border);
+      background: var(--surface);
+      transition: color 0.2s ease, border-color 0.2s ease,
+                  background var(--td) ease;
+    }
+    .tag:hover { color: var(--accent); border-color: var(--border-hi); }
+
+    /* ── Card bullet list ── */
+    .card-list {
+      list-style: none; margin-top: 1rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .card-list li {
+      font-size: 0.86rem; color: var(--text-2); line-height: 1.5;
+      padding-left: 1rem; position: relative;
+    }
+    .card-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.52em;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent); opacity: 0.55;
+    }
+
+    /* ── Currently section ── */
+    .currently {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--r);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--sh1);
+      padding: 2rem 2.25rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      align-items: center;
+      transition: background var(--td) ease, border-color var(--td) ease, box-shadow 0.25s ease;
+    }
+    @media (hover: hover) {
+      .currently:hover { background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2); }
+    }
+    .currently-label {
+      font-family: var(--mono); font-size: 0.63rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.60; margin-bottom: 0.75rem;
+    }
+    .currently h2 {
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.15; color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .currently .lead {
+      font-size: 0.84rem; color: var(--text-2); line-height: 1.70;
+    }
+    .currently-right {
+      display: flex; flex-direction: column; gap: 0.85rem;
+    }
+    .currently-stat {
+      display: flex; flex-direction: column; gap: 0.1rem;
+    }
+    .currently-stat-val {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em;
+      color: var(--text); line-height: 1;
+    }
+    .currently-stat-val span { color: var(--accent); }
+    .currently-stat-key {
+      font-size: 0.76rem; color: var(--text-3); font-weight: 500;
+    }
+    .currently-divider {
+      width: 1px; height: 1px; background: var(--border);
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .currently { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
     /* ── Reveal ── */
     .reveal {
       opacity: 0; transform: translateY(12px);
@@ -492,7 +568,15 @@
           with a focus on building institutions that matter.
         </p>
 
-        <div class="cta reveal" style="--d:380ms">
+        <div class="tags reveal" style="--d:360ms" aria-label="Interests">
+          <span class="tag">Strategy</span>
+          <span class="tag">Organizations</span>
+          <span class="tag">Technology</span>
+          <span class="tag">Policy</span>
+          <span class="tag">KAIST</span>
+        </div>
+
+        <div class="cta reveal" style="--d:430ms">
           <a class="btn btn-fill lang-t"    id="ctaButton"      href="mailto:james@seongjunl.ee">Contact</a>
           <a class="btn btn-outline lang-t" id="linkedinButton" href="https://linkedin.com/in/seongjunlee"
              target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -514,12 +598,22 @@
           <h2 class="lang-t" id="aboutTitle">About Me</h2>
           <p class="lead lang-t" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
           <p class="lang-t" id="aboutDescription">Raised across cultures and trained across disciplines, I am most interested in how organizations make decisions, adapt under pressure, and build durable advantage.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="aboutH1">Fluent in English and Korean</li>
+            <li class="lang-t" id="aboutH2">Background spanning strategy and organizational theory</li>
+            <li class="lang-t" id="aboutH3">Drawn to questions where analysis alone falls short</li>
+          </ul>
         </article>
         <article class="card">
           <p class="card-label">02 — vision</p>
           <h2 class="lang-t" id="visionTitle">Vision</h2>
           <p class="lead lang-t" id="visionSubtitle">Technology with institutional judgment</p>
           <p class="lang-t" id="visionDescription">I am interested in the point where technology stops being novelty and becomes structure: something that changes how firms operate, compete, and endure.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="visionH1">Where AI reshapes firm boundaries and hierarchies</li>
+            <li class="lang-t" id="visionH2">How institutions absorb and resist new technology</li>
+            <li class="lang-t" id="visionH3">Building things that outlast the trend cycle</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -532,13 +626,43 @@
           <h2 class="lang-t" id="experienceTitle">Experience</h2>
           <p class="lead lang-t" id="experienceSubtitle">Strategy, research, and field exposure</p>
           <p class="lang-t" id="experienceDescription">My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="expH1">Consulting research and competitive due diligence</li>
+            <li class="lang-t" id="expH2">Exposure to manufacturing and industrial operations</li>
+            <li class="lang-t" id="expH3">Cross-cultural stakeholder work in Korea and abroad</li>
+          </ul>
         </article>
         <article class="card">
           <p class="card-label">04 — approach</p>
           <h2 class="lang-t" id="approachTitle">Approach</h2>
           <p class="lead lang-t" id="approachSubtitle">Systems thinking without abstraction for its own sake</p>
           <p class="lang-t" id="approachDescription">I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="appH1">First-principles reasoning over received frameworks</li>
+            <li class="lang-t" id="appH2">Writing as a tool for sharpening thought</li>
+            <li class="lang-t" id="appH3">Comfortable with ambiguity; allergic to false precision</li>
+          </ul>
         </article>
+      </div>
+    </section>
+    <section class="section wrap">
+      <p class="section-label reveal">currently</p>
+      <div class="currently card reveal">
+        <div class="currently-left">
+          <p class="currently-label">05 — now</p>
+          <h2 class="lang-t" id="currentlyTitle">Studying at KAIST</h2>
+          <p class="lead lang-t" id="currentlyDesc">Enrolled in the College of Business, exploring the intersection of management theory, technology strategy, and institutional design. Open to research collaborations and meaningful conversations.</p>
+        </div>
+        <div class="currently-right">
+          <div class="currently-stat">
+            <div class="currently-stat-val">KAIST<span>.</span></div>
+            <div class="currently-stat-key lang-t" id="statLabel1">College of Business</div>
+          </div>
+          <div class="currently-stat">
+            <div class="currently-stat-val">Daejeon<span>,</span> Korea</div>
+            <div class="currently-stat-key lang-t" id="statLabel2">Current location</div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -572,6 +696,22 @@
         approachDescription:'I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.',
         footerText:'© 2025 Seongjun Lee — KAIST College of Business',
         languageFlag:'EN', languageText:'English', themeTextLight:'Light', themeTextDark:'Dark',
+        aboutH1:'Fluent in English and Korean',
+        aboutH2:'Background spanning strategy and organizational theory',
+        aboutH3:'Drawn to questions where analysis alone falls short',
+        visionH1:'Where AI reshapes firm boundaries and hierarchies',
+        visionH2:'How institutions absorb and resist new technology',
+        visionH3:'Building things that outlast the trend cycle',
+        expH1:'Consulting research and competitive due diligence',
+        expH2:'Exposure to manufacturing and industrial operations',
+        expH3:'Cross-cultural stakeholder work in Korea and abroad',
+        appH1:'First-principles reasoning over received frameworks',
+        appH2:'Writing as a tool for sharpening thought',
+        appH3:'Comfortable with ambiguity; allergic to false precision',
+        currentlyTitle:'Studying at KAIST',
+        currentlyDesc:'Enrolled in the College of Business, exploring the intersection of management theory, technology strategy, and institutional design. Open to research collaborations and meaningful conversations.',
+        statLabel1:'College of Business',
+        statLabel2:'Current location',
       },
       ko: {
         navBrand:'이성준', heroTitle:'이성준',
@@ -588,6 +728,22 @@
         approachDescription:'저는 구조적 원인과 피드백 루프, 그리고 그 아래 있는 인간의 유인을 함께 봅니다. 좋은 전략은 분석만이 아니라 불완전한 정보 속에서의 절제된 판단이라고 생각합니다.',
         footerText:'© 2025 이성준 — KAIST 경영대학',
         languageFlag:'한', languageText:'한국어', themeTextLight:'라이트', themeTextDark:'다크',
+        aboutH1:'영어 및 한국어 유창',
+        aboutH2:'전략과 조직론을 아우르는 배경',
+        aboutH3:'분석만으로 답하기 어려운 질문에 끌림',
+        visionH1:'AI가 기업 경계와 위계를 재편하는 지점',
+        visionH2:'제도가 새로운 기술을 흡수하고 저항하는 방식',
+        visionH3:'트렌드 사이클을 넘어 지속되는 것 만들기',
+        expH1:'컨설팅 리서치 및 경쟁 실사',
+        expH2:'제조업 및 산업 현장 경험',
+        expH3:'한국과 해외에서의 다문화 이해관계자 업무',
+        appH1:'기존 프레임워크보다 제1원칙적 사고',
+        appH2:'생각을 다듬는 도구로서의 글쓰기',
+        appH3:'모호함에 익숙하고, 거짓 정밀함을 경계함',
+        currentlyTitle:'KAIST 재학 중',
+        currentlyDesc:'경영대학에서 경영 이론, 기술 전략, 제도 설계의 교차점을 탐구하고 있습니다. 연구 협업과 의미 있는 대화를 환영합니다.',
+        statLabel1:'경영대학',
+        statLabel2:'현재 위치',
       },
     };
 
