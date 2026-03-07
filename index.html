@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Seongjun Lee — Strategy, organization, and technology" />
   <title>Seongjun Lee</title>
+  <!-- Pretendard: Apple SD Gothic Neo-inspired, covers both KO and EN -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" as="style" onload="this.onload=null;this.rel='stylesheet'"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  </noscript>
   <style>
     /* ── @property: typed custom props enable smooth theme transitions ── */
     @property --bg      { syntax: '<color>'; inherits: true; initial-value: #f0f4f9; }
@@ -38,7 +46,7 @@
       --w:     1040px;
       --ease:  cubic-bezier(0.16,1,0.3,1);
       --spring: cubic-bezier(0.34,1.56,0.64,1);
-      --mono: "SF Mono","JetBrains Mono","Fira Code",ui-monospace,monospace;
+      --mono: "SF Mono","Menlo","JetBrains Mono","Fira Code",ui-monospace,monospace;
       --td: 0.42s;  /* theme-transition duration */
     }
     html[data-theme="dark"] {
@@ -75,11 +83,18 @@
       -moz-osx-font-smoothing: grayscale;
     }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      /* Pretendard covers KO + EN with Apple SD Gothic Neo-inspired letterforms;
+         falls back to SF Pro on Apple, then system fonts */
+      font-family: "Pretendard Variable", Pretendard,
+        -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Segoe UI", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      /* Korean line-break: prevent splitting mid-word */
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     a      { color: inherit; text-decoration: none; }
     button { font: inherit; border: 0; cursor: pointer; background: none; }
