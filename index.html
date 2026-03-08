@@ -51,7 +51,7 @@
       --surface-hi: rgba(12,20,44,0.97);
       --text:       #dfe9f8;
       --text-2:     #7a90b0;
-      --text-3:     #384d68;
+      --text-3:     #5f7fa0;
       --border:     rgba(0,120,212,0.14);
       --border-hi:  rgba(0,120,212,0.30);
       --sh1: 0 1px 2px rgba(0,0,0,0.40), 0 4px 12px rgba(0,91,172,0.20);
@@ -302,6 +302,7 @@
       letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--accent); opacity: 0.65; margin-bottom: 1.5rem;
     }
+    html[data-theme="dark"] .section-label { opacity: 1; color: var(--text-2); }
 
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.25rem; }
 
@@ -334,6 +335,7 @@
       letter-spacing: 0.10em; text-transform: uppercase;
       color: var(--accent); opacity: 0.60; margin-bottom: 0.9rem;
     }
+    html[data-theme="dark"] .card-label { opacity: 1; color: var(--text-2); }
     .card h2 {
       font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 700;
       line-height: 1.2; letter-spacing: -0.02em;
@@ -920,10 +922,10 @@
 
       // ── Depth blobs (background colour field) ───────────────────────────
       const blobs = [
-        { ox:0.22, oy:0.32, ax:0.20, ay:0.16, fx:0.18, fy:0.14, ph:0.0, col:[20, 100,255], da:0.22, la:0.10, sz:0.90 },
-        { ox:0.80, oy:0.24, ax:0.16, ay:0.20, fx:0.15, fy:0.12, ph:2.1, col:[140,  0,255], da:0.20, la:0.05, sz:0.80 },
-        { ox:0.58, oy:0.76, ax:0.20, ay:0.14, fx:0.22, fy:0.17, ph:4.2, col:[0,  185,230], da:0.18, la:0.06, sz:0.74 },
-        { ox:0.14, oy:0.66, ax:0.14, ay:0.20, fx:0.14, fy:0.20, ph:1.6, col:[80,   0,220], da:0.20, la:0.07, sz:0.82 },
+        { ox:0.22, oy:0.32, ax:0.20, ay:0.16, fx:0.18, fy:0.14, ph:0.0, col:[0,  80,255], da:0.22, la:0.10, sz:0.90 },
+        { ox:0.80, oy:0.24, ax:0.16, ay:0.20, fx:0.15, fy:0.12, ph:2.1, col:[30,120,255], da:0.20, la:0.08, sz:0.80 },
+        { ox:0.58, oy:0.76, ax:0.20, ay:0.14, fx:0.22, fy:0.17, ph:4.2, col:[0,  50,200], da:0.18, la:0.07, sz:0.74 },
+        { ox:0.14, oy:0.66, ax:0.14, ay:0.20, fx:0.14, fy:0.20, ph:1.6, col:[10,160,255], da:0.20, la:0.07, sz:0.82 },
       ];
 
       // ── Wave sheets ─────────────────────────────────────────────────────
@@ -932,11 +934,11 @@
       // yC = normalised centre; hH = half-height fraction; amp = edge swing.
       // dy/dph = slow whole-sheet vertical breath. da/la = dark/light alpha.
       const sheets = [
-        { yC:0.28, hH:0.22, amp:0.10, dy:0.042, dph:0.0, ph:0.00, col:[20, 100,255], da:0.32, la:0.09 },
-        { yC:0.52, hH:0.20, amp:0.09, dy:0.036, dph:1.9, ph:2.30, col:[150,  0,255], da:0.28, la:0.07 },
-        { yC:0.16, hH:0.18, amp:0.09, dy:0.030, dph:3.8, ph:4.60, col:[0,  200,235], da:0.26, la:0.07 },
-        { yC:0.70, hH:0.20, amp:0.09, dy:0.038, dph:2.5, ph:1.20, col:[220,  0,120], da:0.28, la:0.07 },
-        { yC:0.40, hH:0.18, amp:0.08, dy:0.032, dph:5.1, ph:3.80, col:[80,  20,230], da:0.24, la:0.06 },
+        { yC:0.28, hH:0.22, amp:0.10, dy:0.042, dph:0.0, ph:0.00, col:[10,  90,255], da:0.32, la:0.09 },
+        { yC:0.52, hH:0.20, amp:0.09, dy:0.036, dph:1.9, ph:2.30, col:[0,   50,210], da:0.28, la:0.07 },
+        { yC:0.16, hH:0.18, amp:0.09, dy:0.030, dph:3.8, ph:4.60, col:[30, 130,255], da:0.26, la:0.07 },
+        { yC:0.70, hH:0.20, amp:0.09, dy:0.038, dph:2.5, ph:1.20, col:[0,   70,230], da:0.28, la:0.07 },
+        { yC:0.40, hH:0.18, amp:0.08, dy:0.032, dph:5.1, ph:3.80, col:[20, 110,255], da:0.24, la:0.06 },
       ];
 
       // 5-harmonic wave edge — organic, non-repeating, cinematic
