@@ -321,8 +321,8 @@
     .section { padding: 2rem 0 4.5rem; }
 
     .section-label {
-      font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
-      letter-spacing: 0.14em; text-transform: uppercase;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--accent); opacity: 0.65; margin-bottom: 1.5rem;
     }
 
@@ -353,20 +353,22 @@
       }
     }
     .card-label {
-      font-family: var(--mono); font-size: 0.63rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 0.63rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
       color: var(--accent); opacity: 0.60; margin-bottom: 0.9rem;
     }
     .card h2 {
       font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 700;
-      line-height: 1.15; letter-spacing: -0.025em;
+      line-height: 1.2; letter-spacing: -0.02em;
       margin-bottom: 0.3rem; color: var(--text);
     }
+    html[lang="ko"] .card h2 { letter-spacing: -0.005em; line-height: 1.28; }
     .card .lead {
-      font-size: 0.82rem; color: var(--text-3);
-      font-weight: 500; margin-bottom: 0.85rem;
+      font-size: 0.84rem; color: var(--text-3);
+      font-weight: 500; line-height: 1.65; margin-bottom: 0.9rem;
     }
-    .card p { font-size: 0.92rem; color: var(--text-2); line-height: 1.76; }
+    html[lang="ko"] .card .lead { letter-spacing: 0; }
+    .card p { font-size: 0.92rem; color: var(--text-2); line-height: 1.78; }
 
     /* ── Footer ── */
     .footer {
@@ -376,10 +378,10 @@
       border-top: 1px solid var(--border);
       transition: border-color var(--td) ease;
     }
-    .footer-copy { font-family: var(--mono); font-size: 0.75rem; color: var(--text-3); }
+    .footer-copy { font-size: 0.75rem; color: var(--text-3); }
     .footer-links { display: flex; gap: 1.5rem; }
     .footer-links a {
-      font-family: var(--mono); font-size: 0.75rem; color: var(--text-3);
+      font-size: 0.75rem; color: var(--text-3);
       transition: color 0.2s ease; position: relative;
     }
     .footer-links a::after {
@@ -435,13 +437,13 @@
       .currently:hover { background: var(--surface-hi); border-color: var(--border-hi); box-shadow: var(--sh2); }
     }
     .currently-label {
-      font-family: var(--mono); font-size: 0.63rem; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 0.63rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
       color: var(--accent); opacity: 0.60; margin-bottom: 0.75rem;
     }
     .currently h2 {
       font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 700;
-      letter-spacing: -0.03em; line-height: 1.15; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1.2; color: var(--text);
       margin-bottom: 0.4rem;
     }
     .currently .lead {
