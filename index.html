@@ -108,32 +108,37 @@
     }
 
     /* ── Background orbs ── */
+    /* No filter:blur — radial-gradient to transparent is naturally soft and
+       compositor-free. Mouse parallax uses the separate CSS `translate`
+       property, which composes on top of the keyframe `transform` drift. */
     .bg {
       position: fixed; inset: 0; z-index: -1;
       overflow: hidden; pointer-events: none;
     }
-    .bg::before, .bg::after {
-      content: ''; position: absolute; border-radius: 50%;
-      filter: blur(110px); will-change: transform;
+    .bg-a, .bg-b {
+      position: absolute; border-radius: 50%; will-change: transform, translate;
     }
-    .bg::before {
-      width: 720px; height: 720px; top: -220px; left: -200px;
-      background: radial-gradient(circle, rgba(0,91,172,0.16) 0%, transparent 65%);
-      animation: float-a 30s ease-in-out infinite alternate;
+    .bg-a {
+      width: 960px; height: 960px; top: -300px; left: -260px;
+      background: radial-gradient(circle, rgba(0,91,172,0.13) 0%, transparent 70%);
+      animation: float-a 32s ease-in-out infinite alternate;
     }
-    .bg::after {
-      width: 520px; height: 520px; bottom: -100px; right: -120px;
-      background: radial-gradient(circle, rgba(0,168,255,0.10) 0%, transparent 65%);
-      animation: float-b 38s ease-in-out infinite alternate;
+    .bg-b {
+      width: 700px; height: 700px; bottom: -180px; right: -180px;
+      background: radial-gradient(circle, rgba(0,168,255,0.09) 0%, transparent 70%);
+      animation: float-b 40s ease-in-out infinite alternate;
       animation-delay: -18s;
     }
-    html[data-theme="dark"] .bg::before { background: radial-gradient(circle, rgba(0,91,172,0.28) 0%, transparent 65%); }
-    html[data-theme="dark"] .bg::after  { background: radial-gradient(circle, rgba(0,168,255,0.18) 0%, transparent 65%); }
-    @keyframes float-a { from { transform: translate(0,0); } to { transform: translate(60px,-80px) scale(1.08); } }
-    @keyframes float-b { from { transform: translate(0,0); } to { transform: translate(-50px,64px) scale(0.92); } }
+    html[data-theme="dark"] .bg-a { background: radial-gradient(circle, rgba(0,91,172,0.26) 0%, transparent 70%); }
+    html[data-theme="dark"] .bg-b { background: radial-gradient(circle, rgba(0,168,255,0.16) 0%, transparent 70%); }
+    @keyframes float-a { from { transform: translate(0,0); } to { transform: translate(55px,-75px) scale(1.07); } }
+    @keyframes float-b { from { transform: translate(0,0); } to { transform: translate(-45px,60px) scale(0.93); } }
+    @media (prefers-reduced-motion: reduce) {
+      .bg-a, .bg-b { animation: none; }
+    }
     @media (max-width: 768px) {
-      .bg::before { width: 380px; height: 380px; }
-      .bg::after  { width: 280px; height: 280px; }
+      .bg-a { width: 440px; height: 440px; }
+      .bg-b { width: 300px; height: 300px; }
     }
 
     /* ── Navigation ── */
@@ -509,7 +514,7 @@
 <body>
 
   <div id="progress" aria-hidden="true"></div>
-  <div class="bg" aria-hidden="true"></div>
+  <div class="bg" aria-hidden="true"><span class="bg-a"></span><span class="bg-b"></span></div>
 
   <nav class="nav reveal" id="nav" aria-label="Site navigation">
     <span class="nav-name lang-t" id="navBrand">Seongjun Lee</span>
@@ -926,9 +931,30 @@
       });
     };
 
+    const setupBgParallax = () => {
+      const a = document.querySelector('.bg-a');
+      const b = document.querySelector('.bg-b');
+      if (!a || !b || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let rafId = null, cx = 0, cy = 0, tx = 0, ty = 0;
+      const tick = () => {
+        cx += (tx - cx) * 0.05;
+        cy += (ty - cy) * 0.05;
+        a.style.translate = `${(cx * 0.07).toFixed(1)}px ${(cy * 0.06).toFixed(1)}px`;
+        b.style.translate = `${(-cx * 0.05).toFixed(1)}px ${(-cy * 0.04).toFixed(1)}px`;
+        rafId = (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3)
+          ? requestAnimationFrame(tick) : null;
+      };
+      window.addEventListener('mousemove', e => {
+        tx = e.clientX - window.innerWidth  / 2;
+        ty = e.clientY - window.innerHeight / 2;
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      }, { passive: true });
+    };
+
     const init = () => {
       applyLang(); applyTheme(); bindEvents();
       setupScrollLoop(); setupReveal(); setupTilt(); setupNameUnderline();
+      setupBgParallax();
     };
 
     document.readyState === 'loading'
