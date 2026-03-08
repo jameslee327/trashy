@@ -907,94 +907,94 @@
       const canvas = document.getElementById('bg-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      let W, H, t = 0, last = 0;
+      let W, H, t = 0;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // 65% res — enough for crisp gradients, CSS upscale blurs edges naturally
       const resize = () => {
-        W = canvas.width  = Math.round(window.innerWidth  * 0.55);
-        H = canvas.height = Math.round(window.innerHeight * 0.55);
+        W = canvas.width  = Math.round(window.innerWidth  * 0.65);
+        H = canvas.height = Math.round(window.innerHeight * 0.65);
       };
       resize();
       window.addEventListener('resize', resize, { passive: true });
 
-      // ── Mesh blobs ──────────────────────────────────────────────────────
+      // ── Depth blobs (background colour field) ───────────────────────────
       const blobs = [
-        { ox:0.20, oy:0.30, ax:0.22, ay:0.18, freq:0.25, ph:0.0 },
-        { ox:0.80, oy:0.25, ax:0.18, ay:0.22, freq:0.19, ph:2.1 },
-        { ox:0.55, oy:0.75, ax:0.24, ay:0.16, freq:0.31, ph:4.2 },
-        { ox:0.15, oy:0.70, ax:0.16, ay:0.24, freq:0.17, ph:1.6 },
-        { ox:0.85, oy:0.62, ax:0.14, ay:0.18, freq:0.23, ph:3.3 },
-      ];
-      // Toned-down alphas for dark (screen composite; was 0.5+ before)
-      const palD = [[30,110,255,0.28,0.90],[140,0,255,0.24,0.80],[0,200,230,0.22,0.72],[80,20,220,0.26,0.82],[0,140,255,0.20,0.68]];
-      const palL = [[0,91,172,0.12,0.82],[100,0,200,0.06,0.68],[0,165,200,0.07,0.64],[55,0,180,0.08,0.72],[0,125,210,0.06,0.62]];
-
-      // ── Aurora bands ────────────────────────────────────────────────────
-      // Each band: [yCenter, halfHeight, drift amplitude, undulate freq,
-      //             drift speed, undulate speed, phase, r, g, b, alphaDark, alphaLight]
-      const bands = [
-        [0.22, 0.055, 0.06, 7, 0.18, 0.55, 0.0,   30,110,255, 0.18, 0.07],
-        [0.38, 0.045, 0.05, 9, 0.14, 0.70, 2.4,  140, 20,255, 0.15, 0.05],
-        [0.55, 0.050, 0.07, 6, 0.21, 0.48, 4.8,    0,190,230, 0.13, 0.05],
-        [0.70, 0.040, 0.04, 8, 0.16, 0.62, 1.2,   80, 20,220, 0.12, 0.04],
+        { ox:0.22, oy:0.32, ax:0.20, ay:0.16, fx:0.18, fy:0.14, ph:0.0, col:[20, 100,255], da:0.22, la:0.10, sz:0.90 },
+        { ox:0.80, oy:0.24, ax:0.16, ay:0.20, fx:0.15, fy:0.12, ph:2.1, col:[140,  0,255], da:0.20, la:0.05, sz:0.80 },
+        { ox:0.58, oy:0.76, ax:0.20, ay:0.14, fx:0.22, fy:0.17, ph:4.2, col:[0,  185,230], da:0.18, la:0.06, sz:0.74 },
+        { ox:0.14, oy:0.66, ax:0.14, ay:0.20, fx:0.14, fy:0.20, ph:1.6, col:[80,   0,220], da:0.20, la:0.07, sz:0.82 },
       ];
 
-      const drawBand = (yC, hH, dAmp, uFreq, dSp, uSp, ph, r, g, b, alpha) => {
-        const cy    = (yC + Math.sin(t * dSp + ph) * dAmp) * H;
-        const halfH = hH * H;
+      // ── Wave sheets ─────────────────────────────────────────────────────
+      // 5 full-width ribbons covering the whole screen, each with an
+      // independently undulating top + bottom edge (5-harmonic sum = organic).
+      // yC = normalised centre; hH = half-height fraction; amp = edge swing.
+      // dy/dph = slow whole-sheet vertical breath. da/la = dark/light alpha.
+      const sheets = [
+        { yC:0.28, hH:0.22, amp:0.10, dy:0.042, dph:0.0, ph:0.00, col:[20, 100,255], da:0.32, la:0.09 },
+        { yC:0.52, hH:0.20, amp:0.09, dy:0.036, dph:1.9, ph:2.30, col:[150,  0,255], da:0.28, la:0.07 },
+        { yC:0.16, hH:0.18, amp:0.09, dy:0.030, dph:3.8, ph:4.60, col:[0,  200,235], da:0.26, la:0.07 },
+        { yC:0.70, hH:0.20, amp:0.09, dy:0.038, dph:2.5, ph:1.20, col:[220,  0,120], da:0.28, la:0.07 },
+        { yC:0.40, hH:0.18, amp:0.08, dy:0.032, dph:5.1, ph:3.80, col:[80,  20,230], da:0.24, la:0.06 },
+      ];
 
-        // build top edge (undulating)
-        const pts = [];
-        for (let x = 0; x <= W; x += 3) {
-          const nx = x / W;
-          const uy = cy - halfH + Math.sin(nx * uFreq + t * uSp + ph)       * halfH * 0.45
-                                + Math.sin(nx * uFreq * 1.7 + t * uSp * 0.6) * halfH * 0.20;
-          pts.push([x, uy]);
-        }
-        // bottom edge (different phase so band breathes)
-        const bpts = [];
-        for (let x = W; x >= 0; x -= 3) {
-          const nx = x / W;
-          const by = cy + halfH + Math.sin(nx * uFreq + t * uSp * 0.8 + ph + 1.5) * halfH * 0.35
-                                + Math.sin(nx * uFreq * 1.5 + t * uSp * 0.5 + 1)   * halfH * 0.15;
-          bpts.push([x, by]);
-        }
+      // 5-harmonic wave edge — organic, non-repeating, cinematic
+      const edge = (nx, t, ph, amp) =>
+        amp * H * (
+          Math.sin(nx * 3.20 + t * 0.52 + ph)        * 1.00 +
+          Math.sin(nx * 6.30 + t * 0.39 + ph * 1.30) * 0.42 +
+          Math.sin(nx * 11.1 + t * 0.65 + ph * 0.75) * 0.22 +
+          Math.sin(nx * 1.70 + t * 0.23 + ph * 1.80) * 0.28 +
+          Math.sin(nx * 17.5 + t * 0.88 + ph * 0.40) * 0.08
+        ) / 2.0;
+
+      const drawSheet = (s, dark) => {
+        const cy    = (s.yC + Math.sin(t * 0.14 + s.dph) * s.dy) * H;
+        const halfH = s.hH * H;
+        const [r,g,b] = s.col;
 
         ctx.beginPath();
-        ctx.moveTo(pts[0][0], pts[0][1]);
-        pts.forEach(([x, y]) => ctx.lineTo(x, y));
-        bpts.forEach(([x, y]) => ctx.lineTo(x, y));
+        // top edge
+        for (let x = 0; x <= W; x += 2) {
+          const y = cy - halfH + edge(x / W, t, s.ph, s.amp);
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        // bottom edge (separate phase — band breathes independently)
+        for (let x = W; x >= 0; x -= 2) {
+          const y = cy + halfH + edge(x / W, t, s.ph + 2.6, s.amp * 0.72);
+          ctx.lineTo(x, y);
+        }
         ctx.closePath();
 
-        // vertical gradient — fades at both edges of the band
+        const a    = dark ? s.da : s.la;
         const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
         grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
-        grad.addColorStop(0.35, `rgba(${r},${g},${b},${alpha})`);
-        grad.addColorStop(0.65, `rgba(${r},${g},${b},${alpha})`);
+        grad.addColorStop(0.28, `rgba(${r},${g},${b},${a})`);
+        grad.addColorStop(0.72, `rgba(${r},${g},${b},${a})`);
         grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
         ctx.fillStyle = grad;
         ctx.fill();
       };
 
-      const draw = (now) => {
-        if (!reduced) requestAnimationFrame(draw);
-        if (now - last < 32) return;
-        last = now;
-        t += 0.004;
+      const draw = () => {
+        requestAnimationFrame(draw);
+        t += 0.010; // true 60 fps — no frame-skip, always smooth
 
         ctx.clearRect(0, 0, W, H);
         const dark = document.documentElement.dataset.theme === 'dark';
 
-        // Blobs — screen in dark for colour mixing, normal in light
+        // Depth blobs — screen composite in dark makes colours add like light
         ctx.globalCompositeOperation = dark ? 'screen' : 'normal';
-        blobs.forEach((b, i) => {
-          const [r,g,bl,a,sz] = (dark ? palD : palL)[i];
-          const x   = (b.ox + Math.sin(t * b.freq + b.ph)           * b.ax) * W;
-          const y   = (b.oy + Math.cos(t * b.freq * 0.75 + b.ph+1)  * b.ay) * H;
-          const rad = sz * Math.max(W, H) * 0.68;
+        blobs.forEach(b => {
+          const [r,g,bl] = b.col;
+          const a   = dark ? b.da : b.la;
+          const x   = (b.ox + Math.sin(t * b.fx + b.ph) * b.ax) * W;
+          const y   = (b.oy + Math.cos(t * b.fy + b.ph + 1) * b.ay) * H;
+          const rad = b.sz * Math.max(W, H) * 0.65;
           const grd = ctx.createRadialGradient(x, y, 0, x, y, rad);
           grd.addColorStop(0,   `rgba(${r},${g},${bl},${a})`);
-          grd.addColorStop(0.5, `rgba(${r},${g},${bl},${+(a*0.3).toFixed(2)})`);
+          grd.addColorStop(0.5, `rgba(${r},${g},${bl},${+(a*0.28).toFixed(2)})`);
           grd.addColorStop(1,   `rgba(${r},${g},${bl},0)`);
           ctx.beginPath();
           ctx.arc(x, y, rad, 0, Math.PI * 2);
@@ -1002,14 +1002,12 @@
           ctx.fill();
         });
 
-        // Aurora bands — always normal composite, drawn on top
-        ctx.globalCompositeOperation = 'normal';
-        bands.forEach(([yC,hH,dAmp,uFreq,dSp,uSp,ph,r,g,b,aD,aL]) => {
-          drawBand(yC, hH, dAmp, uFreq, dSp, uSp, ph, r, g, b, dark ? aD : aL);
-        });
+        // Wave sheets — screen in dark so sheets colour-mix where they overlap
+        ctx.globalCompositeOperation = dark ? 'screen' : 'normal';
+        sheets.forEach(s => drawSheet(s, dark));
       };
 
-      if (reduced) { draw(performance.now()); return; }
+      if (reduced) return;
       requestAnimationFrame(draw);
     };
 
