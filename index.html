@@ -107,38 +107,10 @@
       z-index: 200; pointer-events: none; will-change: transform;
     }
 
-    /* ── Background orbs ── */
-    /* No filter:blur — radial-gradient to transparent is naturally soft and
-       compositor-free. Mouse parallax uses the separate CSS `translate`
-       property, which composes on top of the keyframe `transform` drift. */
-    .bg {
+    /* ── Background canvas ── */
+    #bg-canvas {
       position: fixed; inset: 0; z-index: -1;
-      overflow: hidden; pointer-events: none;
-    }
-    .bg-a, .bg-b {
-      position: absolute; border-radius: 50%; will-change: transform, translate;
-    }
-    .bg-a {
-      width: 960px; height: 960px; top: -300px; left: -260px;
-      background: radial-gradient(circle, rgba(0,91,172,0.13) 0%, transparent 70%);
-      animation: float-a 32s ease-in-out infinite alternate;
-    }
-    .bg-b {
-      width: 700px; height: 700px; bottom: -180px; right: -180px;
-      background: radial-gradient(circle, rgba(0,168,255,0.09) 0%, transparent 70%);
-      animation: float-b 40s ease-in-out infinite alternate;
-      animation-delay: -18s;
-    }
-    html[data-theme="dark"] .bg-a { background: radial-gradient(circle, rgba(0,91,172,0.26) 0%, transparent 70%); }
-    html[data-theme="dark"] .bg-b { background: radial-gradient(circle, rgba(0,168,255,0.16) 0%, transparent 70%); }
-    @keyframes float-a { from { transform: translate(0,0); } to { transform: translate(55px,-75px) scale(1.07); } }
-    @keyframes float-b { from { transform: translate(0,0); } to { transform: translate(-45px,60px) scale(0.93); } }
-    @media (prefers-reduced-motion: reduce) {
-      .bg-a, .bg-b { animation: none; }
-    }
-    @media (max-width: 768px) {
-      .bg-a { width: 440px; height: 440px; }
-      .bg-b { width: 300px; height: 300px; }
+      width: 100%; height: 100%; pointer-events: none;
     }
 
     /* ── Navigation ── */
@@ -514,7 +486,7 @@
 <body>
 
   <div id="progress" aria-hidden="true"></div>
-  <div class="bg" aria-hidden="true"><span class="bg-a"></span><span class="bg-b"></span></div>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <nav class="nav reveal" id="nav" aria-label="Site navigation">
     <span class="nav-name lang-t" id="navBrand">Seongjun Lee</span>
@@ -931,30 +903,101 @@
       });
     };
 
-    const setupBgParallax = () => {
-      const a = document.querySelector('.bg-a');
-      const b = document.querySelector('.bg-b');
-      if (!a || !b || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      let rafId = null, cx = 0, cy = 0, tx = 0, ty = 0;
-      const tick = () => {
-        cx += (tx - cx) * 0.05;
-        cy += (ty - cy) * 0.05;
-        a.style.translate = `${(cx * 0.07).toFixed(1)}px ${(cy * 0.06).toFixed(1)}px`;
-        b.style.translate = `${(-cx * 0.05).toFixed(1)}px ${(-cy * 0.04).toFixed(1)}px`;
-        rafId = (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3)
-          ? requestAnimationFrame(tick) : null;
+    const setupBackground = () => {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, t = 0;
+      let mx = 0, my = 0; // normalised mouse offset from centre (-1..1)
+
+      const resize = () => {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
       };
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
       window.addEventListener('mousemove', e => {
-        tx = e.clientX - window.innerWidth  / 2;
-        ty = e.clientY - window.innerHeight / 2;
-        if (!rafId) rafId = requestAnimationFrame(tick);
+        mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
       }, { passive: true });
+
+      // Each blob: normalised orbit centre (ox,oy), orbit amplitude (ax,ay),
+      // angular frequency, phase offset, and relative size.
+      const blobs = [
+        { ox:0.22, oy:0.28, ax:0.22, ay:0.16, freq:0.28, ph:0.0,  sz:0.75, pr:0.25 },
+        { ox:0.78, oy:0.32, ax:0.16, ay:0.22, freq:0.21, ph:2.1,  sz:0.65, pr:0.18 },
+        { ox:0.60, oy:0.78, ax:0.20, ay:0.14, freq:0.34, ph:4.2,  sz:0.58, pr:0.15 },
+        { ox:0.18, oy:0.72, ax:0.14, ay:0.20, freq:0.18, ph:1.6,  sz:0.62, pr:0.20 },
+        { ox:0.82, oy:0.68, ax:0.12, ay:0.16, freq:0.26, ph:3.4,  sz:0.50, pr:0.12 },
+      ];
+
+      const draw = () => {
+        requestAnimationFrame(draw);
+        t += 0.0022;
+        ctx.clearRect(0, 0, W, H);
+
+        const dark = document.documentElement.dataset.theme === 'dark';
+
+        // ── Gradient blobs ──────────────────────────────────────────────
+        const palette = dark
+          ? [[0,80,200,0.42],[0,160,255,0.30],[80,60,210,0.28],[0,50,150,0.36],[0,130,220,0.25]]
+          : [[0,91,172,0.13],[0,168,255,0.10],[100,140,255,0.09],[0,120,200,0.11],[0,150,230,0.08]];
+
+        blobs.forEach((b, i) => {
+          const [r,g,bl,a] = palette[i];
+          // position: orbit + subtle mouse parallax
+          const x = (b.ox + Math.sin(t * b.freq + b.ph) * b.ax + mx * b.pr * 0.06) * W;
+          const y = (b.oy + Math.cos(t * b.freq * 0.75 + b.ph + 1) * b.ay + my * b.pr * 0.05) * H;
+          const radius = b.sz * Math.max(W, H) * 0.55;
+
+          const g2 = ctx.createRadialGradient(x, y, 0, x, y, radius);
+          g2.addColorStop(0,   `rgba(${r},${g},${bl},${a})`);
+          g2.addColorStop(0.45,`rgba(${r},${g},${bl},${a * 0.4})`);
+          g2.addColorStop(1,   `rgba(${r},${g},${bl},0)`);
+
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = g2;
+          ctx.fill();
+        });
+
+        // ── Wave layers ─────────────────────────────────────────────────
+        const waves = dark
+          ? [{yN:0.58,amp:0.055,f:2.8,sp:0.50,f2:4.5,a:'rgba(0,100,220,0.10)'},
+             {yN:0.65,amp:0.040,f:3.4,sp:0.38,f2:5.2,a:'rgba(0,80,200,0.07)'},
+             {yN:0.72,amp:0.030,f:4.0,sp:0.30,f2:6.1,a:'rgba(0,60,180,0.05)'}]
+          : [{yN:0.58,amp:0.055,f:2.8,sp:0.50,f2:4.5,a:'rgba(0,91,172,0.07)'},
+             {yN:0.65,amp:0.040,f:3.4,sp:0.38,f2:5.2,a:'rgba(0,100,190,0.05)'},
+             {yN:0.72,amp:0.030,f:4.0,sp:0.30,f2:6.1,a:'rgba(0,120,210,0.04)'}];
+
+        waves.forEach(w => {
+          const yBase = w.yN * H;
+          const amp   = w.amp * H;
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 3) {
+            const nx = x / W;
+            const y  = yBase
+              + Math.sin(nx * Math.PI * w.f  + t * w.sp) * amp
+              + Math.sin(nx * Math.PI * w.f2 + t * w.sp * 0.65) * amp * 0.38;
+            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+          ctx.fillStyle = w.a;
+          ctx.fill();
+        });
+      };
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // draw one static frame then stop
+        draw(); return;
+      }
+      draw();
     };
 
     const init = () => {
       applyLang(); applyTheme(); bindEvents();
       setupScrollLoop(); setupReveal(); setupTilt(); setupNameUnderline();
-      setupBgParallax();
+      setupBackground();
     };
 
     document.readyState === 'loading'
