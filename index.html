@@ -910,7 +910,6 @@
       let W, H, t = 0, last = 0;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Render at 55% native resolution — scales up soft via CSS, cuts fill cost ~75%.
       const resize = () => {
         W = canvas.width  = Math.round(window.innerWidth  * 0.55);
         H = canvas.height = Math.round(window.innerHeight * 0.55);
@@ -918,41 +917,80 @@
       resize();
       window.addEventListener('resize', resize, { passive: true });
 
-      // 5 blobs on independent Lissajous paths
+      // ── Mesh blobs ──────────────────────────────────────────────────────
       const blobs = [
         { ox:0.20, oy:0.30, ax:0.22, ay:0.18, freq:0.25, ph:0.0 },
         { ox:0.80, oy:0.25, ax:0.18, ay:0.22, freq:0.19, ph:2.1 },
-        { ox:0.55, oy:0.80, ax:0.24, ay:0.16, freq:0.31, ph:4.2 },
+        { ox:0.55, oy:0.75, ax:0.24, ay:0.16, freq:0.31, ph:4.2 },
         { ox:0.15, oy:0.70, ax:0.16, ay:0.24, freq:0.17, ph:1.6 },
         { ox:0.85, oy:0.62, ax:0.14, ay:0.18, freq:0.23, ph:3.3 },
       ];
+      // Toned-down alphas for dark (screen composite; was 0.5+ before)
+      const palD = [[30,110,255,0.28,0.90],[140,0,255,0.24,0.80],[0,200,230,0.22,0.72],[80,20,220,0.26,0.82],[0,140,255,0.20,0.68]];
+      const palL = [[0,91,172,0.12,0.82],[100,0,200,0.06,0.68],[0,165,200,0.07,0.64],[55,0,180,0.08,0.72],[0,125,210,0.06,0.62]];
 
-      // Apple mesh palette — blue, purple, teal, indigo, sky
-      // dark uses 'screen' composite so alphas are deliberate (higher = brighter)
-      const palD = [[30,110,255,0.55,0.90],[140,0,255,0.50,0.80],[0,210,235,0.45,0.72],[80,20,230,0.52,0.82],[0,150,255,0.42,0.68]];
-      const palL = [[0,91,172,0.13,0.82],[100,0,200,0.07,0.68],[0,170,205,0.08,0.64],[55,0,185,0.09,0.72],[0,130,215,0.07,0.62]];
+      // ── Aurora bands ────────────────────────────────────────────────────
+      // Each band: [yCenter, halfHeight, drift amplitude, undulate freq,
+      //             drift speed, undulate speed, phase, r, g, b, alphaDark, alphaLight]
+      const bands = [
+        [0.22, 0.055, 0.06, 7, 0.18, 0.55, 0.0,   30,110,255, 0.18, 0.07],
+        [0.38, 0.045, 0.05, 9, 0.14, 0.70, 2.4,  140, 20,255, 0.15, 0.05],
+        [0.55, 0.050, 0.07, 6, 0.21, 0.48, 4.8,    0,190,230, 0.13, 0.05],
+        [0.70, 0.040, 0.04, 8, 0.16, 0.62, 1.2,   80, 20,220, 0.12, 0.04],
+      ];
 
-      // Wave configs: [yNorm, amp, freq1, speed, freq2, r, g, b, alpha]
-      const wvD = [[0.48,0.055,2.8,0.80,4.5,  0, 90,230,0.11],[0.63,0.042,3.4,0.62,5.2, 80,0,220,0.08],[0.78,0.030,4.0,0.50,6.1,  0,60,180,0.06]];
-      const wvL = [[0.48,0.055,2.8,0.80,4.5,  0,91,172,0.07],[0.63,0.042,3.4,0.62,5.2,  0,100,190,0.05],[0.78,0.030,4.0,0.50,6.1,  0,120,210,0.03]];
+      const drawBand = (yC, hH, dAmp, uFreq, dSp, uSp, ph, r, g, b, alpha) => {
+        const cy    = (yC + Math.sin(t * dSp + ph) * dAmp) * H;
+        const halfH = hH * H;
+
+        // build top edge (undulating)
+        const pts = [];
+        for (let x = 0; x <= W; x += 3) {
+          const nx = x / W;
+          const uy = cy - halfH + Math.sin(nx * uFreq + t * uSp + ph)       * halfH * 0.45
+                                + Math.sin(nx * uFreq * 1.7 + t * uSp * 0.6) * halfH * 0.20;
+          pts.push([x, uy]);
+        }
+        // bottom edge (different phase so band breathes)
+        const bpts = [];
+        for (let x = W; x >= 0; x -= 3) {
+          const nx = x / W;
+          const by = cy + halfH + Math.sin(nx * uFreq + t * uSp * 0.8 + ph + 1.5) * halfH * 0.35
+                                + Math.sin(nx * uFreq * 1.5 + t * uSp * 0.5 + 1)   * halfH * 0.15;
+          bpts.push([x, by]);
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        pts.forEach(([x, y]) => ctx.lineTo(x, y));
+        bpts.forEach(([x, y]) => ctx.lineTo(x, y));
+        ctx.closePath();
+
+        // vertical gradient — fades at both edges of the band
+        const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
+        grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
+        grad.addColorStop(0.35, `rgba(${r},${g},${b},${alpha})`);
+        grad.addColorStop(0.65, `rgba(${r},${g},${b},${alpha})`);
+        grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      };
 
       const draw = (now) => {
         if (!reduced) requestAnimationFrame(draw);
-        if (now - last < 32) return; // ~30 fps — halves CPU vs 60fps
+        if (now - last < 32) return;
         last = now;
-        t += 0.004; // time-compensated for 30fps tick rate
+        t += 0.004;
 
         ctx.clearRect(0, 0, W, H);
         const dark = document.documentElement.dataset.theme === 'dark';
-        const pal  = dark ? palD : palL;
 
-        // 'screen' in dark = colours ADD like light, giving Aurora Borealis look.
-        // 'normal' in light = translucent tinted blobs.
+        // Blobs — screen in dark for colour mixing, normal in light
         ctx.globalCompositeOperation = dark ? 'screen' : 'normal';
         blobs.forEach((b, i) => {
-          const [r,g,bl,a,sz] = pal[i];
-          const x   = (b.ox + Math.sin(t * b.freq + b.ph)          * b.ax) * W;
-          const y   = (b.oy + Math.cos(t * b.freq * 0.75 + b.ph+1) * b.ay) * H;
+          const [r,g,bl,a,sz] = (dark ? palD : palL)[i];
+          const x   = (b.ox + Math.sin(t * b.freq + b.ph)           * b.ax) * W;
+          const y   = (b.oy + Math.cos(t * b.freq * 0.75 + b.ph+1)  * b.ay) * H;
           const rad = sz * Math.max(W, H) * 0.68;
           const grd = ctx.createRadialGradient(x, y, 0, x, y, rad);
           grd.addColorStop(0,   `rgba(${r},${g},${bl},${a})`);
@@ -964,20 +1002,10 @@
           ctx.fill();
         });
 
+        // Aurora bands — always normal composite, drawn on top
         ctx.globalCompositeOperation = 'normal';
-        (dark ? wvD : wvL).forEach(([yN,amp,f,sp,f2,r,g,b,a]) => {
-          const yBase = yN * H, ampPx = amp * H;
-          ctx.beginPath();
-          for (let x = 0; x <= W; x += 2) {
-            const nx = x / W;
-            const y  = yBase
-              + Math.sin(nx * Math.PI * f  + t * sp)        * ampPx
-              + Math.sin(nx * Math.PI * f2 + t * sp * 0.65) * ampPx * 0.38;
-            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-          }
-          ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-          ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-          ctx.fill();
+        bands.forEach(([yC,hH,dAmp,uFreq,dSp,uSp,ph,r,g,b,aD,aL]) => {
+          drawBand(yC, hH, dAmp, uFreq, dSp, uSp, ph, r, g, b, dark ? aD : aL);
         });
       };
 
