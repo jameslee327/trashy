@@ -5,723 +5,499 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Seongjun Lee — Strategy, organization, and technology" />
   <title>Seongjun Lee</title>
+  <!-- Pretendard: Apple SD Gothic Neo-inspired, covers both KO and EN — blocking load for FOUT-free render -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
   <style>
-    /* ─────────────────────────────────────────
-       Design Tokens
-    ───────────────────────────────────────── */
+    /* ── @property: typed custom props enable smooth theme transitions ── */
+    @property --bg      { syntax: '<color>'; inherits: true; initial-value: #f0f4f9; }
+    @property --surface { syntax: '<color>'; inherits: true; initial-value: rgba(255,255,255,0.86); }
+    @property --text    { syntax: '<color>'; inherits: true; initial-value: #08101e; }
+    @property --text-2  { syntax: '<color>'; inherits: true; initial-value: #4b5568; }
+    @property --text-3  { syntax: '<color>'; inherits: true; initial-value: #94a3b8; }
+    @property --border  { syntax: '<color>'; inherits: true; initial-value: rgba(0,91,172,0.10); }
+    @property --border-hi { syntax: '<color>'; inherits: true; initial-value: rgba(0,91,172,0.22); }
+
+    /* ── Design tokens ── */
     :root {
-      --bg:              #fbfbfd;
-      --bg-soft:         #f5f5f7;
-      --glass:           rgba(255, 255, 255, 0.76);
-      --glass-hover:     rgba(255, 255, 255, 0.94);
-      --text:            #1d1d1f;
-      --text-soft:       #6e6e73;
-      --text-xsoft:      #aeaeb2;
-      --border:          rgba(0, 0, 0, 0.07);
-      --border-strong:   rgba(0, 0, 0, 0.13);
-      --accent:          #0071e3;
-      --accent-2:        #5e5ce6;
-      --accent-3:        #bf5af2;
-      --shadow-sm:       0 4px 16px rgba(0, 0, 0, 0.06);
-      --shadow-md:       0 12px 36px rgba(0, 0, 0, 0.10);
-      --shadow-lg:       0 24px 64px rgba(0, 0, 0, 0.14);
-      --radius:          20px;
-      --radius-sm:       14px;
-      --blur:            blur(20px);
-      --blur-heavy:      blur(40px);
-      --max-width:       1100px;
-      --nav-h:           52px;
-      --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
-      --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+      --bg:         #f0f4f9;
+      --surface:    rgba(255,255,255,0.86);
+      --surface-hi: rgba(255,255,255,0.97);
+      --text:       #08101e;
+      --text-2:     #4b5568;
+      --text-3:     #94a3b8;
+      --border:     rgba(0,91,172,0.10);
+      --border-hi:  rgba(0,91,172,0.22);
+      --accent:     #005BAC;
+      --accent-2:   #0076d1;
+      --accent-3:   #00a8ff;
+      --sh1: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,91,172,0.07);
+      --sh2: 0 4px 16px rgba(0,0,0,0.07), 0 12px 32px rgba(0,91,172,0.11);
+      --sh3: 0 8px 28px rgba(0,0,0,0.10), 0 24px 56px rgba(0,91,172,0.15);
+      --r:     18px;
+      --r-sm:  10px;
+      --blur:  blur(24px) saturate(180%);
+      --nav-h: 52px;
+      --w:     1040px;
+      --ease:  cubic-bezier(0.16,1,0.3,1);
+      --spring: cubic-bezier(0.34,1.56,0.64,1);
+      --mono: "SF Mono","Menlo","JetBrains Mono","Fira Code",ui-monospace,monospace;
+      --td: 0.42s;  /* theme-transition duration */
     }
-
     html[data-theme="dark"] {
-      --bg:              #000000;
-      --bg-soft:         #0a0a0a;
-      --glass:           rgba(28, 28, 30, 0.82);
-      --glass-hover:     rgba(44, 44, 46, 0.92);
-      --text:            #f5f5f7;
-      --text-soft:       #98989d;
-      --text-xsoft:      #636366;
-      --border:          rgba(255, 255, 255, 0.09);
-      --border-strong:   rgba(255, 255, 255, 0.16);
-      --shadow-sm:       0 4px 16px rgba(0, 0, 0, 0.35);
-      --shadow-md:       0 12px 36px rgba(0, 0, 0, 0.50);
-      --shadow-lg:       0 24px 64px rgba(0, 0, 0, 0.65);
+      --bg:         #060b17;
+      --surface:    rgba(8,14,28,0.88);
+      --surface-hi: rgba(12,20,44,0.97);
+      --text:       #dfe9f8;
+      --text-2:     #7a90b0;
+      --text-3:     #5f7fa0;
+      --border:     rgba(0,120,212,0.14);
+      --border-hi:  rgba(0,120,212,0.30);
+      --sh1: 0 1px 2px rgba(0,0,0,0.40), 0 4px 12px rgba(0,91,172,0.20);
+      --sh2: 0 4px 16px rgba(0,0,0,0.52), 0 12px 32px rgba(0,91,172,0.24);
+      --sh3: 0 8px 28px rgba(0,0,0,0.64), 0 24px 56px rgba(0,91,172,0.30);
     }
 
-    /* ─────────────────────────────────────────
-       Reset
-    ───────────────────────────────────────── */
+    /* @property transitions: all color tokens animate when data-theme changes */
+    :root {
+      transition:
+        --bg      var(--td) ease,
+        --surface var(--td) ease,
+        --text    var(--td) ease,
+        --text-2  var(--td) ease,
+        --text-3  var(--td) ease,
+        --border  var(--td) ease,
+        --border-hi var(--td) ease;
+    }
+
+    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; }
-    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+      /* Pretendard covers KO + EN with Apple SD Gothic Neo-inspired letterforms;
+         falls back to SF Pro on Apple, then system fonts */
+      font-family: "Pretendard Variable", Pretendard,
+        -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Segoe UI", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
-      transition: background-color 0.5s ease, color 0.5s ease;
+      /* Korean line-break: prevent splitting mid-word */
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
-    a    { color: inherit; text-decoration: none; }
-    button { font: inherit; border: 0; cursor: pointer; outline: none; }
-
-    ::-webkit-scrollbar       { width: 5px; }
+    a      { color: inherit; text-decoration: none; }
+    button { font: inherit; border: 0; cursor: pointer; background: none; }
+    ::-webkit-scrollbar       { width: 3px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
-    :focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-
-    /* ─────────────────────────────────────────
-       Scroll Progress Bar
-    ───────────────────────────────────────── */
-    #scroll-progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      width: 0%;
+    /* ── Scroll progress ── */
+    #progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
-      z-index: 1000;
-      transition: width 80ms linear;
-      pointer-events: none;
+      transform-origin: left; transform: scaleX(0);
+      z-index: 200; pointer-events: none; will-change: transform;
     }
 
-    /* ─────────────────────────────────────────
-       Animated Background Orbs
-    ───────────────────────────────────────── */
-    .page-bg {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      overflow: hidden;
+    /* ── Background canvas ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: -1;
+      width: 100%; height: 100%; pointer-events: none;
     }
 
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      will-change: transform;
-      animation: orb-drift var(--dur, 20s) ease-in-out infinite alternate;
-    }
-
-    html[data-theme="light"] .orb { opacity: 0.50; }
-    html[data-theme="dark"]  .orb { opacity: 0.28; }
-
-    .orb-1 {
-      --dur: 22s;
-      width: 720px; height: 720px;
-      top: -200px; left: -180px;
-      background: radial-gradient(circle at 40% 40%, rgba(0, 113, 227, 0.55), transparent 65%);
-    }
-    .orb-2 {
-      --dur: 27s;
-      width: 640px; height: 640px;
-      top: -80px; right: -160px;
-      background: radial-gradient(circle at 60% 40%, rgba(94, 92, 230, 0.50), transparent 65%);
-      animation-delay: -9s;
-    }
-    .orb-3 {
-      --dur: 32s;
-      width: 520px; height: 520px;
-      bottom: 120px; left: 28%;
-      background: radial-gradient(circle at 50% 50%, rgba(191, 90, 242, 0.40), transparent 65%);
-      animation-delay: -16s;
-    }
-    .orb-4 {
-      --dur: 25s;
-      width: 420px; height: 420px;
-      bottom: -80px; right: 8%;
-      background: radial-gradient(circle at 50% 60%, rgba(52, 199, 89, 0.28), transparent 65%);
-      animation-delay: -6s;
-    }
-
-    /* Overlay that blends orbs with bg */
-    .page-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--bg);
-      opacity: 0.48;
-      pointer-events: none;
-    }
-
-    @keyframes orb-drift {
-      0%   { transform: translate(0px,   0px)  scale(1.00); }
-      30%  { transform: translate(45px, -65px) scale(1.07); }
-      60%  { transform: translate(-32px, 42px) scale(0.95); }
-      100% { transform: translate(22px, -28px) scale(1.04); }
-    }
-
-    /* ─────────────────────────────────────────
-       Navigation Bar
-    ───────────────────────────────────────── */
+    /* ── Navigation ── */
     .nav {
-      position: fixed;
-      inset-block-start: 0;
-      inset-inline: 0;
-      z-index: 50;
-      height: var(--nav-h);
-      display: flex;
-      align-items: center;
-      padding: 0 1.5rem;
-      transition: background 0.4s ease, backdrop-filter 0.4s ease,
-                  -webkit-backdrop-filter 0.4s ease, border-color 0.4s ease,
-                  box-shadow 0.4s ease;
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100; height: var(--nav-h);
+      display: flex; align-items: center; padding: 0 1.75rem;
+      /* background/shadow transition handled by @property + box-shadow */
+      transition: background var(--td) ease,
+                  -webkit-backdrop-filter var(--td) ease,
+                  backdrop-filter var(--td) ease,
+                  box-shadow var(--td) ease,
+                  border-color var(--td) ease;
     }
-
     .nav.scrolled {
-      background: var(--glass);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
+      background: var(--surface);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
       border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--sh1);
     }
-
-    .nav-brand {
-      font-size: 0.88rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text-soft);
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
-      pointer-events: none;
-      user-select: none;
+    .nav-name {
+      font-size: 0.84rem; font-weight: 700; letter-spacing: -0.015em;
+      color: var(--accent);
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity 0.32s var(--ease), transform 0.32s var(--ease);
+      pointer-events: none; user-select: none;
     }
+    .nav.scrolled .nav-name { opacity: 1; transform: none; pointer-events: auto; }
+    .nav-actions { margin-left: auto; display: flex; gap: 0.4rem; }
 
-    .nav.scrolled .nav-brand {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
+    .pill {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      height: 32px; padding: 0 0.9rem; border-radius: 100px;
+      background: var(--surface); border: 1px solid var(--border);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+      color: var(--text-2);
+      font-size: 0.74rem; font-weight: 500; letter-spacing: -0.01em;
+      box-shadow: var(--sh1); white-space: nowrap;
+      transition:
+        background var(--td) ease, border-color 0.22s ease,
+        color 0.22s ease, box-shadow 0.22s ease,
+        transform 0.26s var(--spring);
     }
-
-    .nav-controls {
-      margin-left: auto;
-      display: flex;
-      gap: 0.45rem;
+    .pill:hover {
+      background: var(--surface-hi); border-color: var(--accent);
+      color: var(--accent); box-shadow: var(--sh2); transform: scale(1.06);
     }
+    .pill:active { transform: scale(0.96); transition-duration: 0.08s; }
 
-    /* ─────────────────────────────────────────
-       Control Buttons (pill-style)
-    ───────────────────────────────────────── */
-    .control-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      height: 36px;
-      padding: 0 0.9rem;
-      border-radius: 100px;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      color: var(--text);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      box-shadow: var(--shadow-sm);
-      font-size: 0.83rem;
-      font-weight: 500;
-      transition: all 0.22s var(--ease-out);
-      white-space: nowrap;
-    }
+    /* ── Layout ── */
+    .wrap { width: min(calc(100% - 3rem), var(--w)); margin: 0 auto; }
 
-    .control-btn:hover {
-      background: var(--glass-hover);
-      border-color: var(--border-strong);
-      box-shadow: var(--shadow-md);
-      transform: scale(1.04);
-    }
-
-    /* ─────────────────────────────────────────
-       Hero
-    ───────────────────────────────────────── */
+    /* ── Hero ── */
     .hero {
       min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: calc(var(--nav-h) + 3rem) 1.5rem 5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: calc(var(--nav-h) + 5rem) 1.5rem 7rem;
       position: relative;
     }
-
-    .hero-inner {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      max-width: 860px;
-      width: 100%;
+    .hero-body {
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 1.5rem; max-width: 780px; width: 100%;
     }
 
-    /* Animated status tag */
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.35rem 1rem;
-      border-radius: 100px;
-      background: linear-gradient(135deg,
-        rgba(0, 113, 227, 0.10),
-        rgba(94, 92, 230, 0.08));
-      border: 1px solid rgba(0, 113, 227, 0.20);
-      font-size: 0.80rem;
-      font-weight: 500;
-      color: var(--accent);
-      letter-spacing: 0.025em;
+    /* Badge */
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.28rem 0.9rem; border-radius: 100px;
+      background: rgba(0,91,172,0.07); border: 1px solid rgba(0,91,172,0.18);
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--accent); letter-spacing: 0.01em;
+      transition: background var(--td) ease, border-color var(--td) ease;
     }
-
-    .hero-tag .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
-      animation: pulse-dot 2.2s ease-in-out infinite;
+    html[data-theme="dark"] .badge { background: rgba(0,91,172,0.15); border-color: rgba(0,120,212,0.34); color: #4d9ee0; }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+      animation: breathe 2.5s ease-in-out infinite;
     }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1;   transform: scale(1);   }
-      50%       { opacity: 0.4; transform: scale(0.65); }
-    }
+    @keyframes breathe { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.25; transform:scale(.45); } }
 
     /* Avatar */
-    .avatar-wrap {
-      position: relative;
-      width: 156px;
-      height: 156px;
-    }
-
+    .avatar-shell { position: relative; width: 128px; height: 128px; }
     .avatar-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 44px;
-      background: conic-gradient(
-        from 0deg,
-        var(--accent),
-        var(--accent-2),
-        var(--accent-3),
-        var(--accent)
-      );
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      animation: spin-ring 5s linear infinite;
+      position: absolute; inset: -3px; border-radius: 20px;
+      background: conic-gradient(from 0deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+      opacity: 0; animation: spin 5.5s linear infinite;
+      transition: opacity 0.4s ease; z-index: 0;
     }
-
-    .avatar-ring::before {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      background: var(--bg);
-      border-radius: 42px;
-      transition: background 0.5s ease;
+    .avatar-ring-mask {
+      position: absolute; inset: 2px; border-radius: 17px;
+      background: var(--bg); z-index: 1;
+      /* bg transitions via @property */
     }
-
-    .avatar-wrap:hover .avatar-ring { opacity: 1; }
-
-    @keyframes spin-ring { to { transform: rotate(360deg); } }
-
+    .avatar-shell:hover .avatar-ring { opacity: 1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .avatar {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 38px;
-      background: url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center / cover no-repeat;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-md);
-      transition: transform 0.55s var(--ease-spring), box-shadow 0.5s ease;
-      overflow: hidden;
+      position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 15px;
+      background: url('https://u.cubeupload.com/jameslee327/200200lsj.jpg') center/cover no-repeat;
+      border: 1px solid var(--border); box-shadow: var(--sh2);
+      transition: transform 0.5s var(--spring), box-shadow 0.4s ease;
     }
+    .avatar-shell:hover .avatar { transform: scale(1.035); box-shadow: var(--sh3); }
 
-    /* Subtle sheen overlay on avatar */
-    .avatar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 55%);
-      border-radius: inherit;
-      pointer-events: none;
-    }
-
-    .avatar-wrap:hover .avatar {
-      transform: scale(1.05);
-      box-shadow: var(--shadow-lg);
-    }
-
-    /* Hero heading – gradient text */
+    /* Hero heading — solid color, never clips */
     .hero h1 {
-      font-size: clamp(2.8rem, 7.5vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      background: linear-gradient(145deg, var(--text) 35%, var(--text-soft) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    html[data-theme="dark"] .hero h1 {
-      background: linear-gradient(145deg, #f5f5f7 30%, #98989d 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-    }
-
-    .hero .subtitle {
-      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
-      color: var(--text-soft);
-      max-width: 680px;
-      line-height: 1.55;
-      font-weight: 400;
-    }
-
-    .hero .description {
-      font-size: 0.99rem;
-      color: var(--text-xsoft);
-      max-width: 560px;
-      line-height: 1.75;
-    }
-
-    /* CTA buttons */
-    .cta-row {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 0.25rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.82rem 1.55rem;
-      border-radius: 100px;
-      font-size: 0.94rem;
-      font-weight: 600;
-      transition: all 0.30s var(--ease-spring);
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    /* Sheen on hover */
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .btn:hover::after { opacity: 1; }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: 1px solid transparent;
-      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.38);
-    }
-    .btn-primary:hover {
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0, 113, 227, 0.52);
-    }
-
-    .btn-secondary {
-      background: var(--glass);
+      font-size: clamp(3.2rem, 9vw, 6.5rem);
+      font-weight: 800; line-height: 1.0; letter-spacing: -0.04em;
       color: var(--text);
-      border: 1px solid var(--border-strong);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      box-shadow: var(--shadow-sm);
     }
-    .btn-secondary:hover {
-      background: var(--glass-hover);
-      transform: scale(1.05) translateY(-2px);
-      box-shadow: var(--shadow-md);
+    /* Korean: tight negative tracking breaks Hangul — reset to natural */
+    html[lang="ko"] .hero h1 { letter-spacing: -0.01em; line-height: 1.05; }
+    .hero h1 span { position: relative; display: inline-block; }
+    .hero h1 span::after {
+      content: ''; position: absolute; left: 0; right: 0;
+      bottom: -4px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-3));
+      border-radius: 2px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.75s var(--ease);
+    }
+    .hero h1 span.line-visible::after { transform: scaleX(1); }
+
+    .hero .sub {
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      color: var(--text-2); max-width: 580px;
+      line-height: 1.70; font-weight: 400;
+    }
+    .hero .note {
+      font-size: 0.88rem; color: var(--text-3);
+      max-width: 480px; line-height: 1.80;
     }
 
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      background: transparent;
-      color: var(--text-xsoft);
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      transition: color 0.2s ease, opacity 0.2s ease;
-      opacity: 0.7;
+    /* CTAs */
+    .cta { display: flex; gap: 0.65rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.78rem 1.65rem; border-radius: var(--r-sm);
+      font-size: 0.9rem; font-weight: 600; white-space: nowrap;
+      position: relative; overflow: hidden;
+      transition: transform 0.28s var(--spring), box-shadow 0.28s ease, background 0.2s ease;
+    }
+    .btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(150deg, rgba(255,255,255,0.16) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.25s ease;
+    }
+    .btn:hover::before { opacity: 1; }
+    .btn:active { transform: scale(0.97) !important; transition-duration: 0.07s !important; }
+    .btn-fill {
+      background: var(--accent); color: #fff; border: 1px solid transparent;
+      box-shadow: 0 4px 16px rgba(0,91,172,0.38), 0 1px 3px rgba(0,91,172,0.20);
+    }
+    .btn-fill:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 26px rgba(0,91,172,0.52); }
+    .btn-outline {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--sh1);
+      transition: transform 0.28s var(--spring), box-shadow 0.28s ease,
+                  background var(--td) ease, border-color 0.22s ease;
+    }
+    .btn-outline:hover { background: var(--surface-hi); border-color: var(--border-hi); transform: translateY(-2px) scale(1.03); box-shadow: var(--sh2); }
+
+    /* Scroll cue */
+    .scroll-cue {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      opacity: 0.32; color: var(--accent);
+      transition: opacity 0.25s ease;
+    }
+    .scroll-cue:hover { opacity: 0.72; }
+    .scroll-cue-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, currentColor 40%, currentColor 60%, transparent);
+      animation: pulse-line 2.8s ease-in-out infinite;
+    }
+    @keyframes pulse-line {
+      0%,100% { opacity: 0; transform: scaleY(0.3) translateY(-8px); }
+      40%,60%  { opacity: 1; transform: scaleY(1) translateY(0); }
     }
 
-    .scroll-indicator:hover { opacity: 1; color: var(--text-soft); }
-
-    .scroll-line {
-      width: 1px;
-      height: 44px;
-      background: linear-gradient(to bottom, transparent 0%, currentColor 100%);
-      animation: scroll-bob 2.2s ease-in-out infinite;
-    }
-
-    @keyframes scroll-bob {
-      0%, 100% { transform: scaleY(1);    opacity: 0.6; }
-      50%       { transform: scaleY(0.45); opacity: 1;   }
-    }
-
-    /* ─────────────────────────────────────────
-       Content Sections
-    ───────────────────────────────────────── */
-    .container {
-      width: min(calc(100% - 2rem), var(--max-width));
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 1.75rem 0 2.75rem;
-    }
+    /* ── Sections ── */
+    .section { padding: 2rem 0 4.5rem; }
 
     .section-label {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-xsoft);
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.65; margin-bottom: 1.5rem;
     }
+    html[data-theme="dark"] .section-label { opacity: 1; color: var(--text-2); }
 
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.25rem; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.25rem;
-    }
-
-    /* ─────────────────────────────────────────
-       Cards
-    ───────────────────────────────────────── */
+    /* ── Cards ── */
     .card {
-      background: var(--glass);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-      box-shadow: var(--shadow-sm);
-      padding: 2.25rem;
-      position: relative;
-      overflow: hidden;
-      /* Reveal state */
-      opacity: 0;
-      transform: translateY(26px);
+      border-radius: var(--r);
+      backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+      box-shadow: var(--sh1);
+      padding: 2.1rem 2.25rem;
+      opacity: 0; transform: translateY(24px);
       transition:
-        opacity   0.65s var(--ease-out),
-        transform 0.65s var(--ease-out),
-        box-shadow 0.28s ease,
-        border-color 0.28s ease,
-        background 0.28s ease;
+        opacity 0.6s var(--ease), transform 0.6s var(--ease),
+        background var(--td) ease, border-color var(--td) ease,
+        box-shadow 0.25s ease;
       will-change: transform, opacity;
       transform-style: preserve-3d;
-      perspective: 900px;
     }
-
-    /* Glass sheen */
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, rgba(255,255,255,0.07), transparent 55%);
-      pointer-events: none;
-      border-radius: inherit;
-    }
-    html[data-theme="dark"] .card::before {
-      background: linear-gradient(145deg, rgba(255,255,255,0.04), transparent 55%);
-    }
-
-    /* Top shimmer line that appears on hover */
-    .card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 10%; right: 10%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .card:hover::after { opacity: 1; }
-
-    .card.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .card.visible { opacity: 1; transform: translateY(0); }
     @media (hover: hover) {
       .card:hover {
-        background: var(--glass-hover);
-        box-shadow: var(--shadow-md);
-        border-color: var(--border-strong);
+        background: var(--surface-hi);
+        border-color: var(--border-hi);
+        box-shadow: var(--sh2);
       }
     }
-
-    .card-number {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-xsoft);
-      margin-bottom: 1.25rem;
+    .card-label {
+      font-size: 0.63rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.60; margin-bottom: 0.9rem;
     }
-
+    html[data-theme="dark"] .card-label { opacity: 1; color: var(--text-2); }
     .card h2 {
-      font-size: clamp(1.45rem, 2.4vw, 1.9rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.5rem;
+      font-size: clamp(1.2rem, 2vw, 1.55rem); font-weight: 700;
+      line-height: 1.2; letter-spacing: -0.02em;
+      margin-bottom: 0.3rem; color: var(--text);
     }
-
-    .card .eyebrow {
-      font-size: 0.88rem;
-      color: var(--text-soft);
-      font-weight: 500;
-      margin-bottom: 1.1rem;
+    html[lang="ko"] .card h2 { letter-spacing: -0.005em; line-height: 1.28; }
+    .card .lead {
+      font-size: 0.84rem; color: var(--text-3);
+      font-weight: 500; line-height: 1.65; margin-bottom: 0.9rem;
     }
+    html[lang="ko"] .card .lead { letter-spacing: 0; }
+    .card p { font-size: 0.92rem; color: var(--text-2); line-height: 1.78; }
 
-    .card-body {
-      color: var(--text-soft);
-      font-size: 0.96rem;
-      line-height: 1.72;
-    }
-
-    /* ─────────────────────────────────────────
-       Footer
-    ───────────────────────────────────────── */
+    /* ── Footer ── */
     .footer {
-      padding: 2.5rem 0;
+      padding: 2.75rem 0;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.75rem;
       border-top: 1px solid var(--border);
-      display: flex;
+      transition: border-color var(--td) ease;
+    }
+    .footer-copy, .footer-links a { font-size: 0.75rem; color: var(--text-3); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { transition: color 0.2s ease; position: relative; }
+    .footer-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.28s var(--ease);
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-links a:hover::after { transform: scaleX(1); }
+
+    /* ── Interest tags ── */
+    .tags {
+      display: flex; gap: 0.45rem; flex-wrap: wrap; justify-content: center;
+    }
+    .tag {
+      padding: 0.22rem 0.75rem; border-radius: 100px;
+      font-size: 0.76rem; font-weight: 500; letter-spacing: -0.01em;
+      color: var(--text-3); border: 1px solid var(--border);
+      background: var(--surface);
+      transition: color 0.2s ease, border-color 0.2s ease,
+                  background var(--td) ease;
+    }
+    .tag:hover { color: var(--accent); border-color: var(--border-hi); }
+
+    /* ── Card bullet list ── */
+    .card-list {
+      list-style: none; margin-top: 1rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .card-list li {
+      font-size: 0.86rem; color: var(--text-2); line-height: 1.5;
+      padding-left: 1rem; position: relative;
+    }
+    .card-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.52em;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent); opacity: 0.55;
+    }
+
+    /* ── Currently section ── */
+    /* Surface chrome inherited from .card — only layout overrides here */
+    .currently {
+      padding: 2rem 2.25rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
+    }
+    .currently-label {
+      font-size: 0.63rem; font-weight: 600;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.60; margin-bottom: 0.75rem;
+    }
+    .currently h2 {
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.2; color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .currently .lead {
+      font-size: 0.84rem; color: var(--text-2); line-height: 1.70;
+    }
+    .currently-right {
+      display: flex; flex-direction: column; gap: 0.85rem;
+    }
+    .currently-stat {
+      display: flex; flex-direction: column; gap: 0.1rem;
+    }
+    .currently-stat-val {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em;
+      color: var(--text); line-height: 1;
+    }
+    .currently-stat-val span { color: var(--accent); }
+    .currently-stat-key {
+      font-size: 0.76rem; color: var(--text-3); font-weight: 500;
+    }
+@media (max-width: 768px) {
+      .currently { grid-template-columns: 1fr; gap: 1.5rem; }
     }
 
-    .footer-text {
-      font-size: 0.84rem;
-      color: var(--text-xsoft);
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Language fade transition ── */
+    /* Elements with .lang-t fade out/in on language switch */
+    .lang-t {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    html.lang-fade .lang-t {
+      opacity: 0 !important;
+      transform: translateY(4px) !important;
+      transition: opacity 0.18s ease, transform 0.18s ease !important;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 1.25rem;
-    }
-
-    .footer-link {
-      font-size: 0.84rem;
-      color: var(--text-xsoft);
-      transition: color 0.22s ease;
-    }
-    .footer-link:hover { color: var(--text-soft); }
-
-    /* ─────────────────────────────────────────
-       Reveal Animation Base
-    ───────────────────────────────────────── */
-    .reveal-ready {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
-    }
-    .reveal-ready.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─────────────────────────────────────────
-       Responsive
-    ───────────────────────────────────────── */
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .hero { padding-top: calc(var(--nav-h) + 4rem); }
-      .avatar-wrap { width: 128px; height: 128px; }
-      .avatar { border-radius: 30px; }
-      .avatar-ring { border-radius: 34px; }
-      .avatar-ring::before { border-radius: 32px; }
+      .hero { padding-top: calc(var(--nav-h) + 5rem); }
+      .avatar-shell { width: 108px; height: 108px; }
+      .avatar { border-radius: 13px; }
+      .avatar-ring { border-radius: 18px; }
+      .avatar-ring-mask { border-radius: 15px; }
       .grid { grid-template-columns: 1fr; }
-      .card { padding: 1.75rem; }
-      .cta-row .btn { flex: 1; min-width: 0; }
+      .card { padding: 1.5rem 1.75rem; }
+      .cta .btn { flex: 1; min-width: 0; }
       .footer { flex-direction: column; align-items: center; text-align: center; }
     }
-
     @media (max-width: 480px) {
-      .nav { padding: 0 1rem; }
-      .control-btn span:last-child { display: none; }
+      .nav { padding: 0 1.1rem; }
+      .pill span:last-child { display: none; }
     }
-
-    /* ─────────────────────────────────────────
-       Reduced Motion
-    ───────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after {
         animation-duration: 0.001ms !important;
         transition-duration: 0.001ms !important;
       }
-      .card, .reveal-ready {
-        opacity: 1 !important;
-        transform: none !important;
-      }
+      .card, .reveal { opacity: 1 !important; transform: none !important; }
     }
-
-    /* ─────────────────────────────────────────
-       Accessibility
-    ───────────────────────────────────────── */
     .sr-only {
       position: absolute; width: 1px; height: 1px;
       padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
   </style>
 </head>
 <body>
 
-  <!-- Scroll progress bar -->
-  <div id="scroll-progress" role="progressbar" aria-hidden="true"></div>
+  <div id="progress" aria-hidden="true"></div>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-  <!-- Animated background -->
-  <div class="page-bg" aria-hidden="true">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="orb orb-4"></div>
-  </div>
-
-  <!-- Navigation -->
-  <nav class="nav reveal-ready" id="mainNav" aria-label="Site navigation">
-    <span class="nav-brand" id="navBrand" aria-hidden="true">Seongjun Lee</span>
-    <div class="nav-controls">
-      <button class="control-btn" id="languageToggle" type="button"
-              aria-label="Toggle language" aria-pressed="false">
-        <span id="languageFlag">EN</span>
-        <span id="languageText">English</span>
+  <nav class="nav reveal" id="nav" aria-label="Site navigation">
+    <span class="nav-name lang-t" id="navBrand">Seongjun Lee</span>
+    <div class="nav-actions">
+      <button class="pill" id="languageToggle" type="button" aria-label="Toggle language" aria-pressed="false">
+        <span class="lang-t" id="languageFlag">EN</span>
+        <span class="lang-t" id="languageText">English</span>
       </button>
-      <button class="control-btn" id="themeToggle" type="button"
-              aria-label="Toggle theme" aria-pressed="false">
+      <button class="pill" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
         <span id="themeIcon">🌙</span>
         <span id="themeText">Dark</span>
       </button>
@@ -729,357 +505,523 @@
   </nav>
 
   <main>
-
-    <!-- ── Hero ── -->
     <section class="hero" id="hero">
-      <div class="hero-inner">
+      <div class="hero-body">
 
-        <div class="reveal-ready" style="--delay:0ms">
-          <span class="hero-tag" aria-label="Focus areas">
-            <span class="dot" aria-hidden="true"></span>
-            Strategy · Organization · Technology
+        <div class="reveal" style="--d:0ms">
+          <span class="badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            KAIST College of Business
           </span>
         </div>
 
-        <div class="avatar-wrap reveal-ready" style="--delay:80ms">
+        <div class="avatar-shell reveal" style="--d:80ms">
           <div class="avatar-ring" aria-hidden="true"></div>
+          <div class="avatar-ring-mask" aria-hidden="true"></div>
           <div class="avatar" role="img" aria-label="Portrait of Seongjun Lee"></div>
         </div>
 
-        <h1 class="reveal-ready" id="heroTitle" style="--delay:160ms">Seongjun Lee</h1>
+        <h1 class="reveal" id="heroTitle" style="--d:160ms">
+          <span>Seongjun Lee</span>
+        </h1>
 
-        <p class="subtitle reveal-ready" id="heroSubtitle" style="--delay:230ms">
+        <p class="sub reveal lang-t" id="heroSubtitle" style="--d:240ms">
           Built upon deepening questions and boundless curiosity.
           Driven to uncover patterns and shape change.
         </p>
 
-        <p class="description reveal-ready" id="heroDescription" style="--delay:300ms">
+        <p class="note reveal lang-t" id="heroDescription" style="--d:310ms">
           Currently exploring the intersection of strategy, organization, and technology,
           with a focus on building institutions that matter.
         </p>
 
-        <div class="cta-row reveal-ready" style="--delay:370ms">
-          <a class="btn btn-primary" id="ctaButton" href="mailto:james@seongjunl.ee">
-            Contact
-          </a>
-          <a class="btn btn-secondary" id="linkedinButton"
-             href="https://linkedin.com/in/seongjunlee"
-             target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
+        <div class="tags reveal" style="--d:360ms" aria-label="Interests">
+          <span class="tag">Strategy</span>
+          <span class="tag">Organization</span>
+          <span class="tag">Institutions</span>
+        </div>
+
+        <div class="cta reveal" style="--d:430ms">
+          <a class="btn btn-fill lang-t"    id="ctaButton"      href="mailto:james@seongjunl.ee">Contact</a>
+          <a class="btn btn-outline lang-t" id="linkedinButton" href="https://linkedin.com/in/seongjunlee"
+             target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
 
       </div>
 
-      <button class="scroll-indicator" id="scrollIndicator" type="button"
-              aria-label="Scroll to content">
-        <div class="scroll-line" aria-hidden="true"></div>
+      <button class="scroll-cue" id="scrollTrigger" type="button" aria-label="Scroll to content">
+        <div class="scroll-cue-line" aria-hidden="true"></div>
         <span class="sr-only">Scroll</span>
       </button>
     </section>
 
-    <!-- ── About & Vision ── -->
-    <section class="section container">
-      <p class="section-label reveal-ready">About</p>
+    <section class="section wrap">
+      <p class="section-label reveal">about</p>
       <div class="grid">
         <article class="card">
-          <p class="card-number">01</p>
-          <h2 id="aboutTitle">About Me</h2>
-          <p class="eyebrow" id="aboutSubtitle">Bridging cultures, connecting ideas</p>
-          <p class="card-body" id="aboutDescription">
-            Raised across cultures and trained across disciplines, I am most interested in
-            how organizations make decisions, adapt under pressure, and build durable advantage.
-          </p>
+          <p class="card-label">01 — about</p>
+          <h2 class="lang-t" id="aboutTitle">About Me</h2>
+          <p class="lead lang-t" id="aboutSubtitle">Between strategy and organizational reality</p>
+          <p class="lang-t" id="aboutDescription">Raised across Korea and the United States, I learned early to look at institutions from more than one angle. I am less interested in surface narratives than in what sits underneath them: how firms make choices, why organizations resist change, and what separates formal strategy from actual behavior.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="aboutH1">Master's student in Management Engineering at KAIST</li>
+            <li class="lang-t" id="aboutH2">Raised across Korea and the United States</li>
+            <li class="lang-t" id="aboutH3">Focused on firm behavior and organizational theory</li>
+          </ul>
         </article>
         <article class="card">
-          <p class="card-number">02</p>
-          <h2 id="visionTitle">Vision</h2>
-          <p class="eyebrow" id="visionSubtitle">Technology with institutional judgment</p>
-          <p class="card-body" id="visionDescription">
-            I am interested in the point where technology stops being novelty and becomes
-            structure: something that changes how firms operate, compete, and endure.
-          </p>
+          <p class="card-label">02 — study</p>
+          <h2 class="lang-t" id="visionTitle">What I Study</h2>
+          <p class="lead lang-t" id="visionSubtitle">Firm behavior, social structure, and organizational change</p>
+          <p class="lang-t" id="visionDescription">I am interested in how organizational choices are shaped by more than formal plans or market logic. The questions that draw me most: why some organizations adapt while others stall, how network structures shape information and coordination, and how strategy becomes real inside institutions.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="visionH1">Organizational theory and social networks</li>
+            <li class="lang-t" id="visionH2">How network structures shape coordination</li>
+            <li class="lang-t" id="visionH3">Firm behavior, governance, and long-term performance</li>
+          </ul>
         </article>
       </div>
     </section>
 
-    <!-- ── Experience & Approach ── -->
-    <section class="section container">
-      <p class="section-label reveal-ready">Work &amp; Thinking</p>
+    <section class="section wrap">
+      <p class="section-label reveal">work &amp; thinking</p>
       <div class="grid">
         <article class="card">
-          <p class="card-number">03</p>
-          <h2 id="experienceTitle">Experience</h2>
-          <p class="eyebrow" id="experienceSubtitle">Strategy, research, and field exposure</p>
-          <p class="card-body" id="experienceDescription">
-            My work has ranged from consulting research and due diligence to on-the-ground
-            exposure to regional industry, giving me a practical view of how strategy meets
-            operating reality.
-          </p>
+          <p class="card-label">03 — experience</p>
+          <h2 class="lang-t" id="experienceTitle">Experience</h2>
+          <p class="lead lang-t" id="experienceSubtitle">Research, consulting, and practical exposure</p>
+          <p class="lang-t" id="experienceDescription">I have worked as a research assistant across consulting environments, supporting projects in strategy, commercial due diligence, and organizational analysis. My experience with firms such as Mercer Korea and Nemo SCG pushed me to think more seriously about the gap between strategic intent and organizational reality.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="expH1">Strategy and commercial due diligence at Mercer Korea</li>
+            <li class="lang-t" id="expH2">Organizational analysis at Nemo SCG</li>
+            <li class="lang-t" id="expH3">Gap between strategic intent and organizational reality</li>
+          </ul>
         </article>
         <article class="card">
-          <p class="card-number">04</p>
-          <h2 id="approachTitle">Approach</h2>
-          <p class="eyebrow" id="approachSubtitle">Systems thinking without abstraction for its own sake</p>
-          <p class="card-body" id="approachDescription">
-            I look for structural causes, feedback loops, and the human incentives beneath them.
-            Good strategy is not just analysis. It is disciplined judgment under imperfect information.
-          </p>
+          <p class="card-label">04 — direction</p>
+          <h2 class="lang-t" id="approachTitle">Direction</h2>
+          <p class="lead lang-t" id="approachSubtitle">From research to industry</p>
+          <p class="lang-t" id="approachDescription">My interest in organizations is not only academic. In the long run, I hope to return to industry and work on the strategic and organizational questions that will shape future firms. I want to be involved in building organizations that are better designed, more adaptive, and more capable of real change.</p>
+          <ul class="card-list" aria-label="Highlights">
+            <li class="lang-t" id="appH1">Building better-designed and more adaptive organizations</li>
+            <li class="lang-t" id="appH2">Connecting research insights to practice</li>
+            <li class="lang-t" id="appH3">Shaping how organizations are structured, governed, and led</li>
+          </ul>
         </article>
       </div>
     </section>
+    <section class="section wrap">
+      <p class="section-label reveal">approach</p>
+      <div class="currently card reveal">
+        <div class="currently-left">
+          <p class="currently-label">05 — approach</p>
+          <h2 class="lang-t" id="thinkingTitle">Approach</h2>
+          <p class="lead lang-t" id="thinkingLead">Clear thinking about how organizations really work</p>
+          <p class="lang-t" id="thinkingDesc">I tend to focus on underlying mechanisms rather than surface explanations. I look for the structures beneath outcomes: incentives, power, coordination, judgment, and the social ties that shape what organizations can and cannot do. To me, good strategy is not just analysis or presentation. It is a realistic understanding of institutions and the discipline to make choices that hold under pressure.</p>
+        </div>
+        <div class="currently-right">
+          <div class="currently-stat">
+            <div class="currently-stat-val">Firms<span>.</span></div>
+            <div class="currently-stat-key">Behavior over narrative</div>
+          </div>
+          <div class="currently-stat">
+            <div class="currently-stat-val">Structure<span>.</span></div>
+            <div class="currently-stat-key">Beneath outcomes</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section class="section wrap">
+      <p class="section-label reveal">currently</p>
+      <div class="currently card reveal">
+        <div class="currently-left">
+          <p class="currently-label">— now</p>
+          <h2 class="lang-t" id="currentlyTitle">Studying at KAIST</h2>
+          <p class="lead lang-t" id="currentlyDesc">Master's student in Management Engineering, Technology/Organizations/Strategy track. Open to research collaborations and meaningful conversations.</p>
+        </div>
+        <div class="currently-right">
+          <div class="currently-stat">
+            <div class="currently-stat-val">KAIST<span>.</span></div>
+            <div class="currently-stat-key lang-t" id="statLabel1">College of Business</div>
+          </div>
+          <div class="currently-stat">
+            <div class="currently-stat-val">Seoul<span>,</span> Korea</div>
+            <div class="currently-stat-key lang-t" id="statLabel2">Dongdaemun-gu, Seoul</div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer container reveal-ready">
-    <p class="footer-text" id="footerText">© 2025 Seongjun Lee. Built with curiosity and purpose.</p>
+  <footer class="footer wrap reveal">
+    <p class="footer-copy lang-t" id="footerText">© 2025 Seongjun Lee — KAIST College of Business</p>
     <nav class="footer-links" aria-label="Footer links">
-      <a class="footer-link" href="mailto:james@seongjunl.ee">Email</a>
-      <a class="footer-link" href="https://linkedin.com/in/seongjunlee"
-         target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:james@seongjunl.ee">email</a>
+      <a href="https://linkedin.com/in/seongjunlee" target="_blank" rel="noopener noreferrer">linkedin</a>
     </nav>
   </footer>
 
   <script>
   (() => {
     'use strict';
+    const KEY = 'sj_v4';
 
-    const STORAGE_KEY = 'sj_portfolio';
-
-    /* ───────────────────── Content ───────────────────── */
-    const content = {
+    const i18n = {
       en: {
-        navBrand:          'Seongjun Lee',
-        heroTitle:         'Seongjun Lee',
-        heroSubtitle:      'Built upon deepening questions and boundless curiosity. Driven to uncover patterns and shape change.',
-        heroDescription:   'Currently exploring the intersection of strategy, organization, and technology, with a focus on building institutions that matter.',
-        ctaButton:         'Contact',
-        linkedinButton:    'LinkedIn',
-        aboutTitle:        'About Me',
-        aboutSubtitle:     'Bridging cultures, connecting ideas',
-        aboutDescription:  'Raised across cultures and trained across disciplines, I am most interested in how organizations make decisions, adapt under pressure, and build durable advantage.',
-        visionTitle:       'Vision',
-        visionSubtitle:    'Technology with institutional judgment',
-        visionDescription: 'I am interested in the point where technology stops being novelty and becomes structure: something that changes how firms operate, compete, and endure.',
-        experienceTitle:       'Experience',
-        experienceSubtitle:    'Strategy, research, and field exposure',
-        experienceDescription: 'My work has ranged from consulting research and due diligence to on-the-ground exposure to regional industry, giving me a practical view of how strategy meets operating reality.',
-        approachTitle:       'Approach',
-        approachSubtitle:    'Systems thinking without abstraction for its own sake',
-        approachDescription: 'I look for structural causes, feedback loops, and the human incentives beneath them. Good strategy is not just analysis. It is disciplined judgment under imperfect information.',
-        footerText:     '© 2025 Seongjun Lee. Built with curiosity and purpose.',
-        languageFlag:   'EN',
-        languageText:   'English',
-        themeTextLight: 'Light',
-        themeTextDark:  'Dark',
+        navBrand:'Seongjun Lee', heroTitle:'Seongjun Lee',
+        heroSubtitle:'I am interested in how firms actually behave — the choices they make, how they respond to constraints, and what really drives change inside organizations.',
+        heroDescription:'Master\u2019s student in Management Engineering at the KAIST College of Business, in the Technology, Organizations, and Strategy track.',
+        ctaButton:'Get in touch', linkedinButton:'LinkedIn',
+        aboutTitle:'About', aboutSubtitle:'More interested in what is really happening — and why',
+        aboutDescription:'Living between Korea and the United States made me pay attention early to the gap between formal explanations and how things actually work. I have usually been more interested in the structure underneath the surface — why firms make the choices they do, why organizations are hard to change, and why strategy often looks different once it meets reality.',
+        visionTitle:'What I Study', visionSubtitle:'Firm behavior, organizational change, and the structure underneath outcomes',
+        visionDescription:'I am drawn to questions that do not have neat answers: why some organizations adapt while others stall, how informal networks shape information flow and coordination, and how corporate decisions reshape not only firms themselves but also the industries and environments around them.',
+        experienceTitle:'Experience', experienceSubtitle:'From behavioral research to consulting work',
+        experienceDescription:'My experience ranges from undergraduate research in behavioral economics and digital trace data to research assistant work in consulting. At Mercer Korea and Andersen Consulting (FKA Nemo Partners SCG), I worked on strategy, commercial due diligence, and organizational analysis, which made the gap between strategic intent and organizational reality hard to miss.',
+        thinkingTitle:'How I Think', thinkingLead:'Structure before slogans',
+        thinkingDesc:'I tend to start with the underlying mechanism rather than the surface explanation — incentives, power, coordination, and the informal ties that make things move or keep them stuck. I care less about polished narratives than about framing a problem precisely enough to understand what is really driving the outcome.',
+        footerText:'© 2025 Seongjun Lee — KAIST College of Business',
+        languageFlag:'EN', languageText:'English', themeTextLight:'Light', themeTextDark:'Dark',
+        aboutH1:'Master\u2019s student in Management Engineering at KAIST',
+        aboutH2:'Raised between Korea and the United States',
+        aboutH3:'Interested in firm behavior and organizational theory',
+        visionH1:'Organizational theory and social networks',
+        visionH2:'How network structure shapes information and coordination',
+        visionH3:'Firm behavior, governance, and long-term performance',
+        expH1:'Undergraduate research in behavioral economics and digital trace data',
+        expH2:'Strategy and organizational work at Mercer Korea and Andersen Consulting (FKA Nemo Partners SCG)',
+        expH3:'The gap between strategic intent and organizational reality',
+        appH1:'Returning to industry with a stronger grounding in organizations',
+        appH2:'Connecting research and practice',
+        appH3:'Helping shape how firms are designed, governed, and changed',
+        currentlyTitle:'At KAIST',
+        currentlyDesc:'Master\u2019s student in Management Engineering, in the Technology, Organizations, and Strategy track. Always open to conversations about organizations, strategy, and industry.',
+        statLabel1:'College of Business',
+        statLabel2:'Dongdaemun-gu, Seoul',
       },
       ko: {
-        navBrand:          '이성준',
-        heroTitle:         '이성준',
-        heroSubtitle:      '깊어지는 질문과 끝없는 호기심 위에서, 패턴을 읽고 변화를 만드는 일에 끌립니다.',
-        heroDescription:   '현재 전략, 조직, 기술의 교차점을 탐구하며, 오래 버티는 조직과 제도를 어떻게 만들 수 있는지에 관심을 두고 있습니다.',
-        ctaButton:         '연락하기',
-        linkedinButton:    '링크드인',
-        aboutTitle:        '소개',
-        aboutSubtitle:     '문화를 잇고, 아이디어를 연결하다',
-        aboutDescription:  '서로 다른 문화와 분야를 오가며 형성된 관점 덕분에, 저는 조직이 어떻게 판단하고 적응하며 지속 가능한 경쟁우위를 만드는지에 관심이 많습니다.',
-        visionTitle:       '비전',
-        visionSubtitle:    '제도적 판단이 결합된 기술',
-        visionDescription: '저는 기술이 단순한 신기함을 넘어 기업의 운영 방식과 경쟁 방식, 생존 방식을 바꾸는 구조가 되는 지점에 주목합니다.',
-        experienceTitle:       '경험',
-        experienceSubtitle:    '전략, 리서치, 현장 감각',
-        experienceDescription: '컨설팅 리서치와 실사 업무부터 지역 산업 현장에 대한 관찰까지, 전략이 실제 운영 현실과 만나는 지점을 직접 보며 배웠습니다.',
-        approachTitle:       '접근법',
-        approachSubtitle:    '추상화를 위한 추상이 아닌 시스템 사고',
-        approachDescription: '저는 구조적 원인과 피드백 루프, 그리고 그 아래 있는 인간의 유인을 함께 봅니다. 좋은 전략은 분석만이 아니라 불완전한 정보 속에서의 절제된 판단이라고 생각합니다.',
-        footerText:     '© 2025 이성준. 호기심과 목적의식 위에서 만들었습니다.',
-        languageFlag:   '한',
-        languageText:   '한국어',
-        themeTextLight: '라이트',
-        themeTextDark:  '다크',
+        navBrand:'이성준', heroTitle:'이성준',
+        heroSubtitle:'기업이 실제로 어떻게 움직이는지에 관심이 있습니다. 어떤 선택을 하는지, 제약에 어떻게 반응하는지, 그리고 조직 안에서 변화가 실제로 무엇에 의해 일어나는지를 알고 싶습니다.',
+        heroDescription:'KAIST 경영대학 경영공학과 석사과정생입니다. 기술·조직·전략 트랙에서 공부하고 있습니다.',
+        ctaButton:'연락하기', linkedinButton:'링크드인',
+        aboutTitle:'소개', aboutSubtitle:'겉으로 보이는 설명보다, 실제로 무슨 일이 일어나는지와 그 이유에 더 관심이 있습니다',
+        aboutDescription:'한국과 미국을 오가며 자라면서, 공식적인 설명과 실제 작동 방식 사이의 간극을 자연스럽게 보게 됐습니다. 저는 늘 표면적인 이야기보다 그 아래의 구조에 더 관심이 있었습니다. 기업이 왜 그런 선택을 하는지, 조직은 왜 쉽게 바뀌지 않는지, 그리고 전략이 현실에 닿으면 왜 다른 모습이 되는지를 자주 생각합니다.',
+        visionTitle:'무엇을 공부하는가', visionSubtitle:'기업 행동, 조직 변화, 그리고 결과를 만드는 구조',
+        visionDescription:'저는 쉽게 정리되지 않는 질문들에 끌립니다. 어떤 조직은 적응하고 어떤 조직은 멈추는 이유, 비공식적 네트워크가 정보 흐름과 조정에 어떤 영향을 주는지, 그리고 기업의 의사결정이 개별 기업을 넘어 산업과 주변 환경까지 어떻게 바꾸는지 같은 문제들입니다.',
+        experienceTitle:'경험', experienceSubtitle:'행동 연구에서 컨설팅 실무까지',
+        experienceDescription:'학부연구생으로서는 행동경제학과 디지털 로그 데이터를 다뤘고, 이후에는 컨설팅 환경에서 리서치 어시스턴트로 일했습니다. Mercer Korea와 Andersen Consulting (FKA Nemo Partners SCG)에서 전략, 상업적 실사, 조직 분석 프로젝트를 지원하며, 전략적 의도와 조직 현실 사이의 간극이 얼마나 큰지 분명하게 체감했습니다.',
+        thinkingTitle:'어떻게 생각하는가', thinkingLead:'슬로건보다 구조',
+        thinkingDesc:'저는 표면적인 설명보다 먼저 그 결과를 만들어내는 메커니즘을 봅니다. 유인 구조, 권력 관계, 조정 문제, 그리고 무언가를 움직이게 하거나 멈추게 하는 비공식적 연결들에 주목합니다. 그럴듯한 서사보다 문제를 얼마나 정확하게 프레이밍하느냐가 더 중요하다고 생각합니다. 그래야 무엇이 결과를 실제로 만들고 있는지 볼 수 있기 때문입니다.',
+        footerText:'© 2025 이성준 — KAIST 경영대학',
+        languageFlag:'한', languageText:'한국어', themeTextLight:'라이트', themeTextDark:'다크',
+        aboutH1:'KAIST 경영공학과 석사과정',
+        aboutH2:'한국과 미국을 오가며 자랐습니다',
+        aboutH3:'기업 행동과 조직이론에 관심이 있습니다',
+        visionH1:'조직이론과 사회 네트워크',
+        visionH2:'네트워크 구조가 정보와 조정에 미치는 영향',
+        visionH3:'기업 행동, 거버넌스, 그리고 장기 성과',
+        expH1:'행동경제학과 디지털 로그 데이터 기반 학부연구',
+        expH2:'Mercer Korea와 Andersen Consulting (FKA Nemo Partners SCG)에서의 전략·조직 관련 실무 지원',
+        expH3:'전략적 의도와 조직 현실 사이의 간극',
+        appH1:'조직에 대한 더 단단한 이해를 바탕으로 다시 산업으로',
+        appH2:'연구와 실무를 잇는 방향',
+        appH3:'기업의 구조, 운영, 변화 방식에 기여하는 일',
+        currentlyTitle:'KAIST에서',
+        currentlyDesc:'경영공학과 석사과정, 기술·조직·전략 트랙. 조직, 전략, 산업에 대한 대화를 언제든 환영합니다.',
+        statLabel1:'경영대학',
+        statLabel2:'서울 동대문구',
       },
     };
 
-    /* ───────────────────── Helpers ───────────────────── */
-    const qs  = (sel, scope = document) => scope.querySelector(sel);
-    const qsa = (sel, scope = document) => Array.from(scope.querySelectorAll(sel));
-
-    const safeRead = () => {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-      catch { return {}; }
-    };
-    const safeWrite = (s) => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {}
+    const $  = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+    const store = {
+      read:  ()  => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } },
+      write: (o) => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch {} },
     };
 
-    /* ───────────────────── State ───────────────────── */
-    const state = { language: 'en', theme: 'light', ...safeRead() };
+    const S = { lang:'en', theme:'light', ...store.read() };
 
-    /* ───────────────────── Language ───────────────────── */
-    const applyLanguage = () => {
-      const dict = content[state.language] || content.en;
-      Object.entries(dict).forEach(([id, val]) => {
+    /* Apply i18n content */
+    const applyLang = () => {
+      const d = i18n[S.lang] || i18n.en;
+      document.documentElement.lang = S.lang;
+      for (const [id, val] of Object.entries(d)) {
         const el = document.getElementById(id);
-        if (el) el.textContent = val;
-      });
-      qs('#languageToggle')?.setAttribute('aria-pressed', String(state.language === 'ko'));
+        if (!el) continue;
+        /* heroTitle wraps text in a <span> for the underline — preserve it */
+        if (id === 'heroTitle') {
+          const span = el.querySelector('span') || el;
+          span.firstChild
+            ? (span.firstChild.textContent = val)
+            : (span.textContent = val);
+        } else {
+          el.textContent = val;
+        }
+      }
+      $('#languageToggle')?.setAttribute('aria-pressed', String(S.lang === 'ko'));
     };
 
-    /* ───────────────────── Theme ───────────────────── */
+    /* Apply theme */
     const applyTheme = () => {
-      const isDark = state.theme === 'dark';
-      document.documentElement.setAttribute('data-theme', state.theme);
-      const dict = content[state.language] || content.en;
-      const icon = qs('#themeIcon');
-      const text = qs('#themeText');
-      if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-      if (text) text.textContent = isDark ? dict.themeTextLight : dict.themeTextDark;
-      qs('#themeToggle')?.setAttribute('aria-pressed', String(isDark));
+      const dark = S.theme === 'dark';
+      document.documentElement.setAttribute('data-theme', S.theme);
+      const d = i18n[S.lang] || i18n.en;
+      const icon = $('#themeIcon'), txt = $('#themeText');
+      if (icon) icon.textContent = dark ? '☀️' : '🌙';
+      if (txt)  txt.textContent  = dark ? d.themeTextLight : d.themeTextDark;
+      $('#themeToggle')?.setAttribute('aria-pressed', String(dark));
     };
 
-    const persist = () => safeWrite({ language: state.language, theme: state.theme });
+    /* ── Language switch with smooth fade ─────────────────────────────────
+       1. Add html.lang-fade  → .lang-t elements fade to opacity:0 (180ms)
+       2. After 200ms: swap content, remove lang-fade
+       3. Double rAF ensures browser paints new content before fading back in
+    ── */
+    const LANG_FADE = 200;
+    let langBusy = false;
 
-    /* ───────────────────── Scroll Progress ───────────────────── */
-    const setupScrollProgress = () => {
-      const bar = qs('#scroll-progress');
-      if (!bar) return;
-      const update = () => {
-        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        const pct = scrollHeight <= clientHeight
-          ? 100
-          : (scrollTop / (scrollHeight - clientHeight)) * 100;
-        bar.style.width = `${Math.min(pct, 100)}%`;
-      };
-      window.addEventListener('scroll', update, { passive: true });
-      update();
+    const switchLang = () => {
+      if (langBusy) return;
+      langBusy = true;
+      const html = document.documentElement;
+      html.classList.add('lang-fade');
+      S.lang = S.lang === 'en' ? 'ko' : 'en';
+      store.write(S);
+      setTimeout(() => {
+        applyLang();
+        applyTheme();   /* refresh theme-dependent strings (Light/Dark label) */
+        /* rAF × 2 → wait for paint with new content, then remove fade class */
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          html.classList.remove('lang-fade');
+          langBusy = false;
+        }));
+      }, LANG_FADE);
     };
 
-    /* ───────────────────── Nav Scroll Behavior ───────────────────── */
-    const setupNav = () => {
-      const nav = qs('#mainNav');
-      if (!nav) return;
-      const update = () => nav.classList.toggle('scrolled', window.scrollY > 48);
-      window.addEventListener('scroll', update, { passive: true });
-      update();
-    };
-
-    /* ───────────────────── Parallax Orbs ───────────────────── */
-    const setupParallax = () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const orbs   = qsa('.orb');
-      const speeds = [0.035, 0.055, 0.025, 0.045];
-      let ticking  = false;
-      const update = () => {
-        const sy = window.scrollY;
-        orbs.forEach((orb, i) => {
-          // Keep the CSS drift animation by compositing onto it via translateZ
-          orb.style.setProperty('margin-top', `${sy * speeds[i]}px`);
-        });
-        ticking = false;
+    /* ── Scroll loop: progress bar + nav state ── */
+    const setupScrollLoop = () => {
+      const bar = $('#progress'), nav = $('#nav');
+      let pending = false, lastY = -1;
+      const tick = () => {
+        pending = false;
+        const y = window.scrollY;
+        if (y === lastY) return;
+        lastY = y;
+        if (bar) {
+          const { scrollHeight, clientHeight } = document.documentElement;
+          const pct = scrollHeight > clientHeight ? y / (scrollHeight - clientHeight) : 1;
+          bar.style.transform = `scaleX(${Math.min(pct, 1)})`;
+        }
+        nav?.classList.toggle('scrolled', y > 44);
       };
       window.addEventListener('scroll', () => {
-        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+        if (!pending) { pending = true; requestAnimationFrame(tick); }
       }, { passive: true });
+      tick();
     };
 
-    /* ───────────────────── 3-D Card Tilt ───────────────────── */
-    const setupCardTilt = () => {
-      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-      qsa('.card').forEach(card => {
+    /* ── Lerped 3-D card tilt — desktop pointer only ── */
+    const setupTilt = () => {
+      if (!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      $$('.card').forEach(card => {
+        let rx=0, ry=0, tx=0, ty=0, raf=null;
+        const lerp = (a,b,t) => a + (b-a)*t;
+        const step = () => {
+          rx = lerp(rx, tx, 0.10);
+          ry = lerp(ry, ty, 0.10);
+          if (card.classList.contains('visible')) {
+            card.style.transform =
+              `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(1.012)`;
+          }
+          raf = (Math.abs(rx-tx) < 0.01 && Math.abs(ry-ty) < 0.01)
+            ? null : requestAnimationFrame(step);
+        };
         card.addEventListener('mousemove', e => {
-          if (!card.classList.contains('is-visible')) return;
-          const rect = card.getBoundingClientRect();
-          const x    = (e.clientX - rect.left)  / rect.width  - 0.5;
-          const y    = (e.clientY - rect.top)    / rect.height - 0.5;
-          card.style.transform = [
-            `rotateX(${(-y * 6).toFixed(2)}deg)`,
-            `rotateY(${( x * 6).toFixed(2)}deg)`,
-            `scale(1.015)`,
-          ].join(' ');
+          const r = card.getBoundingClientRect();
+          tx = -((e.clientY-r.top)/r.height  - 0.5) * 6;
+          ty =  ((e.clientX-r.left)/r.width  - 0.5) * 6;
+          if (!raf) raf = requestAnimationFrame(step);
         });
         card.addEventListener('mouseleave', () => {
-          card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+          tx = 0; ty = 0;
+          if (!raf) raf = requestAnimationFrame(step);
         });
       });
     };
 
-    /* ───────────────────── Reveal on Scroll ───────────────────── */
+    /* ── IntersectionObserver reveal ── */
     const setupReveal = () => {
-      const items = qsa('.card, .reveal-ready');
-      if (!items.length) return;
-
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced || !('IntersectionObserver' in window)) {
-        items.forEach(el => el.classList.add('is-visible'));
+      const items = $$('.card, .reveal');
+      if (matchMedia('(prefers-reduced-motion:reduce)').matches
+          || !('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('visible'));
         return;
       }
-
-      // Stagger cards within each grid
-      qsa('.grid').forEach(grid => {
-        qsa('.card', grid).forEach((card, i) => {
-          card.style.transitionDelay = `${i * 90}ms`;
-        });
-      });
-
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el    = entry.target;
-          const delay = el.style.getPropertyValue('--delay');
-          if (delay) el.style.transitionDelay = delay;
-          el.classList.add('is-visible');
+      /* Stagger cards within each grid */
+      $$('.grid').forEach(g =>
+        $$('.card', g).forEach((c, i) => { c.style.transitionDelay = `${i * 90}ms`; })
+      );
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(({ isIntersecting, target: el }) => {
+          if (!isIntersecting) return;
+          const d = el.style.getPropertyValue('--d');
+          if (d) el.style.transitionDelay = d;
+          el.classList.add('visible');
           obs.unobserve(el);
         });
-      }, { threshold: 0.12 });
-
-      items.forEach(el => observer.observe(el));
+      }, { threshold: 0.10 });
+      items.forEach(el => io.observe(el));
     };
 
-    /* ───────────────────── Events ───────────────────── */
+    /* ── Animated underline on h1 ── */
+    const setupNameUnderline = () => {
+      const h1 = $('.hero h1');
+      const span = h1?.querySelector('span');
+      if (!span) return;
+      const io = new IntersectionObserver(([e], obs) => {
+        if (!e.isIntersecting) return;
+        setTimeout(() => span.classList.add('line-visible'), 600);
+        obs.disconnect();
+      }, { threshold: 0.5 });
+      io.observe(h1);
+    };
+
+    /* ── Event bindings ── */
     const bindEvents = () => {
-      qs('#themeToggle')?.addEventListener('click', () => {
-        state.theme = state.theme === 'dark' ? 'light' : 'dark';
-        applyTheme();
-        persist();
+      $('#themeToggle')?.addEventListener('click', () => {
+        S.theme = S.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(); store.write(S);
       });
-
-      qs('#languageToggle')?.addEventListener('click', () => {
-        state.language = state.language === 'en' ? 'ko' : 'en';
-        applyLanguage();
-        applyTheme();
-        persist();
+      $('#languageToggle')?.addEventListener('click', switchLang);
+      $('#scrollTrigger')?.addEventListener('click', () => {
+        $('.section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-
-      qs('#scrollIndicator')?.addEventListener('click', () => {
-        qs('.section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-
       document.addEventListener('keydown', e => {
         if (e.key.toLowerCase() === 't' && (e.metaKey || e.ctrlKey)) {
-          e.preventDefault();
-          qs('#themeToggle')?.click();
+          e.preventDefault(); $('#themeToggle')?.click();
         }
       });
     };
 
-    /* ───────────────────── Init ───────────────────── */
-    const init = () => {
-      applyLanguage();
-      applyTheme();
-      bindEvents();
-      setupScrollProgress();
-      setupNav();
-      setupReveal();
-      setupCardTilt();
-      setupParallax();
+    const setupBackground = () => {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, t = 0;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 65% res — enough for crisp gradients, CSS upscale blurs edges naturally
+      const resize = () => {
+        W = canvas.width  = Math.round(window.innerWidth  * 0.65);
+        H = canvas.height = Math.round(window.innerHeight * 0.65);
+      };
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // ── Depth blobs (background colour field) ───────────────────────────
+      const blobs = [
+        { ox:0.22, oy:0.32, ax:0.20, ay:0.16, fx:0.18, fy:0.14, ph:0.0, col:[0,  80,255], da:0.22, la:0.10, sz:0.90 },
+        { ox:0.80, oy:0.24, ax:0.16, ay:0.20, fx:0.15, fy:0.12, ph:2.1, col:[30,120,255], da:0.20, la:0.08, sz:0.80 },
+        { ox:0.58, oy:0.76, ax:0.20, ay:0.14, fx:0.22, fy:0.17, ph:4.2, col:[0,  50,200], da:0.18, la:0.07, sz:0.74 },
+        { ox:0.14, oy:0.66, ax:0.14, ay:0.20, fx:0.14, fy:0.20, ph:1.6, col:[10,160,255], da:0.20, la:0.07, sz:0.82 },
+      ];
+
+      // ── Wave sheets ─────────────────────────────────────────────────────
+      // 5 full-width ribbons covering the whole screen, each with an
+      // independently undulating top + bottom edge (5-harmonic sum = organic).
+      // yC = normalised centre; hH = half-height fraction; amp = edge swing.
+      // dy/dph = slow whole-sheet vertical breath. da/la = dark/light alpha.
+      const sheets = [
+        { yC:0.28, hH:0.22, amp:0.10, dy:0.042, dph:0.0, ph:0.00, col:[10,  90,255], da:0.32, la:0.09 },
+        { yC:0.52, hH:0.20, amp:0.09, dy:0.036, dph:1.9, ph:2.30, col:[0,   50,210], da:0.28, la:0.07 },
+        { yC:0.16, hH:0.18, amp:0.09, dy:0.030, dph:3.8, ph:4.60, col:[30, 130,255], da:0.26, la:0.07 },
+        { yC:0.70, hH:0.20, amp:0.09, dy:0.038, dph:2.5, ph:1.20, col:[0,   70,230], da:0.28, la:0.07 },
+        { yC:0.40, hH:0.18, amp:0.08, dy:0.032, dph:5.1, ph:3.80, col:[20, 110,255], da:0.24, la:0.06 },
+      ];
+
+      // 5-harmonic wave edge — organic, non-repeating, cinematic
+      const edge = (nx, t, ph, amp) =>
+        amp * H * (
+          Math.sin(nx * 3.20 + t * 0.52 + ph)        * 1.00 +
+          Math.sin(nx * 6.30 + t * 0.39 + ph * 1.30) * 0.42 +
+          Math.sin(nx * 11.1 + t * 0.65 + ph * 0.75) * 0.22 +
+          Math.sin(nx * 1.70 + t * 0.23 + ph * 1.80) * 0.28 +
+          Math.sin(nx * 17.5 + t * 0.88 + ph * 0.40) * 0.08
+        ) / 2.0;
+
+      const drawSheet = (s, dark) => {
+        const cy    = (s.yC + Math.sin(t * 0.14 + s.dph) * s.dy) * H;
+        const halfH = s.hH * H;
+        const [r,g,b] = s.col;
+
+        ctx.beginPath();
+        // top edge
+        for (let x = 0; x <= W; x += 2) {
+          const y = cy - halfH + edge(x / W, t, s.ph, s.amp);
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        // bottom edge (separate phase — band breathes independently)
+        for (let x = W; x >= 0; x -= 2) {
+          const y = cy + halfH + edge(x / W, t, s.ph + 2.6, s.amp * 0.72);
+          ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+
+        const a    = dark ? s.da : s.la;
+        const grad = ctx.createLinearGradient(0, cy - halfH, 0, cy + halfH);
+        grad.addColorStop(0,    `rgba(${r},${g},${b},0)`);
+        grad.addColorStop(0.28, `rgba(${r},${g},${b},${a})`);
+        grad.addColorStop(0.72, `rgba(${r},${g},${b},${a})`);
+        grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      };
+
+      const draw = () => {
+        requestAnimationFrame(draw);
+        t += 0.010; // true 60 fps — no frame-skip, always smooth
+
+        ctx.clearRect(0, 0, W, H);
+        const dark = document.documentElement.dataset.theme === 'dark';
+
+        // Depth blobs — screen composite in dark makes colours add like light
+        ctx.globalCompositeOperation = dark ? 'screen' : 'normal';
+        blobs.forEach(b => {
+          const [r,g,bl] = b.col;
+          const a   = dark ? b.da : b.la;
+          const x   = (b.ox + Math.sin(t * b.fx + b.ph) * b.ax) * W;
+          const y   = (b.oy + Math.cos(t * b.fy + b.ph + 1) * b.ay) * H;
+          const rad = b.sz * Math.max(W, H) * 0.65;
+          const grd = ctx.createRadialGradient(x, y, 0, x, y, rad);
+          grd.addColorStop(0,   `rgba(${r},${g},${bl},${a})`);
+          grd.addColorStop(0.5, `rgba(${r},${g},${bl},${+(a*0.28).toFixed(2)})`);
+          grd.addColorStop(1,   `rgba(${r},${g},${bl},0)`);
+          ctx.beginPath();
+          ctx.arc(x, y, rad, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+        });
+
+        // Wave sheets — screen in dark so sheets colour-mix where they overlap
+        ctx.globalCompositeOperation = dark ? 'screen' : 'normal';
+        sheets.forEach(s => drawSheet(s, dark));
+      };
+
+      if (reduced) return;
+      requestAnimationFrame(draw);
     };
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init, { once: true });
-    } else {
-      init();
-    }
+    const init = () => {
+      applyLang(); applyTheme(); bindEvents();
+      setupScrollLoop(); setupReveal(); setupTilt(); setupNameUnderline();
+      setupBackground();
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', init, { once: true })
+      : init();
   })();
   </script>
 </body>
